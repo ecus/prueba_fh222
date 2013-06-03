@@ -31,7 +31,21 @@ class TrabajoController extends AbstractActionController
     public function valoresurlAction()
     {
         $id = (int) $this->params()->fromRoute("id",null);
+        $url = $this->getRequest()->getBaseUrl();
         $titulo = "titulo a mostrar : valores por url metodo GET";
-        return new ViewModel( array('titulo'=>$titulo , 'id'=>$id) );
+        return new ViewModel( array('titulo'=>$titulo , 'id'=>$id , 'url'=> $url) );
+    }
+    public function redireccionarAction()
+    {
+        return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/application/trabajo/index');
+    }
+    public function cargaotravistaAction()
+    {
+        return $this->forward()->dispatch('Application\Controller\Trabajo', array('action'=>'index')) ;
+    }
+    public function renderAction($value='')
+    {
+        $View = new ViewModel();
+        return $View;
     }
 }
