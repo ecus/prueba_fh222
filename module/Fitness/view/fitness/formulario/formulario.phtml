@@ -1,0 +1,124 @@
+<br><br>
+<h1><?php echo $this->titulo ?></h1>
+<p>
+<?php
+	$form 	=	$this->form;
+	$form->prepare();
+/*
+	// Assuming the "contact/process" route exists...
+	$formu->setAttribute('action', $this->url('fitness/formulario/recibe'));
+
+	// Set the method attribute for the form
+	$formu->setAttribute('method', 'post');
+
+	// Get the formu label plugin
+	$formLabel = $this->plugin('formLabel');
+
+	// Render the opening tag
+	echo $this->formu()->openTag($formu);
+*/
+
+	$form->setAttributes(array(
+			'action'	=>	$this->url.'/fitness/formulario/recibe',
+			'method'	=>	'post',
+			'class'		=>	'form-horizontal'
+		));
+
+	$formLabel	=	$this->plugin('formLabel');
+
+	echo $this->form()->openTag($form);
+?>
+
+<div class="form-element">
+        <?php $fileElement = $form->get('image-file'); ?>
+        <?php echo $this->formLabel($fileElement); ?>
+        <?php echo $this->formFile($fileElement); ?>
+        <?php echo $this->formElementErrors($fileElement); ?>
+    </div>
+<hr />
+<div class="form_element">
+<?php
+    $name = $form->get('nombre');
+    echo $formLabel->openTag().$name->getOption('label')." ";
+    
+    //echo $this->formElementErrors($name);
+    echo $formLabel->closeTag();
+    echo $this->formInput($name);
+?>
+</div>
+<div class="form_element">
+<?php
+    $pass = $form->get('pass');
+    echo $formLabel->openTag().$pass->getOption('label')." ";
+    
+    echo $this->formElementErrors($name);
+    echo $formLabel->closeTag();
+    echo $this->formInput($pass);
+?>
+</div>
+
+
+<div class="form_element">
+
+<?php
+    $email = $form->get('email');
+    echo $formLabel->openTag().$email->getOption('label')." ";
+    
+    //echo $this->formElementErrors($name);
+    echo $formLabel->closeTag();
+    echo $this->formInput($email);
+?>
+</div>
+<hr />
+<div class="form_element btn-group" data-toggle="buttons-radio">
+    <?php
+    $gender = $form->get('genero');
+    echo $formLabel->openTag() . $gender->getLabel();
+    echo $formLabel->closeTag();
+    echo $this->formRadio($gender);
+    echo $this->formElementErrors($gender);
+    ?>
+</div>
+
+<hr />
+<div class="form_element">
+    <?php
+    $lenguaje = $form->get('lenguaje');
+    echo $formLabel->openTag() . $lenguaje->getLabel();
+    echo $formLabel->closeTag();
+    echo $this->formSelect($lenguaje);
+    echo $this->formElementErrors($lenguaje);
+    ?></div>
+     <div class="form_element">
+    <?php
+    $pais = $form->get('pais');
+    echo $formLabel->openTag() . $pais->getLabel();
+    echo $formLabel->closeTag();
+    echo $this->formSelect($pais);
+    echo $this->formElementErrors($pais);
+    ?></div>
+    <hr />
+     <div class="form_element">
+    <?php
+    $preferencias = $form->get('preferencias');
+    echo $formLabel->openTag() . $preferencias->getLabel();
+    echo $formLabel->closeTag();
+    echo $this->formMultiCheckbox($preferencias);
+    echo $this->formElementErrors($preferencias);
+    ?></div>
+    <hr />
+    <div class="form_element">
+    <?php
+    $condiciones = $form->get('condiciones');
+    echo $formLabel->openTag() . $condiciones->getLabel();
+    echo $formLabel->closeTag();
+    echo $this->formCheckbox($condiciones);
+    echo $this->formElementErrors($condiciones);
+    ?></div>
+    
+<hr />
+<?php echo $this->formHidden($form->get('oculto')) ?>
+<?php echo $this->formElement($form->get('send')) ?>
+
+<?php echo $this->form()->closeTag() ?>
+</p>

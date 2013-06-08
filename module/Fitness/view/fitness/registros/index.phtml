@@ -1,0 +1,55 @@
+<br>
+<div class="row">
+	<ul class="breadcrumb">
+		<li><a href="<?php echo $this->basePath() ?>/fitness/registros/index">Sucursal</a> <span class="divider">|</span></li>
+		<li><a href="#">Personal</a> <span class="divider">|</span></li>
+	</ul>
+	<div class="span3 hero-unit">
+		<p>
+		<?php
+			$form 	=	$this->form;
+			$form->prepare();
+
+			$form->setAttributes(array(
+					'action'	=>	$this->url.'/fitness/registros/resultado',
+					'method'	=>	'post',
+					'class'		=>	'row-fluid'
+				));
+
+			$formLabel	=	$this->plugin('formLabel');
+
+			echo $this->form()->openTag($form);
+		?>
+		 <fieldset>
+			<legend><?php echo $this->titulo ?></legend>
+		<?php
+		    $name = $form->get('display');
+		    echo $formLabel->openTag().$name->getOption('label');
+		    echo $this->formElementErrors($name);
+		    echo $formLabel->closeTag();
+		    echo $this->formInput($name);
+		?>
+		<br>
+		<?php
+			$name = $form->get('ubicacion');
+		    echo $formLabel->openTag().$name->getOption('label');
+		    echo $this->formElementErrors($name);
+		    echo $formLabel->closeTag();
+		    echo $this->formInput($name);
+		?>
+		<br>
+		<?php
+			$name = $form->get('telefono');
+		    echo $formLabel->openTag().$name->getOption('label');
+		    echo $this->formElementErrors($name);
+		    echo $formLabel->closeTag();
+		    echo $this->formInput($name);
+		?>
+		<br>
+		<br>
+		<?php echo $this->formElement($form->get('send')) ?>
+
+		<?php echo $this->form()->closeTag() ?>
+		</p>
+	</div>
+</div>

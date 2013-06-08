@@ -1,0 +1,26 @@
+<h1><?php echo $this->titulo ?></h1>
+ <table class="table table-bordered table-striped table-condensed">
+	<caption>Resultados desde modulo </caption>
+ 	<thead>
+		<tr>
+		<th>ID</th>
+		<th>Nombre</th>
+		<th>Area</th>
+		<th>Detalles</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+foreach ($this->datos as $dato) {
+	?>
+	<tr>
+	<td><?php echo $dato['id_per'] ?></td>
+	<td><?php echo $dato['nombre_per'] ?></td>
+	<td><?php echo $dato['area_per'] ?></td>
+	<td><a href="<?php echo $this->basePath() ?>/fitness/formulario/ver/<?php echo $dato['id_per'] ?>"><i class="icon-search"> </i> ver</a></td>
+	</tr>
+	<?php
+}
+?>
+	</tbody>
+</table>
