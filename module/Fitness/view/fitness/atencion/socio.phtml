@@ -1,0 +1,420 @@
+<div class="row">
+	<?php
+		$form 	=	$this->frmSocio;
+		$form->prepare();
+		$form->setAttributes(array(
+			// 'action'	=>	$this->url.'/fitness/registros/resultadoper',
+			'method'	=>	'post',
+			'id'		=>	'frmSocio',
+			'class'    =>  'controls'
+			));
+		$formLabel	=	$this->plugin('formLabel');
+		echo $this->form()->openTag($form);
+	?>
+	<fieldset>
+		<legend>Registrar Socio</legend>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<!-- cmbestado -->	
+				<div class="form-group">
+					<?php
+						$estado = $form->get('cmbestado');
+						echo $formLabel->openTag($estado->getLabelAttributes() ) . $estado->getLabel();
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+							echo $this->formSelect($estado);
+							echo $this->formElementErrors($estado);
+						?>
+					</div> 
+				</div>
+				<!--cmbDocumento-->
+				<div class="form-group">
+					<?php
+						$doc = $form->get('cmbDocumento');
+						echo $formLabel->openTag($doc->getLabelAttributes() ) . $doc->getLabel();
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+							echo $this->formSelect($doc);
+							echo $this->formElementErrors($doc);
+						?>
+					</div> 
+				</div>
+				<!--txtDni-->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtDni');
+						echo $formLabel->openTag($name->getOption('label_attributes'));
+						echo $name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-barcode icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtNombre -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtNombre');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-user icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtApPaterno -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtApPaterno');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<!-- txtApMaterno -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtApMaterno');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<!-- dtpFechanac -->
+				<div class="form-group">
+					<?php
+					    $name = $form->get('dtpFechanac');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<!-- cmbSexo -->
+				<div class ="form-group">
+					<?php
+						$suc = $form->get('cmbSexo');
+						echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+							echo $this->formSelect($suc);
+							echo $this->formElementErrors($suc);
+	           			?>
+					</div> 
+	       		</div>
+				<!-- cmbecivil -->
+	            <div class="form-group">
+		        	<?php
+		        		$suc = $form->get('cmbecivil');
+		               	echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+		               	echo $formLabel->closeTag();
+		            ?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+							echo $this->formSelect($suc);
+							echo $this->formElementErrors($suc);
+						?>
+		        	</div>
+		        </div>
+				<!-- cmbCiudad -->
+		       <div class="form-group">
+					<?php
+						$linea = $form->get('cmbCiudad');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+						    echo $this->formSelect($linea);
+						    echo $this->formElementErrors($linea);
+						?>
+					</div> 
+				</div>
+				<!-- barra de carga -->
+				<div id="barraDistrito" class="progress progress-striped active">
+					<div class="progress-bar" style="width: 100%;"></div>
+				</div>
+				<!-- cmbDistrito -->
+				<div class="form-group">
+					<?php
+						$linea = $form->get('cmbDistrito');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+						    echo $this->formSelect($linea);
+						    echo $this->formElementErrors($linea);
+						?>
+					</div> 
+				</div>
+				<!-- txtDireccion -->
+				<div class="form-group">
+					<?php
+					    $name = $form->get('txtDireccion');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-user icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+			</div>
+			<!-- jumbotron -->
+			<div id="boxContacto" class="col-12">
+				<br />
+				<legend>Contacto</legend>
+				<!-- txtEmail -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtEmail');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icono icon-envelope"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<br />
+				<div class="col-12">
+					<div class="col-12 col-lg-3 accordion-group">
+						<br />
+						<a class="btn btn-gym btn-block" id="btnAgregaTel">A&ntilde;adir N&uacute;mero Telef&oacute;nico</a>
+						<hr />
+						<legend>N&uacute;meros A&ntilde;adidos</legend>
+							<div id="boxNumeros" class='col-12'>
+							</div>
+						<div class="col-12" >
+							<center>
+							<hr />
+							<span class='label label-default'>Tel. Fijo</span>
+							<span class='label label-info'>Tel. Movil</span>
+							<span class='label label-danger'>Tel. Emergencia</span>
+							</center>
+							<br />
+						</div>
+					</div>
+					<div class="boxNumero col-12 col-lg-9 accordion-group">
+						<legend>Informacion del Numero</legend>
+						<div class="form-group form-inline">
+							<label for="cmbTipoCel">Tipo de Telefono</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="icono icon-envelope"></i></span>
+								<select name="cmbTipoCel" id="cmbTipoCel" class='form-control col-2'>
+									<option value="0">Fijo Casa</option>
+									<option value="1">Fijo Trabajo</option>
+									<option value="2">Movistar</option>
+									<option value="3">Claro</option>
+									<option value="4">Nextel</option>
+									<option value="5">RPM</option>
+									<option value="6">RPC</option>
+									<option value="7">Radio-Nextel</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="">Numero: </label>
+							<div class="input-group">
+							<span class="input-group-addon"><i class="icon-phone icono"></i></span>
+							<input type="text" class="form-control numerico" name="txtNumero" id="txtNumero" maxlength="10" />
+							</div>
+						</div>
+						<div class="form-group col-6" id="boxEmergencia">
+							<label for="Emergencia">¿Es Telefono de Emergencia?: </label>
+							<div class="btn-group" data-toggle="buttons" id="Emergencia">
+								<label class="btn btn-gym btnEmergencia">
+									<input type="radio" class="btn btn-gym btn-large btnEmergencia">Si
+								</label>
+								<label class="btn btn-gym btnEmergencia">
+									<input type="radio" class="btn btn-gym btn-large btnEmergencia">No
+								</label>
+							</div>
+						</div>
+						<div class="col-12" id="boxInfoEmergencia">
+							<div class="form-group">
+								<label for="">Parentesco: </label>
+								<div class="input-group">
+								<span class="input-group-addon"><i class="icon-user icono"></i></span>
+								<input type="text" class="form-control" name="txtParentesco" id="txtParentesco" />
+								<input type="hidden" class="form-control" name="txtEmergencia" id="txtEmergencia" value="0" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="">Nombre: </label>
+								<div class="input-group">
+								<span class="input-group-addon"><i class="icon-user icono"></i></span>
+								<input type="text" class="form-control" name="txtNombreTel" id="txtNombreTel" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+			</div>
+			<!-- Socio - Empresa -->
+			<div class="col-12">
+				<!-- cmbsocio -->
+		  		<div class="form-group col-12 col-sm-6 col-lg-6">
+					<?php
+						$name = $form->get('cmbsocio');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-barcode icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+						<div class="input-group-btn">
+							<a class="btn btn-default" data-toogle="button" buttonType="primary" id="btnbuscaSocio"><i class="icon-search icon"></i></a>
+						</div>
+					</div>
+				</div>
+	           	<!-- cmbempresa -->
+	       		<div class="form-group col-12 col-sm-6 col-lg-6">
+			        <?php
+			           $suc = $form->get('cmbempresa');
+			            echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+			            echo $formLabel->closeTag();
+			            echo $this->formSelect($suc);
+			            echo $this->formElementErrors($suc);
+			        ?>
+			    </div>
+		        <!-- cmbpersonal -->
+		        <div class="form-group">
+		          	<?php
+		              	$suc = $form->get('cmbpersonal');
+		               	echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+		                echo $formLabel->closeTag();
+		                echo $this->formSelect($suc);
+		                echo $this->formElementErrors($suc);
+		            ?>
+		        </div>	
+			</div>
+			<div class="detalle col-12">
+				<!-- dtpFechaVisita -->
+	           	<div class="form-group">
+	              	<?php
+	                  	$name = $form->get('dtpFechaVisita');
+	                	echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+	                	echo $this->formElementErrors($name);
+	                	echo $formLabel->closeTag();
+	              	?>
+               		<div class="input-group">
+               			<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+               			<?php echo $this->formInput($name); ?>
+              		</div>
+	           	</div>
+	            <!-- dtpFechareg -->
+				<div class="form-group">
+					<?php
+					    $name = $form->get('dtpFechareg');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<!-- dtpFechaInvitacion -->
+            	<div class="form-group">
+	            	<?php
+	                	$name = $form->get('dtpFechaInvitacion');
+	              		echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+	              		echo $this->formElementErrors($name);
+	              		echo $formLabel->closeTag();
+	            	?>
+	              	<div class="input-group">
+	                 	<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+	                 	<?php echo $this->formInput($name); ?>
+	              	</div>
+            	</div>
+	        </div>
+			<div class='col-12'>
+				<hr />
+				Usuario con Acceso al sistema: 
+				<div class="btn-group"  id="Estados">
+					<a class="btn btn-medium btn-success btnAccesos">Si</a>
+					<a class="btn btn-medium btn-success btnAccesos">No</a>
+				</div>
+				<fieldset id='boxAcceso'>
+					<legend>Acceso a Sistema</legend>
+						<div class="form-group col-4" id="boxEstados">
+							<label for="Estados">Nombre de Usuario: </label>
+							<div class="btn-group" data-toggle="buttons-radio" id="Estados">
+								<input name="txtUsuario" id="txtUsuario" type="text" class="form-control" placeholder="" disabled />
+							</div>
+						</div>
+						<div class="form-group col-6" id="boxEstados">
+							<label for="Estados">Estado de Acceso: </label>
+							<div class="btn-group" data-toggle="buttons" id="Estados">
+								<label class="btn btn-success btnUper">
+									<input type="radio" class="btn btn-success btn-large btnUper" id="btnUper0">Inactivo
+								</label>
+								<label class="btn btn-success btnUper">
+									<input type="radio" class="btn btn-success btn-large btnUper" id="btnUper1">Activo
+								</label>
+							</div>
+						</div>
+				</fieldset>
+			</div>
+	</fieldset>
+	<input type="hidden" name="optUsuario" id="optUsuario" value="0" />
+	<input type="hidden" name="txtId" id="txtId" value="" />
+	<input type="hidden" name="txtIdUper" id="txtIdUper" value="" />
+	<input type="hidden" name="txtSexo" id="txtSexo" value="0" />
+	<input type="hidden" name="txtEstado" id="txtEstado" value="" />
+	<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
+	<br />
+	<?php echo $this->formElement($form->get('send')) ?>
+	<?php echo $this->form()->closeTag() ?>  
+</div>
+<div id="modalSocio" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal"></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

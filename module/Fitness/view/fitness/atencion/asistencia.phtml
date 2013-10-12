@@ -1,0 +1,113 @@
+<div class="row">
+	<!-- <div class="span8"> -->
+		<div class="col-12 col-sm-6 col-lg-6">
+			<!-- <p id="dataAsistencia"></p> -->
+			<fieldset>
+				<legend>Lista de Cliente</legend>
+			</fieldset>
+			<table class="table table-bordered table-striped table-condensed" id="example">
+				<caption id="tablaTitulo"></caption>
+			 	<thead>
+					<tr>
+						<!-- th>ID</th> -->
+						<th>DNI</th>
+						<th>Cliente</th>						
+						<th>Asistencia</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<br>
+				<div id="barra" class="progress progress-info progress-striped active">
+					<div class="bar" style="width:100%"></div>
+				</div>
+			<div class="control-group form-inline" data-toggle="buttons-radio" id="boxEstados">
+					
+			</div>
+		</div>
+	<div class="col-12 col-sm-6 col-lg-6">
+		<!-- <div class="fondo">
+		</div>
+		<div class="hero-unit color2" id="BoxFrmSucursal"> -->
+			<?php
+				$form 	=	$this->frmAsistencia;
+				$form->prepare();
+				$form->setAttributes(array(
+					// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+					'method'	=>	'post',
+					'id'		=>	'frmAsistencia'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+			<fieldset>
+				<legend>Registro de Asistencia</legend>		
+				
+ 				<!-- <div id='boxServicios'>
+
+ 				</div> -->	
+
+				<div class="form-group">
+								<?php
+								    $name = $form->get('dtpFechaReg');
+									echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+									echo $this->formElementErrors($name);
+									echo $formLabel->closeTag();
+								?>
+								
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+								
+				</div>
+					<div class="form-group">
+								<?php
+								    $name = $form->get('dtpFechaIng');
+									echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+									echo $this->formElementErrors($name);
+									echo $formLabel->closeTag();
+								?>
+								
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+								
+					</div>
+				
+				<input type="hidden" name="txtidIns" id="txtidIns" value="" />
+				<input type="hidden" name="txtidHS"  id="txtidHS" value="" />
+				<input type="hidden" name="txtidCli" id="txtidCli" value="" />
+				<input type="hidden" name="txtidPer" id="txtidPer" value="1" />
+				<input type="hidden" name="txtidSuc" id="txtidSuc" value="1" />
+				<?php echo $this->formElement($form->get('btnRegAsistencia')) ?>
+				<?php echo $this->form()->closeTag() ?>
+				<!-- <button class="btn btn-inverse btn-block btn-large" id="btnCancelar">Nuevo</button> -->
+			</fieldset>
+		<!-- </div> -->
+	</div>
+
+	
+	<!-- </div> -->
+			
+</div>
+<div id="modalAsistencia" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal"></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

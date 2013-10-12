@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-12 col-sm-6 col-lg-4">
+		<?php
+			$form 	=	$this->frmEmpresa;
+			$form->prepare();
+			$form->setAttributes(array(
+				// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+				'method'	=>	'post',
+				'id'		=>	'frmEmpresa'
+				));
+			$formLabel	=	$this->plugin('formLabel');
+			echo $this->form()->openTag($form);
+		?>
+		<fieldset>
+			<legend><?php echo $this->titulo ?></legend>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtNombre');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<input type="hidden" name="txtId" id="txtId" value="" />
+			<input type="hidden" name="txtEstado" id="txtEstado" value="" />
+			<?php echo $this->formElement($form->get('btnRegEmpresa')) ?>
+			<?php echo $this->form()->closeTag() ?>
+			<a class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</a>
+		</fieldset>
+	</div>
+</div>
+<div id="modalEmpresa" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal">No se a especificado ningun horario! <br/> ¿Desea Continuar con el Resgistro del Servicio?</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-danger" id="btnRegistrar" aria-hidden="true">Si</a>
+		<a class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">No</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
