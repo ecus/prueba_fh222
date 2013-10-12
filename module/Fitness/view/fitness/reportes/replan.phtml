@@ -1,0 +1,83 @@
+<div class="row">
+	<?php
+		$form 	=	$this->frmPlan;
+		$form->prepare();
+		$form->setAttributes(array(
+			'method'	=>	'post',
+			'id'		=>	'frmPlan'
+			));
+		$formLabel	=	$this->plugin('formLabel');
+		echo $this->form()->openTag($form);
+	?>
+	<div class="col-12 accordion-group">
+		<br />
+		<div class="form-group">
+			<?php
+				$linea = $form->get('cmbServicio');
+				echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+				echo $formLabel->closeTag();
+			?>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="icon-home icono"></i></span>
+				<!-- <div class="input-group-btn"> -->
+				<?php
+					echo $this->formSelect($linea);
+					echo $this->formElementErrors($linea);
+				?>
+				<a href="btn btn-gym"></a>
+				<span class="input-group-btn">
+					<a class="btn btn-gym" id="btnBuscar">Ver Resumen</a>
+				</span>
+				<!-- </div> -->
+			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div id="barra" class="progress progress-striped active">
+			<div class="progress-bar" style="width: 100%;"></div>
+		</div>
+	</div>
+	<!-- WOFAI-XZMWN-DIIFJ-KYDIG -->
+	<div class="col-12 accordion-group" id="boxContenido">
+		<br />
+		<legend>Consideraciones de Plan</legend>
+		<div class="col-12 col-sm-6 col-lg-6 boxReporte" id="boxInfo">
+			<legend>Datos B&aacute;sicos del Servicio o Plan</legend>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<label for="lblTipo">Tipo:</label><p id="lblTipo">das</p>
+				<label for="lblNombre">Nombre:</label><p id="lblNombre">das</p>
+				<label for="lblPrecio">Precio:</label><p id="lblPrecio">das</p>
+				<label for="lblCupon">Dias de Invitacion:</label><p id="lblCupon">das</p>
+				<label for="lblFreezing">Dias de Freezing:</label><p id="lblFreezing">das</p>
+				<label for="lblVigencia">Vigencia:</label><p id="lblVigencia">das</p>
+			</div>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<label for="lblCuota">Cuotas:</label><p id="lblCuota">das</p>
+				<label for="lblMontoInicial">Pago minimo de Primera Cuota:</label><p id="lblMontoInicial">das</p>
+				<label for="lblPeriodo">Periodo Maximo de Pago:</label><p id="lblPeriodo">das</p>
+				<label for="lblFechaRegServ">Registrado el :</label><p id="lblFechaRegServ">das</p>
+				<label for="lblServicioBase" class="base">Registrado el :</label><p id="lblServicioBase" class="base">das</p>
+				<label for="lblPromo">Info. Promocion: </label><p id="lblPromo">das</p>
+				<label for="lblPersonalRegServ">Registrado por:</label><p id="lblPersonalRegServ">das</p>
+			</div>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-6 boxReporte" id="boxServicios">
+			<legend>Servicios Incluidos</legend>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-6 boxReporte" id="boxSucursal">
+			<legend>Sucursales que cuentan con este servicio</legend>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-6 boxReporte" id="boxPromo">
+			<legend>Datos de Promocion</legend>
+			<label for="lblTipoPromo">Tipo de Dscto.:</label><p id="lblTipoPromo">das</p>
+			<label for="lblDsctoPrecio" class="tipoPromolbl">Descuento: </label><p id="lblDsctoPrecio" class="tipoPromolbl">d</p>
+			<label for="lblDsctoEmpresa" class="tipoPromolbl">Descuento: </label><p id="lblDsctoEmpresa" class="tipoPromolbl">d</p>
+			<label for="lblDsctoPorcentual" class="tipoPromolbl">Descuento: </label><p id="lblDsctoPorcentual" class="tipoPromolbl"></p>
+			<label for="lblDsctoDias" class="tipoPromolbl">Descuento: </label><p id="lblDsctoDias" class="tipoPromolbl">d</p>
+			<label for="lblPeriodoPromo">Fechas Disponibles para Acceder a Promoci&oacute;n: </label><p id="lblPeriodoPromo">d</p>
+			<label for="lblHorarioPromo" class='horaPromo'>Promoci&oacute;n con horario especial: </label><p id="lblHorarioPromo" class='horaPromo'>d</p>
+		</div>
+		<div class="col-12 boxReporte" id="boxHorario">
+		</div>
+	</div>
+</div>

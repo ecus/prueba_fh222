@@ -1,0 +1,82 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Fitness House || '. $this->translate('Registros'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome-ie7.css')
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        // ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
+                        // ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+                        ->prependStylesheet($this->basePath() . '/css/jquery.dataTables.css')
+                        // ->prependStylesheet('http://fonts.googleapis.com/css?family=Open+Sans')
+                        ->prependStylesheet($this->basePath() . '/css/indice.css')
+                        ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                                      // ->prependFile($this->basePath() . '/js/bootstrap.js')
+                                      ->appendFile($this->basePath() . '/js/pace.min.js')
+                                      ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.min.js')
+                                      ->appendFile($this->basePath() . '/js/validarcampo.js')
+                                      ->appendFile($this->basePath() . '/js/jquery.validate.js')
+                                      ->appendFile($this->basePath() . '/js/jquery.dataTables.js')
+                                      ->appendFile($this->basePath() . '/js/acciones.js')
+                                       ?>
+
+    </head>
+    <body>
+        <div class="container">
+          <div class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
+            <div class="container">
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a href="<?php echo $this->url() ?>" class="navbar-brand"></a>
+                  <!-- <a class="brand" href="<?php echo $this->url() ?>"></a> -->
+              <div class="nav-collapse collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li>
+                      <a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                  <li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br><br><br>
+        <div class="container">
+            <!-- <div class="row"> -->
+                <ul class="breadcrumb">
+                    <li><a href="<?php echo $this->url().'registros/sucursal' ?>"><i class="icon-building"></i> Registrar Sucursal</a></li>
+                    <span class="divider">&nbsp; | &nbsp;</span>
+                    <li><a href="<?php echo $this->url().'registros/personal' ?>"><i class="icon-group"></i> Personal</a></li>
+                    <span class="divider">&nbsp; | &nbsp;</span>
+                    <li><a href="<?php echo $this->url().'registros/servicio' ?>"><i class="icon-tag"></i> Servicio Base</a></li>
+                    <span class="divider">&nbsp; | &nbsp;</span>
+                    <li><a href="<?php echo $this->url().'registros/plan' ?>"><i class="icon-tags"></i> Plan</a></li>
+                    <span class="divider">&nbsp; | &nbsp;</span>
+                    <li><a href="<?php echo $this->url().'registros/promocion' ?>"><i class="icon-star"></i> Promocion</a></li>
+                    <span class="divider">&nbsp; | &nbsp;</span>
+                    <li><a href="<?php echo $this->url().'registros/empresa' ?>"><i class="icon-inbox"></i> Empresa</a></li>
+                </ul>
+        </div>
+        <div class="container">
+            <?php echo $this->content; ?>
+            <hr>
+            <footer>
+                <p>Desarrollado por: Conectados</p>
+            </footer>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
