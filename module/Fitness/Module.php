@@ -10,6 +10,11 @@ use Album\Model\AlbumTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
+
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -27,6 +32,9 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php',
+            ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
@@ -52,6 +60,21 @@ class Module
                     return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
+            //////////
+            'Fitness\Model\MyAuthStorage' => function($sm){
+                return new \Fitness\Model\MyAuthStorage('zf_tutorial');  
+            },
+            
+            'AuthService' => function($sm) {
+                $dbAdapter      = $sm->get('Zend\Db\Adapter\Adapter');
+                        $dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter, 'users','user_name','pass_word', 'MD5(?)');
+                
+                $authService = new AuthenticationService();
+                $authService->setAdapter($dbTableAuthAdapter);
+                $authService->setStorage($sm->get('Fitness\Model\MyAuthStorage'));
+                 
+                return $authService;
+            },
         );
     }    
 }

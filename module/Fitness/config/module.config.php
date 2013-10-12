@@ -51,6 +51,60 @@ return array(
                     ),
                 ),
             ),
+
+            'login' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/auth',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'SanAuth\Controller',
+                        'controller'    => 'Auth',
+                        'action'        => 'login',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'process' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            
+            'success' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/success',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'SanAuth\Controller',
+                        'controller'    => 'Success',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -79,7 +133,10 @@ return array(
             'Fitness\Controller\Registros'  =>  'Fitness\Controller\RegistrosController',
             'Fitness\Controller\Trabajo'    =>  'Fitness\Controller\TrabajoController',
             'Fitness\Controller\Reportes'    =>  'Fitness\Controller\ReportesController',
-            'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController'
+            'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController',
+            
+            'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
+            'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'
         ),
     ),
     'view_manager' => array(
