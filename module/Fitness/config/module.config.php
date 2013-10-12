@@ -44,7 +44,6 @@ return array(
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*'
-
                             ),
                             'defaults' => array(
                             ),
@@ -75,9 +74,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Fitness\Controller\Index'=>'Fitness\Controller\IndexController',
-            'Fitness\Controller\Formulario'=>'Fitness\Controller\FormularioController',
-            'Fitness\Controller\Registros'=>'Fitness\Controller\RegistrosController'
+            'Fitness\Controller\Index'      =>  'Fitness\Controller\IndexController',
+            'Fitness\Controller\Formulario' =>  'Fitness\Controller\FormularioController',
+            'Fitness\Controller\Registros'  =>  'Fitness\Controller\RegistrosController',
+            'Fitness\Controller\Trabajo'    =>  'Fitness\Controller\TrabajoController',
+            'Fitness\Controller\Reportes'    =>  'Fitness\Controller\ReportesController',
+            'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController'
         ),
     ),
     'view_manager' => array(
@@ -96,5 +98,5 @@ return array(
         'template_path_stack' => array(
            'fitness' => __DIR__ . '/../view',
         ),
-    ),
+    )
 );

@@ -28,11 +28,11 @@ class FormularioController extends AbstractActionController
         //$this->layout('layout/prueba');
         return $view;
     }
-    public function resultAction()
+    public function registrapersonalAction()
     {
     	$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
     	//var_dump($this->dbAdapter);
-       $data=array('45733853','Erik','Urrutia','Santamaria','Juan Vizcardo # 178 - PJ Muro',
+        $data=array('45733853','Erik','Urrutia','Santamaria','Juan Vizcardo # 178 - PJ Muro',
             '074273545','958903956','e_urrutia@outlook.com','A',1); //
         // var_dump($data);
         $result =	$this->dbAdapter->query('CALL pa_insertaPersonal (?,?,?,?,?,?,?,?,?,?,@a)',$data);
@@ -71,9 +71,8 @@ class FormularioController extends AbstractActionController
         //$form->get("genero")->setValueOptions(array('f'=>'Femenino','m'=>'Masculino','n'=>'no definido'));
         $form->get("oculto")->setAttribute("value","87");
         $form->get("preferencias")->setValueOptions(array('m'=>'Música','d'=>'Deporte','o'=>'Ocio'));
-
     	return new ViewModel(array(
-    			"titulo"	=>	"holaaaa carajo este es mi formulario en ZF2",
+    			"titulo"	=>	"holaaaa sdffdsfmi formulario en ZF2",
     			"form"		=>	$form,
     			"url"		=>	$pag
     		));
