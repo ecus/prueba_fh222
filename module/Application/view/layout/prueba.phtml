@@ -1,0 +1,17 @@
+<?php echo $this->doctype() ?>
+<!doctype html>
+<html lang="es_ES">
+<head>
+	<?php echo $this->headMeta()->setCharset('utf8') ?>
+	<?php echo $this->headTitle("Hola mi Title") ?>
+	<?php echo $this->headLink()->prependStylesheet($this->basePath().'/css/style.css') ?>
+	<?php echo $this->headStyle() ?>
+	<?php echo $this->headScript()->prependFile($this->basePath().'/js/jquery.min.js') ?>
+</head>
+<body>
+	<div class="header">aa</div>
+	<div class="content"> <?php echo $this->content ?> </div>
+	<div class="footer">Derechos</div>
+	<?php echo $this->inlineScript() ?>
+</body>
+</html>
