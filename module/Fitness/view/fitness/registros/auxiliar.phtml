@@ -1,0 +1,260 @@
+<br>
+<!-- <div class="row">
+	<ul class="breadcrumb">
+		<li><a href="--><?php //echo $this->basePath() ?><!--/fitness/registros/index">Sucursal</a> <span class="divider">|</span></li>
+		<li><a href="#">Personal</a> <span class="divider">|</span></li>
+	</ul>
+</div> -->
+<div class="row">
+	<div class="span8 fondo">
+		<div class="row-fluid">
+			<div class="hero-unit span9">
+			<?php
+				$form 	=	$this->frmPersonal;
+				$form->prepare();
+				$form->setAttributes(array(
+					'action'	=>	$this->url.'/fitness/registros/resultadoper',
+					'method'	=>	'post'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+			<fieldset>
+				<legend>Registrar Personal</legend>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtDni');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-barcode icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtNombre');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtApPaterno');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtApMaterno');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtDireccion');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-home icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtTelCasa');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-phone icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtTelMovil');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-mobile-phone icon-large icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('txtEmail');
+							    echo $formLabel->openTag().$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icono icon-envelope"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<?php
+							    $name = $form->get('dtpFecha');
+								echo $formLabel->openTag().$name->getOption('label');
+								echo $this->formElementErrors($name);
+								echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-calendar icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+					<?php
+						$suc = $form->get('cmbSucursal');
+					    echo $formLabel->openTag() . $suc->getLabel();
+					    echo $formLabel->closeTag();
+					    echo $this->formSelect($suc);
+					    echo $this->formElementErrors($suc);
+					?>
+					<br>
+					<?php
+						$crear = $form->get('chkCrear');
+					    echo $formLabel->openTag() . $crear->getLabel();
+					    echo $formLabel->closeTag();
+					    echo $this->formCheckbox($crear);
+					    echo $this->formElementErrors($crear)
+					?>
+					<br>
+						<?php
+							$name = $form->get('txtFoto');
+						    echo $formLabel->openTag().$name->getOption('label');
+						    echo $this->formElementErrors($name);
+						    echo $formLabel->closeTag();
+						    echo $this->formInput($name);
+						?>
+				<br>
+				<br>
+				<?php echo $this->formElement($form->get('send')) ?>
+				<?php echo $this->form()->closeTag() ?>
+			</fieldset>
+			</div>
+			<div class="span3">
+				    <ul class="nav nav-list">
+					    <li class="active"><a href="#"><i class="icon-edit"></i> Registrar Sucursal</a></li>
+					    <li><a href="#"><i class="icon-book"></i> Library</a></li>
+					    <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+					    <li><a href="#"><i class="icon-edit"></i> Misc</a></li>
+				    </ul>
+			</div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="hero-unit color4">
+			<?php
+				$form 	=	$this->frmSucursal;
+				$form->prepare();
+				$form->setAttributes(array(
+					// 'action'	=>	$this->url.'/fitness/registros/resultado',
+					'method'	=>	'post',
+					'id'		=>	'frmSucursal'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+			<fieldset>
+				<legend><?php echo $this->titulo ?></legend>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('display');
+					    echo $formLabel->openTag().$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-eye-open icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('ubicacion');
+					    echo $formLabel->openTag().$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('telefono');
+					    echo $formLabel->openTag().$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-phone-sign icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<?php echo $this->formElement($form->get('btnRegSucursal')) ?>
+				<?php echo $this->form()->closeTag() ?>
+			</fieldset>
+		</div>
+		<div class="hero-unit color5">titulo titulo&nbsp;<br>&nbsp;</div>
+		<div class="hero-unit color6">titulo titulo&nbsp;<br>&nbsp;</div>
+		<div class="hero-unit color4">titulo titulo&nbsp;<br>&nbsp;</div>
+		<div class="hero-unit color5">titulo titulo&nbsp;<br>&nbsp;</div>
+		<div class="hero-unit color6">titulo titulo&nbsp;<br>&nbsp;</div>
+	</div>
+</div>

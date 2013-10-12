@@ -1,0 +1,239 @@
+<div class="row">
+<div class="col-12 accordion-group">
+	<?php
+		$form 	=	$this->frmPersonal;
+		$form->prepare();
+		$form->setAttributes(array(
+			'method'	=>	'post',
+			'id'		=>	'frmPersonal',
+			'class'		=>	'controls'
+			));
+
+		$formLabel	=	$this->plugin('formLabel');
+		echo $this->form()->openTag($form);
+	?>
+	<br />
+	<fieldset>
+		<legend>&nbsp;Registrar Personal</legend>
+		<div class='col-12 col-sm-6 col-lg-6'>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtDni');
+				    echo $formLabel->openTag($name->getOption('label_attributes'));
+				    echo $name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-barcode icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+					<div class="input-group-btn">
+						<a class="btn btn-default" id="btnBuscar"><i class="icon-search icono"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$name = $form->get('txtNombre');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-user icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$name = $form->get('txtApPaterno');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$name = $form->get('txtApMaterno');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+						<span class="input-group-addon"><i class="icon-user icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$name = $form->get('dtpFecha');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+			</div>
+		</div>
+		<div class='col-12 col-sm-6 col-lg-6'>
+			<div class="form-group">
+				<?php
+					$name = $form->get('txtDireccion');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();			
+				?>			
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-home icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtTelCasa');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-phone icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+					</div>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtTelMovil');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-mobile-phone icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtEmail');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icono icon-envelope"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+
+			<div class="form-group" id="boxSexo">
+				<label class="control-label" for="Sexo">Sexo: </label>
+				<div class="btn-group" data-toggle="buttons" id="Sexo">
+					<label class="btn btn-gym btnSexo">
+						<input type="radio" class="btn btn-gym btnSexo btn-medium active" id="btnSexo0" >Masculino
+					</label>
+					<label class="btn btn-gym btnSexo">
+						<input type="radio" class="btn btn-gym btnSexo btn-medium" id="btnSexo1">Femenino
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div id="barra" class="progress progress-striped active">
+				<div class="progress-bar" style="width: 100%;"></div>
+			</div>
+		</div>
+		<div class='col-12 accordion-group'>
+			<br />
+			Usuario con Acceso al sistema: 
+			<div class="btn-group"  id="Estados">
+				<a class="btn btn-medium btn-success btnAccesos">Si</a>
+				<a class="btn btn-medium btn-success btnAccesos">No</a>
+			</div>
+			<br />
+			<hr />
+			<fieldset id='boxAcceso'>
+				<legend>&nbsp;Acceso a Sistema</legend>
+					<div class="form-group col-4" id="boxEstados">
+						<label for="Estados">Nombre de Usuario: </label>
+						<div class="btn-group" data-toggle="buttons-radio" id="Estados">
+							<input name="txtUsuario" id="txtUsuario" type="text" class="form-control" placeholder="" disabled />
+						</div>
+					</div>
+					<div class="form-group col-6" id="boxEstados">
+						<label for="Estados">Estado de Acceso: </label>
+						<div class="btn-group" data-toggle="buttons" id="Estados">
+							<label class="btn btn-success btnUper">
+								<input type="radio" class="btn btn-success btn-large btnUper" id="btnUper0">Inactivo
+							</label>
+							<label class="btn btn-success btnUper">
+								<input type="radio" class="btn btn-success btn-large btnUper" id="btnUper1">Activo
+							</label>
+						</div>
+					</div>
+			</fieldset>
+			<br />
+		</div>
+
+							<!-- <div class="control-group span8 form-inline"> -->
+							<?php
+								// $crear = $form->get('chkCrear');
+								//    echo $this->formCheckbox($crear);
+								//    echo $formLabel->openTag($crear->getLabelAttributes()) . $crear->getLabel();
+								//    echo $formLabel->closeTag();
+								//    echo $this->formElementErrors($crear)
+							?>
+					<!-- </div> -->
+		<div class='col-12'>
+			<br /> 
+			<div class="form-group form-inline" id="boxEstado">
+				<label for="Estados">Estado: </label>
+				<div class="btn-group" data-toggle="buttons" id="Estados">
+					<label class="btn btn-success btnEstado">
+						<input type="radio" type="button" class="btn btn-success btn-large btnEstado" id="btnEstado0">Inactivo
+					</label>
+					<label class="btn btn-success btnEstado">
+						<input type="radio" type="button" class="btn btn-success btn-large btnEstado" id="btnEstado1">Activo
+					</label>
+				</div>
+			</div>
+			<br />
+		</div>
+		<input type="hidden" name="optUsuario" id="optUsuario" value="0" />
+		<input type="hidden" name="txtId" id="txtId" value="" />
+		<input type="hidden" name="txtIdUper" id="txtIdUper" value="" />
+		<input type="hidden" name="txtSexo" id="txtSexo" value="0" />
+		<input type="hidden" name="txtEstado" id="txtEstado" value="" />
+		<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
+		<?php echo $this->formElement($form->get('btnRegPersonal')) ?>
+		<a class="btn btn-default btn-large btn-block" id="btnCancelar">Cancelar</a>
+		<?php echo $this->form()->closeTag() ?>
+		<br />
+	</fieldset>
+</div>
+</div>
+
+<div id="modalPersonal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal">&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-gym" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

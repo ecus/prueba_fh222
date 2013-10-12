@@ -1,0 +1,60 @@
+<?php
+	// print_r($this->$lista);
+	var_dump($this->suc);
+	// $result = 	array();
+	// // var_dump(date('Y-m-d H:i:s'));
+	// $xml = new \DomDocument('1.0', 'UTF-8');
+
+	// $root = $xml->createElement('lista');
+	// $root = $xml->appendChild($root);
+
+	// if (is_array($this->lista))
+	// {
+	// 	foreach ($this->lista as $value)
+	// 	{
+	// 		$horario=$xml->createElement('horario');
+	// 		$horario =$root->appendChild($horario);
+
+	// 			$sucursal=$xml->createElement('sucursal',$value['sucursal']);
+	// 			$sucursal =$horario->appendChild($sucursal);
+
+	// 			$personal=$xml->createElement('personal',$value['personal']);
+	// 			$personal =$horario->appendChild($personal);
+
+	// 		if (is_array($value['detalle']))
+	// 		{
+	// 			foreach ($value['detalle'] as $val)
+	// 			{
+	// 				$detalle=$xml->createElement('detalle');
+	// 				$detalle =$horario->appendChild($detalle);
+	// 					$dia=$xml->createElement('dia',$val['dia']);
+	// 					$dia =$detalle->appendChild($dia);
+	// 					$ini=$xml->createElement('ini',$val['ini']);
+	// 					$ini =$detalle->appendChild($ini);
+	// 					$fin=$xml->createElement('fin',$val['fin']);
+	// 					$fin =$detalle->appendChild($fin);
+	// 				// var_dump($val);
+	// 			}
+	// 		}
+	// 	}
+	// 	$xml->formatOutput = true;
+	// 	var_dump($xml->saveXML());
+	// }
+	$xmlSuc = new \DomDocument('1.0', 'UTF-8');
+
+	$root = $xmlSuc->createElement('lista');
+	$root = $xmlSuc->appendChild($root);
+
+
+	foreach ($this->suc as $value)
+	{
+		$sucursal=$xmlSuc->createElement('sucursal',$value);
+		$sucursal =$root->appendChild($sucursal);
+	}
+	$xmlSuc->formatOutput = true;
+	$xmlSuc->saveXML();
+	var_dump($xmlSuc->saveXML());
+
+
+?>
+

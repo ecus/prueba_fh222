@@ -1,0 +1,171 @@
+<div class="row">
+	<div class="col-12 col-sm-6 col-lg-6">
+		<!-- <div class="row hero-unit"> -->
+				<?php
+					$form 	=	$this->frmFreezing;
+					$form->prepare();
+					$form->setAttributes(array(
+						'method'	=>	'post',
+						'id'		=>	'frmFreezing',
+						//'class'		=>	'controls'
+						));
+
+					$formLabel	=	$this->plugin('formLabel');
+					echo $this->form()->openTag($form);
+				?>
+				<fieldset>
+					<legend >Registrar Freezing</legend>
+						<div class="form-group">
+								<?php
+								    $name = $form->get('txtDni');
+								    echo $formLabel->openTag($name->getOption('label_attributes'));
+								    echo $name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-barcode icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+										<a class="btn" data-toogle="button" buttonType="primary" id="btnConsultar"><i class="icon-search icon"></i></a>
+									<?php //echo $this->formElement($form->get('btnConsultar')) ?>
+									</div>
+								
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtCliente');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-user icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+
+							<div class="form-group">
+								<?php
+								    $name = $form->get('dtpFechaInsc');
+									echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+									echo $this->formElementErrors($name);
+									echo $formLabel->closeTag();
+								?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+							</div>
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtDias');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+								
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-home icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+								
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<?php
+								    $name = $form->get('dtpFechaReg');
+									echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+									echo $this->formElementErrors($name);
+									echo $formLabel->closeTag();
+								?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtDetalle');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-user icono"></i></span>
+										<?php echo $this->formInput($name); ?>
+									</div>
+							</div>
+						</div>						
+												
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtIdPer');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+								 <!-- <div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-user icono"></i></span>
+										<?php //echo $this->formInput($name); ?>
+									</div>
+								</div> -->
+								<?php echo $this->formInput($name); ?>
+							</div>
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtIdCli');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+								 <!-- <div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-user icono"></i></span>
+										<?php //echo $this->formInput($name); ?>
+									</div>
+								</div> -->
+								<?php echo $this->formInput($name); ?>
+							</div>
+							<div class="form-group">
+								<?php
+								    $name = $form->get('txtIdInsc');
+								    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								    echo $this->formElementErrors($name);
+								    echo $formLabel->closeTag();
+								?>
+								  <!-- <div class="controls"> 
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-user icono"></i></span>
+										<?php //echo $this->formInput($name); ?>
+									</div>
+								</div> -->
+								<?php echo $this->formInput($name); ?>
+							</div>
+							
+					<?php echo $this->formElement($form->get('send')) ?>
+					
+					<?php echo $this->form()->closeTag() ?>
+				</fieldset>
+		
+	</div>
+
+</div>
+<div id="modalFreezing" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal"></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

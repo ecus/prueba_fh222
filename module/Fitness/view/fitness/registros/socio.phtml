@@ -1,0 +1,344 @@
+<div class="row">
+	<div class="span12">
+		
+			<div class="hero-unit ">
+			<?php
+				$form 	=	$this->frmSocio;
+				$form->prepare();
+				$form->setAttributes(array(
+					// 'action'	=>	$this->url.'/fitness/registros/resultadoper',
+					'method'	=>	'post',
+					'id'		=>	'frmSocio',
+					'class'    =>  'controls'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+	<fieldset>
+			<legend>Registrar Socio</legend>
+			<br>
+
+			<!--txtDni-->
+				<div class="control-group span4">
+				<?php
+					$name = $form->get('txtDni');
+					echo $formLabel->openTag($name->getOption('label_attributes'));
+					echo $name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-barcode icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				</div>
+			<!--cmbDocumento-->
+            	<div class="control-group span4">
+             <?php
+                $suc = $form->get('cmbDocumento');
+                echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+                echo $formLabel->closeTag();
+                echo $this->formSelect($suc);
+                echo $this->formElementErrors($suc);
+             ?>
+            	</div>
+            <!-- txtNombre -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtNombre');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- txtApPaterno -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtApPaterno');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- txtApMaterno -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtApMaterno');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-user icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- dtpFechanac -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('dtpFechanac');
+								echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								echo $this->formElementErrors($name);
+								echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-calendar icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+		    <!-- cmbSexo -->
+           		<div class="control-group span4">
+            		<?php
+              			$suc = $form->get('cmbSexo');
+               			echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+                		echo $formLabel->closeTag();
+                		echo $this->formSelect($suc);
+                		echo $this->formElementErrors($suc);
+            		?>
+            	</div>
+            <!-- cmbecivil -->
+             	<div class="control-group span4">
+            		<?php
+             		 $suc = $form->get('cmbecivil');
+               		 echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+               		 echo $formLabel->closeTag();
+                     echo $this->formSelect($suc);
+                     echo $this->formElementErrors($suc);
+                    ?>
+                </div>
+            <!-- txtTelCasa -->
+						
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtTelCasa');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-phone icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- txtTelMovil -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtTelMovil');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-mobile-phone icon-large icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- txtTelemergencia -->
+               <div class="control-group span4">
+                 	<?php
+                  	$name = $form->get('txtTelemergencia');
+                  	echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+                  	echo $this->formElementErrors($name);
+                  	echo $formLabel->closeTag();
+              		?>
+               		<div class="controls">
+               			<div class="input-prepend">
+                  			<span class="add-on"><i class="icon-phone icono"></i></span>
+                  				<?php echo $this->formInput($name); ?>
+                		</div>
+              		</div>
+            	</div>
+            <!-- txtEmail -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('txtEmail');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icono icon-envelope"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- dtpFechaVisita -->
+            	<div class="control-group span4">
+              		<?php
+                  		$name = $form->get('dtpFechaVisita');
+                		echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+                		echo $this->formElementErrors($name);
+                		echo $formLabel->closeTag();
+              		?>
+               		<div class="controls">
+                		<div class="input-prepend">
+                  			<span class="add-on"><i class="icon-calendar icono"></i></span>
+                  			<?php echo $this->formInput($name); ?>
+                		</div>
+              		</div>
+            	</div>
+            <!-- dtpFechareg -->
+						<div class="control-group span4">
+							<?php
+							    $name = $form->get('dtpFechareg');
+								echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+								echo $this->formElementErrors($name);
+								echo $formLabel->closeTag();
+							?>
+							 <div class="controls">
+								<div class="input-prepend">
+									<span class="add-on"><i class="icon-calendar icono"></i></span>
+									<?php echo $this->formInput($name); ?>
+								</div>
+							</div>
+						</div>
+			<!-- dtpFechaInvitacion -->
+            	<div class="control-group span4">
+              		<?php
+                  		$name = $form->get('dtpFechaInvitacion');
+                		echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+                		echo $this->formElementErrors($name);
+                		echo $formLabel->closeTag();
+              		?>
+               		<div class="controls">
+                		<div class="input-prepend">
+                  			<span class="add-on"><i class="icon-calendar icono"></i></span>
+                  			<?php echo $this->formInput($name); ?>
+                		</div>
+              		</div>
+            	</div>
+					
+						
+						
+			<!-- cmbestado -->	
+				<div class="control-group span4">
+            		<?php
+              			$suc = $form->get('cmbestado');
+               			echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+                		echo $formLabel->closeTag();
+                		echo $this->formSelect($suc);
+                		echo $this->formElementErrors($suc);
+            		?>
+            	</div>		
+ 			<!-- cmbsocio -->
+           		<div class="control-group span4">
+					<?php
+						$name = $form->get('cmbsocio');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+            		<div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-barcode icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+							<a class="btn" data-toogle="button" buttonType="primary" id="btnbuscaSocio"><i class="icon-search icon"></i></a>
+						</div>
+					</div>
+            	</div>
+     <!--       -->	
+            	
+            <!-- cmbempresa -->
+           		<div class="control-group span4">
+            		<?php
+              			$suc = $form->get('cmbempresa');
+               			echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+                		echo $formLabel->closeTag();
+                		echo $this->formSelect($suc);
+                		echo $this->formElementErrors($suc);
+            		?>
+            	</div>					
+            <!-- cmbpersonal -->
+           				<div class="control-group span4">
+							<?php
+							    $name = $form->get('cmbpersonal');
+							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    echo $this->formElementErrors($name);
+							    echo $formLabel->closeTag();
+							    
+							?>
+							 <?php echo $this->formInput($name); ?>
+						</div>		
+
+						
+		
+	
+			
+						<div class='row hero-unit'> Usuario con Acceso al sistema: 
+							<div class="btn-group"  id="Estados">
+								<a class="btn btn-medium btn-info btnAccesos">Si</a>
+								<a class="btn btn-medium btn-info btnAccesos">No</a>
+							</div>
+							<fieldset id='boxAcceso'>
+							<legend>Acceso a Sistema</legend>
+								<div class="control-group span5" id="boxEstados">
+									<label for="Estados">Nombre de Usuario: </label>
+									<div class="btn-group" data-toggle="buttons-radio" id="Estados">
+										<input name="txtUsuario" id="txtUsuario" type="text" placeholder="" disabled />
+									</div>
+								</div>
+								<div class="control-group span5" id="boxEstados">
+									<label for="Estados">Estado de Acceso: </label>
+									<div class="btn-group" data-toggle="buttons-radio" id="Estados">
+										<a class="btn btn-inverse btn-large btnUper" id="btnUper0">Inactivo</a>
+										<a class="btn btn-success btn-large btnUper" id="btnUper1">Activo</a>
+									</div>
+								</div>
+									<?php echo $this->formElement($form->get('send1')) ?>
+							</fieldset>
+
+						</div>
+
+							
+							<input type="hidden" name="optUsuario" id="optUsuario" value="0" />
+							<input type="hidden" name="txtId" id="txtId" value="" />
+							<input type="hidden" name="txtIdUper" id="txtIdUper" value="" />
+							<input type="hidden" name="txtSexo" id="txtSexo" value="0" />
+							<input type="hidden" name="txtEstado" id="txtEstado" value="" />
+							<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
+		
+		<?php echo $this->formElement($form->get('send')) ?>
+		<?php echo $this->form()->closeTag() ?>  
+		
+	</fieldset>
+	</div>
+
+</div>
+</div>
+<div id="modalSocio" class="modal hide fade zfgreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-header">
+   			 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    			<h3 id="tituloModal">Fitness House</h3>
+  		</div>
+  	<div class="modal-body">
+    	<p id="msjeModal">.</p>
+  	</div>
+  	<div class="modal-footer">
+    	<button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+  	</div>
+</div>

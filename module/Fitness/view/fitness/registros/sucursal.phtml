@@ -1,0 +1,163 @@
+<div class="row">
+	<div class="col-12 col-sm-4 col-lg-4 accordion-group">
+		<br />
+			<?php
+				$form 	=	$this->frmSucursal;
+				$form->prepare();
+				$form->setAttributes(array(
+					// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+					'method'	=>	'post',
+					'id'		=>	'frmSucursal',
+					// 'class'		=>	'form-horizontal'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+			<fieldset>
+				<legend>&nbsp;<?php echo $this->titulo ?></legend>
+				<div class=" form-group">
+					<?php
+					    $name = $form->get('txtDisplay');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<div class=" form-group">
+					<?php
+					    $name = $form->get('txtUbicacion');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-home icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<?php
+						$linea = $form->get('cmbLinea');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php
+						    echo $this->formSelect($linea);
+						    echo $this->formElementErrors($linea);
+						?>
+					</div> 
+				</div>
+				<div class="form-group">
+					<?php
+					    $name = $form->get('txtTelefono');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone-sign icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<div class="form-group" id="boxEstados">
+					<label for="Estados">Estado: </label>
+					<div class="btn-group" data-toggle="buttons-radio" id="Estados">
+						<button type="button" class="btn btn-inverse btn-large" id="0">Inactivo</button>
+						<button type="button" class="btn btn-success btn-large" id="1">Activo</button>
+					</div>
+				</div>
+				<input type="hidden" name="txtId" id="txtId" value="" />
+				<input type="hidden" name="txtEstado" id="txtEstado" value="" />
+				<?php echo $this->formElement($form->get('btnRegSucursal')) ?>
+				<?php echo $this->form()->closeTag() ?>
+				<a class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</a>
+			</fieldset>
+	<br />
+	</div>
+	<div class="col-12 col-sm-8 col-lg-8">
+		<br />
+		<fieldset>
+			<legend>&nbsp;Lista de Sucursales</legend>
+			<!-- <p id="dataSucursal"></p> -->
+			<table class="table table-bordered table-striped table-condensed" id="example">
+				<caption id="tablaTitulo"></caption>
+			 	<thead>
+					<tr>
+						<th>Sucursal</th>
+						<th>Direccion</th>
+						<th>Telefono</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<br>
+			<div id="barra" class="progress progress-striped active">
+				<div class="progress-bar" style="width: 100%;"></div>
+			</div>
+			<div class="control-group form-inline" data-toggle="buttons-radio" id="boxEstados">
+					<label for="listado">Listar: </label>
+				<div class="btn-group" id="listados">
+					<a class="btn btn-gym btnLista" id="T" title="Listado de Sucursales">
+						<i class="icon-list"></i> Total
+					</a>
+					<a class="btn btn-gym btnLista" id="A" title="Listado de Sucursales Activas">
+						<i class="icon-list-ul"></i> Activo
+					</a>
+					<a class="btn btn-gym btnLista" id="I" title="Listado de Sucursales Inactivas">
+						<i class="icon-list-ul"></i> Inactivo
+					</a>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>
+<div id="modalSucursal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Fitness House</h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal">&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-gym" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div id="modalAccion" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModalAccion">¿Desea Eliminar la sucursal?</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-danger" id="btnEliminar" aria-hidden="true">Si</a>
+    	<a class="btn btn-default" data-dismiss="modal" aria-hidden="true">No</a>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

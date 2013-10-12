@@ -1,0 +1,292 @@
+
+<div class="row">
+	<div class="span4">
+		<div class="fondo">
+		</div>
+		<div class="hero-unit color2" id="BoxfrmServicio">
+			<?php
+				$form 	=	$this->frmPlan;
+				$form->prepare();
+				$form->setAttributes(array(
+					// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+					'method'	=>	'post',
+					'id'		=>	'frmPlan'
+					));
+
+				$formLabel	=	$this->plugin('formLabel');
+
+				echo $this->form()->openTag($form);
+			?>
+			<fieldset>
+				<legend><?php echo $this->titulo ?></legend>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtNombre');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $thi->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-eye-open icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtMonto');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtdiasCupon');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtfreezing');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtMontoIni');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('dtpFecha');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<?php echo $this->formInput($form->get('txtPromocion')); ?>
+				<?php echo $this->formInput($form->get('txtTipo')); ?>
+
+
+				<div class="control-group">
+					<?php
+						$linea = $form->get('cmbEmpresa');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					    echo $this->formSelect($linea);
+					    echo $this->formElementErrors($linea);
+					?>
+				</div>
+
+				<div class="control-group">
+					<?php
+						$linea = $form->get('cmbSucursal');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					    echo $this->formSelect($linea);
+					    echo $this->formElementErrors($linea);
+					?>
+				</div>
+				<?php echo $this->formElement($form->get('btnRegPlan')) ?>
+				<?php echo $this->form()->closeTag() ?>
+				<button class="btn btn-inverse btn-block btn-large" id="btnCancelar">Nuevo</button>
+			</fieldset>
+		</div>
+	</div>
+	<div class='span8' id="boxHorario">
+		<div class= "hero-unit color 4">
+		<fieldset class=" hero-unit ">
+				 	<legend>
+				 		Detalle Servicio
+    				<?php
+    					$plan = $form->get('lstDetallePlan');
+    					// echo $formLabel->openTag() . $plan->getLabel();
+    					// echo $formLabel->closeTag();
+    					?>
+				 	</legend>
+    				<?php
+    				echo $this->formMultiCheckbox($plan);
+    					echo $this->formElementErrors($plan);
+    			?></fieldset>
+    			<div class="control-group">
+					<?php
+					    $name = $form->get('txtvigencia');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<?php echo $this->formElement($form->get('btnRegPlan')) ?>
+				<?php echo $this->form()->closeTag() ?>
+				<a class="btn btn-inverse btn-block btn-large" id="btnCancelar">Nuevo</a>
+		</div>
+
+	</div>
+	<div class='span8' id="boxHorario">
+		<div class= "hero-unit color 4">
+				 	<legend>
+				 		Promocion
+				 	</legend>
+    			<div class="control-group">
+					<?php
+						$linea = $form->get('cmbTipoPro');
+					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					    echo $formLabel->closeTag();
+					    echo $this->formSelect($linea);
+					    echo $this->formElementErrors($linea);
+					?>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('dtpFechaIni');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('dtpFechaFin');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtMontoPro');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtdiasPro');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtPorcentaje');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-eye-open icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtEmpresaMin');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-eye-open icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php
+					    $name = $form->get('txtEmpresaMax');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+					 <div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-eye-open icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+					</div>
+				</div>
+				<?php echo $this->formElement($form->get('btnRegPlan')) ?>
+				<?php echo $this->form()->closeTag() ?>
+				<a class="btn btn-inverse btn-block btn-large" id="btnCancelar">Nuevo</a>
+		</div>
+
+	</div>
+</div>
+<div class="row">
+</div>
