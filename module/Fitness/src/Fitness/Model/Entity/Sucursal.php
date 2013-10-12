@@ -1,27 +1,24 @@
 <?php
 namespace Fitness\Model\Entity;
 
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
+
 class Sucursal
 {
 	private $id;
 	private $display;
 	private $ubicacion;
+	private $linea;
 	private $telefono;
-	private $adapter;
-	public function __construct($datos=array(),Adapter $adapter=null)
+	private $estado;
+
+	public function __construct()
 	{
-		$this->id		=	$datos['id'];
-		$this->display	=	$datos['display'];
-		$this->ubicacion=	$datos['ubicacion'];
-		$this->telefono	=	$datos['telefono'];
-		$this->adapter	=	$adapter;
+		$this->id		=	NULL;
+		$this->display	=	NULL;
+		$this->ubicacion=	NULL;
+		$this->linea	=	NULL;
+		$this->telefono	=	NULL;
+		$this->estado	=	NULL;
 	}
 	public function getData()
 	{
@@ -29,28 +26,65 @@ class Sucursal
 			'id'		=>	$this->id,
 			'display'	=>	$this->display,
 			'ubicacion'	=>	$this->ubicacion,
-			'telefono'	=>	$this->telefono
+			'linea'		=>	$this->linea,
+			'telefono'	=>	$this->telefono,
+			'estado'	=>	$this->estado
 			);
 		return $array;
 	}
-	public function insertaSucursal($datos=array())
+	public function setId($Id)
 	{
-		$dis=$datos->display;
-		$ubi=$datos->ubicacion;
-		if (strcmp($datos->telefono, '')==0) {
-			$tel=NULL;
-		}else{
-			$tel=$datos->telefono;
-		}
-		$var=array($dis,$ubi,$tel);
-		$sql = $datos->adapter->query('CALL pa_insertaSucursal (?,?,?)',$var);
-		return 'Sucursal Registrada con exito...!';
+		$this->id=$Id;
+		return $this;
 	}
-	public function listaSucursal($datos=array())
+	public function getId()
 	{
-		$sql 	=	$datos->adapter->query('CALL pa_listaSucursal',Adapter::QUERY_MODE_EXECUTE);
-		$result	=	$sql->toArray();
-		return $result;
+		return $this->id;
+	}
+	public function setLinea($linea)
+	{
+		$this->linea=$linea;
+		return $this;
+	}
+	public function getLinea()
+	{
+		return $this->linea;
+	}
+	public function setDisplay_Suc($Dis_Suc)
+	{
+		$this->display=$Dis_Suc;
+		return $this;
+	}
+	public function getDisplay_Suc()
+	{
+		return $this->display;
+	}
+	public function setUbicacion_Suc($Ubi_Suc)
+	{
+		$this->ubicacion=$Ubi_Suc;
+		return $this;
+	}
+	public function getUbicacion_Suc()
+	{
+		return $this->ubicacion;
+	}
+	public function setTelefono_Suc($Telef_Suc)
+	{
+		$this->telefono=$Telef_Suc;
+		return $this;
+	}
+	public function getTelefono_Suc()
+	{
+		return $this->telefono;
+	}
+	public function setEstado($estado)
+	{
+		$this->estado=$estado;
+		return $this;
+	}
+	public function getEstado()
+	{
+		return $this->estado;
 	}
 }
 ?>
