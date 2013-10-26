@@ -187,7 +187,7 @@ class frmServicio extends Form
                                       ),
                             ),
                 'attributes'=>  array(
-                            'type'           => 'text',
+                            'type'           => 'hidden',
                             'placeholder'    => 'Ejm.: 250.00',
                             'class'          => 'form-control',
                             'id'             => 'txtPersonal'
