@@ -28,7 +28,7 @@ class FrmLogin extends Form
                             ),
                 'attributes'=>  array(
                             'type'           => 'text',
-                            'placeholder'    => 'Ejm.: 250.00',
+                            'placeholder'    => 'Ejm.: eurrutia',
                             'class'          => 'form-control',
                             'id'             => 'txtUsuario'
                         ),
@@ -36,7 +36,7 @@ class FrmLogin extends Form
 		$this->add(array(
                 'name'      =>  'txtClave',
                 'options'   =>  array(
-                            'label' =>  'ID Personal: ',
+                            'label' =>  'Clave: ',
                             'label_attributes'  => array(
                                     'class'     =>  'control-label',
                                     'for'       =>  'txtClave'
@@ -44,7 +44,7 @@ class FrmLogin extends Form
                             ),
                 'attributes'=>  array(
                             'type'           => 'password',
-                            'placeholder'    => 'Ejm.: 250.00',
+                            'placeholder'    => '******',
                             'class'          => 'form-control',
                             'id'             => 'txtClave'
                         ),
