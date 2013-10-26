@@ -14,7 +14,7 @@
 	<fieldset>
 		<legend>Registrar Socio</legend>
 			<div class="col-12 col-sm-6 col-lg-6">
-				<!-- cmbestado -->	
+				<!-- cmbestado -->
 				<div class="form-group">
 					<?php
 						$estado = $form->get('cmbestado');
@@ -27,7 +27,7 @@
 							echo $this->formSelect($estado);
 							echo $this->formElementErrors($estado);
 						?>
-					</div> 
+					</div>
 				</div>
 				<!--cmbDocumento-->
 				<div class="form-group">
@@ -42,7 +42,7 @@
 							echo $this->formSelect($doc);
 							echo $this->formElementErrors($doc);
 						?>
-					</div> 
+					</div>
 				</div>
 				<!--txtDni-->
 				<div class="form-group">
@@ -125,7 +125,7 @@
 							echo $this->formSelect($suc);
 							echo $this->formElementErrors($suc);
 	           			?>
-					</div> 
+					</div>
 	       		</div>
 				<!-- cmbecivil -->
 	            <div class="form-group">
@@ -155,7 +155,7 @@
 						    echo $this->formSelect($linea);
 						    echo $this->formElementErrors($linea);
 						?>
-					</div> 
+					</div>
 				</div>
 				<!-- barra de carga -->
 				<div id="barraDistrito" class="progress progress-striped active">
@@ -174,7 +174,7 @@
 						    echo $this->formSelect($linea);
 						    echo $this->formElementErrors($linea);
 						?>
-					</div> 
+					</div>
 				</div>
 				<!-- txtDireccion -->
 				<div class="form-group">
@@ -311,16 +311,12 @@
 			            echo $this->formElementErrors($suc);
 			        ?>
 			    </div>
-		        <!-- cmbpersonal -->
-		        <div class="form-group">
-		          	<?php
-		              	$suc = $form->get('cmbpersonal');
-		               	echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
-		                echo $formLabel->closeTag();
-		                echo $this->formSelect($suc);
-		                echo $this->formElementErrors($suc);
-		            ?>
-		        </div>	
+		        <!-- txtPersonal -->
+					<?php
+						$name = $form->get('txtPersonal');
+						$name->setAttribute('value', $this->id);
+						echo $this->formInput($name);
+					?>
 			</div>
 			<div class="detalle col-12">
 				<!-- dtpFechaVisita -->
@@ -365,7 +361,7 @@
 	        </div>
 			<div class='col-12'>
 				<hr />
-				Usuario con Acceso al sistema: 
+				Usuario con Acceso al sistema:
 				<div class="btn-group"  id="Estados">
 					<a class="btn btn-medium btn-success btnAccesos">Si</a>
 					<a class="btn btn-medium btn-success btnAccesos">No</a>
@@ -400,7 +396,7 @@
 	<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
 	<br />
 	<?php echo $this->formElement($form->get('send')) ?>
-	<?php echo $this->form()->closeTag() ?>  
+	<?php echo $this->form()->closeTag() ?>
 </div>
 <div id="modalSocio" class="modal fade">
   <div class="modal-dialog">

@@ -2,7 +2,7 @@ jQuery(function($) {
     var oTable;
     var giRedraw = false;
     var auxId;
-        
+
         $("#frmInscripcion").validate({
             debug: true,
             rules: {
@@ -75,7 +75,7 @@ function listacliente(){
                             // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
                             // "iDisplayLength": 5,
                             });
-                       
+
                             $('#example tbody tr').each( function() {
                                 var sTitle;
                                 var nTds = $('td', this);
@@ -120,10 +120,10 @@ function listacliente(){
                         });
 
                     },'json');
-                    
+
                     $("#barra").slideUp();
-         
-              
+
+
     };
     listacliente();
 });

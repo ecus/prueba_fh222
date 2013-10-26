@@ -11,7 +11,7 @@
 					<tr>
 						<!-- th>ID</th> -->
 						<th>DNI</th>
-						<th>Cliente</th>						
+						<th>Cliente</th>
 						<th>Asistencia</th>
 					</tr>
 				</thead>
@@ -23,7 +23,7 @@
 					<div class="bar" style="width:100%"></div>
 				</div>
 			<div class="control-group form-inline" data-toggle="buttons-radio" id="boxEstados">
-					
+
 			</div>
 		</div>
 	<div class="col-12 col-sm-6 col-lg-6">
@@ -44,11 +44,11 @@
 				echo $this->form()->openTag($form);
 			?>
 			<fieldset>
-				<legend>Registro de Asistencia</legend>		
-				
+				<legend>Registro de Asistencia</legend>
+
  				<!-- <div id='boxServicios'>
 
- 				</div> -->	
+ 				</div> -->
 
 				<div class="form-group">
 								<?php
@@ -57,28 +57,28 @@
 									echo $this->formElementErrors($name);
 									echo $formLabel->closeTag();
 								?>
-								
+
 									<div class="input-group">
 										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
 										<?php echo $this->formInput($name); ?>
 									</div>
-								
+
 				</div>
 					<div class="form-group">
 								<?php
-								    $name = $form->get('dtpFechaIng');
+									$name = $form->get('dtpFechaIng');
 									echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 									echo $this->formElementErrors($name);
 									echo $formLabel->closeTag();
 								?>
-								
+
 									<div class="input-group">
 										<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
 										<?php echo $this->formInput($name); ?>
 									</div>
-								
+
 					</div>
-				
+
 				<input type="hidden" name="txtidIns" id="txtidIns" value="" />
 				<input type="hidden" name="txtidHS"  id="txtidHS" value="" />
 				<input type="hidden" name="txtidCli" id="txtidCli" value="" />
@@ -91,9 +91,9 @@
 		<!-- </div> -->
 	</div>
 
-	
+
 	<!-- </div> -->
-			
+
 </div>
 <div id="modalAsistencia" class="modal fade">
   <div class="modal-dialog">

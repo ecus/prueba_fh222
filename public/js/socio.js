@@ -103,15 +103,15 @@ jQuery(function($){
             var ciudad = $(this).val();
             console.log(ciudad);
             $('#barraDistrito').slideDown();
-            $.post("lisciudad", {                   
-                id  :   $(this).val()                
+            $.post("lisciudad", {
+                id  :   $(this).val()
             },function(data){
                 if(data.response == false){
                     console.log('no se puede encontrar');
                 }else{
                     // console.debug(data);
                     $('#cmbDistrito').find('option').remove().end();
-                    var distritos = '<option value="">Seleccione...</option>'; 
+                    var distritos = '<option value="">Seleccione...</option>';
                     $.each(data, function(index, val) {
                         console.log(index+'=>'+val);
                         distritos += '<option value="'+index+'">'+val+'</option>';
@@ -141,7 +141,7 @@ jQuery(function($){
                         // dtpFechaInvitacion:$(dtpFechaInvitacion).val(),
                         cmbsocio    : $(cmbsocio).val(),
                         cmbempresa  : $(cmbempresa).val(),
-                        cmbpersonal : $(cmbpersonal).val(),
+                        txtPersonal : $(txtPersonal).val(),
                         cmbDistrito : $(cmbDistrito).val(),
                         telefonos   : listaNumeros
                     },function(data){
@@ -181,7 +181,7 @@ jQuery(function($){
                         cmbestado:$(cmbestado).val(),
                         cmbsocio:$(cmbsocio).val(),
                         cmbempresa:$(cmbempresa).val(),
-                        cmbpersonal:$(cmbpersonal).val(),
+                        txtPersonal:$(txtPersonal).val(),
                         txtUsuario  :$(txtUsuario).val()
                     },function(data){
                         if(data.response == false){
@@ -199,8 +199,8 @@ jQuery(function($){
             };
         });
         $('#btnbuscaSocio').on('click',function(event){
-                $.post("buscasocio", {                   
-                        cmbsocio:$(cmbsocio).val()                        
+                $.post("buscasocio", {
+                        cmbsocio:$(cmbsocio).val()
                     },
                     function(data){
                         if(data.response == false){
@@ -212,7 +212,7 @@ jQuery(function($){
                         }
                         $("#barra").slideUp();
                     }, 'json');
-                    console.log("no entro");       
+                    console.log("no entro");
         });
         $('#btnAgregaTel').on('click', function(event){
             event.preventDefault();
@@ -253,7 +253,7 @@ jQuery(function($){
                                 tipoTel    : tipo,
                                 emergenciaTel:0,
                                 nombreTel  :   null,
-                                parentescoTel : null 
+                                parentescoTel : null
                                 });
                                 if (tipo<=1){
                                     // Fijo
@@ -281,7 +281,7 @@ jQuery(function($){
                             tipoTel    : tipo,
                             emergenciaTel : emergencia,
                             nombreTel  :   nombreTele,
-                            parentescoTel : parentesco 
+                            parentescoTel : parentesco
                         });
                     }else{
                         contadorNumero  +=  1;
@@ -297,7 +297,7 @@ jQuery(function($){
                                         tipoTel    : tipo,
                                         emergenciaTel : emergencia,
                                         nombreTel  :   nombreTele,
-                                        parentescoTel : parentesco 
+                                        parentescoTel : parentesco
                                     });
                                 };
                                 return false;
@@ -321,15 +321,15 @@ jQuery(function($){
                 });
             };
         });
-        $('#txtNumero').keypress(function(e) {   
+        $('#txtNumero').keypress(function(e) {
             if (e.which == 13 && $(this).val().length>=6 && $(this).val().length<=10 ) {
                 $("#btnAgregaTel").click();
-            } 
+            }
         })
-        $('#txtNombreTel').keypress(function(e) {   
+        $('#txtNombreTel').keypress(function(e) {
             if (e.which == 13 && $(this).val().length>=6 && $('#txtNumero').val().length<=10 ) {
                 $("#btnAgregaTel").click();
-            } 
+            }
         })
         $('.btnEmergencia').on('click',function(event){
             var opcion  =   $.trim($(this).text());
@@ -408,5 +408,5 @@ jQuery(function($){
             $('#btnRegPersonal').attr('value',"Registrar");
         };
         ////////////////////////// fin formulario personal //////////////////////////////
-               
-  });     
+
+  });
