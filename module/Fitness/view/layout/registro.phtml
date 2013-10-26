@@ -55,7 +55,45 @@
         </div>
         <br><br><br><br>
         <div class="container">
-            <!-- <div class="row"> -->
+                <div class="row">
+                <div class="col-12 col-sm-12 col-lg-7">
+                </div>
+                <div class="col-12 col-sm-12 col-lg-5" id="avatarPer">
+                    <?php
+                        $children = $this->viewModel()->getCurrent()->getChildren();
+                        $variables = $children[0];
+                    ?>
+                    <div class="col-4 col-sm-4 col-lg-3 filtro" >
+                        <?php $img=(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png'; 
+                        ?>
+                        <img id="avatarPerFoto" src="<?php echo $this->basePath() . '/perfil/'.$img; ?>" width="70" height="75px">
+                        <svg width="0" height="0">
+                            <filter id="drop-shadow">
+                                <feGaussianBlur in ="[alpha-channel-of-input]" stdDeviation="[radius]"/>
+                                <feOffset dx ="[offset-x]" dy="[offset-y]" result="offsetblur"/>
+                                <feFlood flood-color ="[color]"/>
+                                <feComposite in2 ="offsetblur" operator="in"/>
+                                <feMerge>
+                                    <feMergeNode/>
+                                    <feMergeNode in ="[input-image]"/>
+                                </feMerge>
+                            </filter>
+                            <mask id ="mascara">
+                            </mask>
+                        </svg>
+                    </div>
+                    <div class="col-8 col-sm-8 col-lg-9" id="avatarPerInfo">
+                        <div class="row">
+                            <h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup>Coordinador</sup>
+                            <br />
+                            <sup>
+                                <a href="sdsad">Configuracion</a>
+                                <a href="<?php echo $this->basePath() . '/fitness/index/logoutper'; ?>">Salir</a>
+                            </sup>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <ul class="breadcrumb">
                     <li><a href="<?php echo $this->url().'registros/sucursal' ?>"><i class="icon-building"></i> Registrar Sucursal</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>

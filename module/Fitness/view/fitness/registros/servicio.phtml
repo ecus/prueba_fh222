@@ -48,7 +48,7 @@
 					    echo $this->formElementErrors($name);
 					    echo $formLabel->closeTag();
 					?>
-					 
+
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-comments-alt icono"></i></span>
 							<?php echo $this->formInput($name); ?>
@@ -61,7 +61,7 @@
 					    echo $this->formElementErrors($name);
 					    echo $formLabel->closeTag();
 					?>
-					 
+
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-home icono"></i></span>
 							<?php echo $this->formInput($name); ?>
@@ -74,7 +74,7 @@
 					    echo $this->formElementErrors($name);
 					    echo $formLabel->closeTag();
 					?>
-					 
+
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-home icono"></i></span>
 							<?php echo $this->formInput($name); ?>
@@ -87,6 +87,7 @@
 					    echo $this->formElementErrors($name);
 					    echo $formLabel->closeTag();
 					?>
+
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-home icono"></i></span>
 							<?php echo $this->formInput($name); ?>
@@ -102,6 +103,7 @@
 					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
 					    echo $formLabel->closeTag();
 					?>
+
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-home icono"></i></span>
 					<?php
@@ -113,20 +115,11 @@
 				</div>
 				<?php echo $this->formInput($form->get('txtEstado')); ?>
 
-				<div class="form-group">
-					<?php
-					    $name = $form->get('txtPersonal');
-					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-					    echo $this->formElementErrors($name);
-					    echo $formLabel->closeTag();
-					?>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
-							<?php echo $this->formInput($name); ?>
-						</div>
-
-				</div>
 				<?php
+					$name = $form->get('txtPersonal');
+					$name->setAttribute('value', $this->id);
+					echo $this->formInput($name);
+
 					$lstSucursal = $form->get('lstSucursal');
 					echo $formLabel->openTag() . $lstSucursal->getLabel();
 					echo $formLabel->closeTag();
