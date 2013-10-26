@@ -1,22 +1,20 @@
 <?php
 namespace Fitness\Model;
 
-use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Crypt\Password\Bcrypt;
+use Zend\Db\TableGateway\TableGateway;
+
 use Fitness\Model\Entity\Personal;
 
-class PersonalTabla
+class PersonalTabla extends TableGateway
 {
-	protected $adapter;
-	public function __construct(Adapter $a)
+	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		$this->adapter=$a;
+		return parent::__construct('', $adapter, $databaseSchema,
+			$selectResultPrototype);
 	}
+	/*
 	public function insertarPersonal(Personal $per)
 	{
 		$datos=array(
@@ -122,15 +120,57 @@ class PersonalTabla
 	{
 		var_dump($p);
 	}
+	*/
 	public function listaPersonal()
 	{
-		$sql 	=	$this->adapter->query('CALL pa_listaPersonal',Adapter::QUERY_MODE_EXECUTE);
-		// $result	=	$sql->toArray();
-		$result	=	array();
-		foreach ($sql->toArray() as $value) {
-			$result[$value['id_per']]=$value['apellidoPaterno_Per']. ' '.$value['apellidoMaterno_Per'].', '.$value['nombres_per'];
+		$dbAdapter	=	$this->getAdapter();
+		$stmt 		=	$dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_listaPersonal()');
+		$sql		=	$stmt->execute();
+		while ($sql->next()) {
+			// $result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+			$salida[$sql->current()['id_per']]	=	$sql->current()['apellidoPaterno_Per'].' '.$sql->current()['apellidoMaterno_Per'].', '.$sql->current()['nombres_per'];
 		}
-		return $result;
+		// var_dump($salida);
+		return $salida;
+	}
+	public function loginPersonal($nombre,$clave)
+	{
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt 		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_loginPersonal(?)');
+			$stmt->getResource()->bindParam(1, $nombre);
+			$stmt->execute();
+			$result		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			$salida		=	$result[0];
+			$stmt->getResource()->closeCursor();
+
+			if (isset($salida->msje)) {
+				$msje	=	array('msje'=>$salida->msje);
+				return	(object) $msje;
+			} else {
+				$bcrypt			= 	new Bcrypt();
+				$id				=	$salida->Personal_id_Per;
+				$claveSegura	=	$salida->clave_UPer;
+
+				if($bcrypt->verify($clave, $claveSegura)) {
+					$stmt2		= $dbAdapter->createStatement();
+					$stmt2->prepare("CALL pa_loginPersonalId(?)");
+					$stmt2->getResource()->bindParam(1, $id);
+					$stmt2->execute();
+					$result2	=	$stmt2->getResource()->fetchAll(\PDO::FETCH_OBJ);
+					$salida2	=	$result2[0];
+					$stmt2->getResource()->closeCursor();
+					return $salida2;
+				}else{
+					$msje		=	array('msje'=>"Clave Incorrecta.\n");
+					return	(object) $msje;
+				}
+			}
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
 }
 ?>
