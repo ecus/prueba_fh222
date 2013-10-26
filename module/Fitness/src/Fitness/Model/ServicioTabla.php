@@ -21,7 +21,7 @@ class ServicioTabla extends TableGateway
 {
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		return parent::__construct('', $adapter, $databaseSchema, 
+		return parent::__construct('', $adapter, $databaseSchema,
 			$selectResultPrototype);
 	}
 //////
@@ -109,28 +109,28 @@ class ServicioTabla extends TableGateway
 			$var9=$ser->getPersonal_id_per();
 			$var10=$xmlSuc->saveXML();
 			$var11=$xml->saveXML();
-			
+
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_insertaServicioHorario(?,?,?,?,?,?,?,?,?,?,?,@msje)'); 
-			$stmt->getResource()->bindParam(1, $var1); 
-			$stmt->getResource()->bindParam(2, $var2); 
-			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(6, $var6); 
-			$stmt->getResource()->bindParam(7, $var7); 
-			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(10, $var10); 
-			$stmt->getResource()->bindParam(11, $var11); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaServicioHorario(?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(10, $var10);
+			$stmt->getResource()->bindParam(11, $var11);
 			$aux=$stmt->execute();
 			// $stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			$stmt->getResource()->closeCursor();
-			$stmt2  = $dbAdapter->createStatement(); 
-			$stmt2->prepare("SELECT @msje AS mensaje"); 
-			$result = $stmt2->execute();         
-			$output = $result->current(); 
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
 			return $output['mensaje'];
 			// $sql=$this->adapter->query('CALL pa_insertaServicioHorario(?,?,?,?,,?,?,?,?,?,?,?,@msje)', $var);
 			// $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -255,29 +255,29 @@ class ServicioTabla extends TableGateway
 						$var16=$xml->saveXML();
 			// 			);
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_insertaPlanHorarioB(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)'); 
-			$stmt->getResource()->bindParam(1, $var1); 
-			$stmt->getResource()->bindParam(2, $var2); 
-			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(6, $var6); 
-			$stmt->getResource()->bindParam(7, $var7); 
-			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT); 
-			$stmt->getResource()->bindParam(14, $var14); 
-			$stmt->getResource()->bindParam(15, $var15); 
-			$stmt->getResource()->bindParam(16, $var16); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaPlanHorarioB(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(14, $var14);
+			$stmt->getResource()->bindParam(15, $var15);
+			$stmt->getResource()->bindParam(16, $var16);
 			$aux=$stmt->execute();
-			$stmt2  = $dbAdapter->createStatement(); 
-			$stmt2->prepare("SELECT @msje AS mensaje"); 
-			$result = $stmt2->execute();         
-			$output = $result->current(); 
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
 			return $output['mensaje'];
 		}catch(Zend_Db_Adapter_Exception $e){
 			throw $e;
@@ -292,8 +292,8 @@ class ServicioTabla extends TableGateway
 			// echo '<br /><br /><br /><br />';
 			// $result	=	array();
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_listaServicioBase()'); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaServicioBase()');
 			$sql=$stmt->execute();
 			while ($sql->next()) {
 				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
@@ -301,10 +301,10 @@ class ServicioTabla extends TableGateway
 			// foreach ($sql->current() as $value) {
 			// 	var_dump($value);
 			// 	$result[$value['id_Serv']]=$value['nombre_Serv'];
-			// }	
+			// }
 			return $result;
 		}catch(Zend_Exception $e){
-			throw $e;	
+			throw $e;
 		}
 	}
 //
@@ -312,8 +312,8 @@ class ServicioTabla extends TableGateway
 	{
 		try {
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_listaServicio()'); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaServicio()');
 			$sql=$stmt->execute();
 			while ($sql->next()) {
 				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
@@ -332,9 +332,9 @@ class ServicioTabla extends TableGateway
 			// $id=16;
 			$contenedor=array();
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_consolidadoPlan(:id)'); 
-			$stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_consolidadoPlan(:id)');
+			$stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT);
 			$resultado=$stmt->execute();
 			//// info basica del servicio o plan
 			$info=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
@@ -394,10 +394,10 @@ class ServicioTabla extends TableGateway
 
 // public function listaServicio()
 // {
-// $stmt = $dbAdapter->createStatement(); 
-// $stmt->prepare('CALL sp_proc(:id)'); 
+// $stmt = $dbAdapter->createStatement();
+// $stmt->prepare('CALL sp_proc(:id)');
 // $id=15;
-// $stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT); 
+// $stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT);
 // $resultado=$stmt->execute();
 // $result1=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 // var_dump($result1);

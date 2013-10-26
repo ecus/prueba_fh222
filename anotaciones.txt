@@ -1,0 +1,22 @@
+
+// crear variable de sesion
+	$container = new Container('namespace');
+	$container->user = 'fsdf';
+	$container->pass = 'foo';
+
+// eliminar sesion
+	$container = new Container('namespace');
+	echo "<br><br><br><br>";
+	var_dump($container->user);
+	$container->getManager()->getStorage()->clear('namespace');
+
+// redirigir
+	//ruta
+	return $this->redirect()->toRoute('login-personal-error',$params,$params);
+
+	//forward con parametros
+	return $this->forward()->dispatch("Fitness\Controller\Index",
+							array(
+								"action"	=>	"index",
+								"msje"		=>	"Sesion Finalizada."
+							));

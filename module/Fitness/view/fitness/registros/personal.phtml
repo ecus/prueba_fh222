@@ -87,8 +87,8 @@
 					$name = $form->get('txtDireccion');
 					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 					echo $this->formElementErrors($name);
-					echo $formLabel->closeTag();			
-				?>			
+					echo $formLabel->closeTag();
+				?>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="icon-home icono"></i></span>
 					<?php echo $this->formInput($name); ?>

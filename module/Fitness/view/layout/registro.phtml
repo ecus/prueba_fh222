@@ -11,17 +11,13 @@
                         ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/css/font-awesome-ie7.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
-                        // ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
-                        // ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
                         ->prependStylesheet($this->basePath() . '/css/jquery.dataTables.css')
-                        // ->prependStylesheet('http://fonts.googleapis.com/css?family=Open+Sans')
                         ->prependStylesheet($this->basePath() . '/css/indice.css')
                         ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-                                      // ->prependFile($this->basePath() . '/js/bootstrap.js')
                                       ->appendFile($this->basePath() . '/js/pace.min.js')
                                       ->prependFile($this->basePath() . '/js/bootstrap.min.js')
                                       ->prependFile($this->basePath() . '/js/jquery.min.js')
@@ -42,7 +38,7 @@
                 <span class="icon-bar"></span>
               </button>
               <a href="<?php echo $this->url() ?>" class="navbar-brand"></a>
-                  <!-- <a class="brand" href="<?php echo $this->url() ?>"></a> -->
+                  <a class="brand" href="<?php //echo $this->url() ?>"></a>
               <div class="nav-collapse collapse bs-navbar-collapse">
                 <ul class="nav navbar-nav">
                   <li>
