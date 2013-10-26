@@ -7,6 +7,14 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 
+use Zend\Session\AbstractManager;
+use Zend\Session\Config\ConfigInterface;
+use Zend\Session\Container;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\SessionManager;
+use Zend\Crypt\Password\Bcrypt;
+
 use Fitness\Form\Frmsucursal;
 use Fitness\Form\Frmpersonal;
 use Fitness\Form\frmCuenta;
@@ -41,86 +49,124 @@ class RegistrosController extends AbstractActionController
 	public $dbAdapter;
 	public function indexAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$pag		=	$this->getRequest()->getBaseUrl();
-		$frmSuc 	=	new Frmsucursal('frmSucursal');
-		$frmPer		=	new Frmpersonal('frmPersonal');
-		// $frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
-		$var		=	array(
-				"titulo"		=>	"Registro de Sucursal",
-    			"frmPersonal"	=>	$frmPer,
-    			"frmSucursal"	=>	$frmSuc,
-    			"listaSuc"		=>	$listaSuc,
-				"url"			=>	$pag
-			);
-		$view = new ViewModel($var);
-		// $this->layout('layout/registro');
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmSuc 	=	new Frmsucursal('frmSucursal');
+			$frmPer		=	new Frmpersonal('frmPersonal');
+			// $frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
+			$var		=	array(
+					"titulo"		=>	"Registro de Sucursal",
+					"frmPersonal" 	=>	$frmPer,
+					"frmSucursal" 	=>	$frmSuc,
+					"listaSuc" 		=>	$listaSuc,
+					"url"			=>	$pag,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/menu');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 //------------------------------------- SUCURSAL -------------------------------------
 	public function sucursalAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$verSucursal=	$tablaSuc->verSucursal();
-		$pag		=	$this->getRequest()->getBaseUrl();
-		$frmSuc 	=	new Frmsucursal('frmSucursal');
-		$var		=	array(
-				"titulo"		=>	"Registro de Sucursal",
-    			"frmSucursal"	=>	$frmSuc,
-    			"listaSuc"		=>	$listaSuc,
-    			"verSucursal"	=>	$verSucursal,
-				"url"			=>	$pag,
-				"nuevavar"		=> "aprece esto"
-			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$verSucursal=	$tablaSuc->verSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmSuc 	=	new Frmsucursal('frmSucursal');
+			$var		=	array(
+					"titulo"		=>	"Registro de Sucursal",
+					"frmSucursal"	=>	$frmSuc,
+					"listaSuc"		=>	$listaSuc,
+					"verSucursal"	=>	$verSucursal,
+					"url"			=>	$pag,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 	public function listasucursalAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc			=	new SucursalTabla($this->dbAdapter);
-		$listaSuc 			=	$tablaSuc->verSucursal();
-		$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
-		return $response;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
+			$listaSuc 			=	$tablaSuc->verSucursal();
+			$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 
 	public function activolistasucursalAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc			=	new SucursalTabla($this->dbAdapter);
-		$listaSuc 			=	$tablaSuc->listaSucursalActivo();
-		$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
-		return $response;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
+			$listaSuc 			=	$tablaSuc->listaSucursalActivo();
+			$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 
 	public function inactivolistasucursalAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc			=	new SucursalTabla($this->dbAdapter);
-		$listaSuc 			=	$tablaSuc->listaSucursalInactivo();
-		$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
-		return $response;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
+			$listaSuc 			=	$tablaSuc->listaSucursalInactivo();
+			$listaSuc			=	\Zend\Json\Json::encode($listaSuc);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 
 	public function leesucursalAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
 			$frm 				= 	$request->getPost();
 			$id					=	$frm['id'];
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
@@ -130,11 +176,16 @@ class RegistrosController extends AbstractActionController
 			// Zend\Json\Json::prettyPrint($json, array("indent" => " ")
 			$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
 			return $response;
+		} else {
+			return 0;
+		}
 	}
 	public function desactivasucursalAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
 			$frm 				= 	$request->getPost();
 			$id					=	$frm['txtId'];
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
@@ -144,36 +195,45 @@ class RegistrosController extends AbstractActionController
 			// Zend\Json\Json::prettyPrint($json, array("indent" => " ")
 			$response->setContent(\Zend\Json\Json::prettyPrint($listaSuc,array("indent" => " ")));
 			return $response;
+		} else {
+			return 0;
+		}
 	}
 	public function regsucursalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
-				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-				$suc		=	new Sucursal();
-				$sucTabla	=	new SucursalTabla($this->dbAdapter);
-				$frm 		= 	$request->getPost();
-				$suc->setDisplay_Suc($frm['txtDisplay']);
-				$suc->setUbicacion_Suc($frm['txtUbicacion']);
-				$suc->setLinea($frm['cmbLinea']);
-				$suc->setTelefono_Suc($frm['txtTelefono']);
-	            $msje		=	$sucTabla->insertarSucursal($suc);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-	            }
-        }
-		return $response;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+					$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+					$suc		=	new Sucursal();
+					$sucTabla	=	new SucursalTabla($this->dbAdapter);
+					$frm 		= 	$request->getPost();
+					$suc->setDisplay_Suc($frm['txtDisplay']);
+					$suc->setUbicacion_Suc($frm['txtUbicacion']);
+					$suc->setLinea($frm['cmbLinea']);
+					$suc->setTelefono_Suc($frm['txtTelefono']);
+					$msje		=	$sucTabla->insertarSucursal($suc);
+					if (!$msje)
+						$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+					else {
+						$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+					}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 
 	public function actsucursalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$suc		=	new Sucursal();
 				$sucTabla	=	new SucursalTabla($this->dbAdapter);
@@ -191,35 +251,51 @@ class RegistrosController extends AbstractActionController
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 
 	            }
-        }
-		return $response;
+        	}
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 
 //------------------------------------- PERSONAL -------------------------------------
 
 	public function personalAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$pag		=	$this->getRequest()->getBaseUrl();
-		$frmPer		=	new Frmpersonal('frmPersonal');
-		// $frmPer->get("cmbSucursal");->setValueOptions($listaSuc)
-		$var		=	array(
-				"titulo"		=>	"Registro de Sucursal",
-    			"frmPersonal"	=>	$frmPer,
-    			"listaSuc"		=>	$listaSuc,
-				"url"			=>	$pag
-			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmPer		=	new Frmpersonal('frmPersonal');
+			// $frmPer->get("cmbSucursal");->setValueOptions($listaSuc)
+			$var		=	array(
+					"titulo"		=>	"Registro de Sucursal",
+					"frmPersonal" 	=>	$frmPer,
+					"listaSuc"		=>	$listaSuc,
+					"url"			=>	$pag,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 	public function regpersonalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$per		=	new Personal();
 				$perTabla	=	new PersonalTabla($this->dbAdapter);
@@ -240,14 +316,19 @@ class RegistrosController extends AbstractActionController
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-        }
-		return $response;
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 	public function reguserpersonalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$per		=	new Personal();
 				$perTabla	=	new PersonalTabla($this->dbAdapter);
@@ -269,8 +350,11 @@ class RegistrosController extends AbstractActionController
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-        }
-		return $response;
+        	}
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 	public function pruebasAction()
@@ -321,9 +405,11 @@ class RegistrosController extends AbstractActionController
 	}
 	public function actpersonalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$per		=	new Personal();
 				$perTabla	=	new PersonalTabla($this->dbAdapter);
@@ -340,20 +426,25 @@ class RegistrosController extends AbstractActionController
 				$per->setEmail_per($frm['txtEmail']);
 				$per->setEstado($frm['txtEstado']);
 	            $msje		=	$perTabla->actualizarPersonal($per);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-	            }
-        }
-		return $response;
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 	public function actuserpersonalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$per		=	new Personal();
 				$perTabla	=	new PersonalTabla($this->dbAdapter);
@@ -377,15 +468,20 @@ class RegistrosController extends AbstractActionController
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-        }
-		return $response;
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 	public function buscapersonalAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$per		=	new Personal();
 				$perTabla	=	new PersonalTabla($this->dbAdapter);
@@ -396,13 +492,18 @@ class RegistrosController extends AbstractActionController
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-        }
-		return $response;
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 //------------------------------------- FREEZING -------------------------------------
 	public function freezingAction()
 	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
 		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
 		$listaSuc	=	$tablaSuc->listaSucursal();
@@ -413,18 +514,29 @@ class RegistrosController extends AbstractActionController
 				"titulo"		=>	"Registro de Sucursal",
     			"frmFreezing"	=>	$frmfree,
     			"listaSuc"		=>	$listaSuc,
-				"url"			=>	$pag
+				"url"			=>	$pag,
+				'id'			=>	$container->iduser,
+				'nombre'		=>	$container->nombre
 			);
 		$view = new ViewModel($var);
 		$this->layout('layout/registro');
 		return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 	public function regfreeAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$free		=	new Freezing();
 				$freeTabla	=	new FreezingTabla($this->dbAdapter);
@@ -435,81 +547,111 @@ class RegistrosController extends AbstractActionController
 				$free->setIdInscripcion($frm['txtIdInsc']);
 				$free->setIdCliente($frm['txtIdCli']);
 				$free->setIdPersonal($frm['txtIdPer']);
-	            $msje		=	$freeTabla->insertarFreezing($free);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-	            }
-        }
-		return $response;
+				$msje =	$freeTabla->insertarFreezing($free);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 	public function listaclienteAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablafree			=	new FreezingTabla($this->dbAdapter);
-		$frm=$request->getpost();
-		$dni=$frm['txtDni'];
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablafree			=	new FreezingTabla($this->dbAdapter);
+			$frm=$request->getpost();
+			$dni=$frm['txtDni'];
 
-		$listafree 			=	$tablafree->verCliente($dni);
-		$listafree			=	\Zend\Json\Json::encode($listafree);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listafree,array("indent" => " ")));
-		return $response;
+			$listafree 			=	$tablafree->verCliente($dni);
+			$listafree			=	\Zend\Json\Json::encode($listafree);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listafree,array("indent" => " ")));
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 //------------------------------------- ASISTENCIA -----------------------------------
-			public function asistenciaAction()
-				{
-					$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-					$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-					$listaSuc	=	$tablaSuc->listaSucursal();
-					$pag		=	$this->getRequest()->getBaseUrl();
-					$frmfree	=	new Frmasistencia('frmAsistencia');
-					//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
-					$var		=	array(
-							"titulo"		=>	"Registro de Asistencia",
-			    			"frmAsistencia"	=>	$frmfree,
-			    			"listaSuc"		=>	$listaSuc,
-							"url"			=>	$pag
-						);
-					$view = new ViewModel($var);
-					$this->layout('layout/registro');
-					return $view;
-				}
+	public function asistenciaAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmfree	=	new Frmasistencia('frmAsistencia');
+				//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
+				$var		=	array(
+					"titulo"		=>	"Registro de Asistencia",
+		   			"frmAsistencia"	=>	$frmfree,
+		   			"listaSuc"		=>	$listaSuc,
+					"url"			=>	$pag,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
 
-			public function activolistaclienteAction()
-			{
-				$request 			= 	$this->getRequest();
-				$response 			=	$this->getResponse();
-				$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-				$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
-				$listaAsis 			=	$tablaAsis->listaClienteActivo();
-				$listaAsis			=	\Zend\Json\Json::encode($listaAsis);
-				$response->setContent(\Zend\Json\Json::prettyPrint($listaAsis,array("indent" => " ")));
-				return $response;
-			}
-			public function verserviciosAction()
-			{
-				$request 			= 	$this->getRequest();
-				$response 			=	$this->getResponse();
-				$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-				$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
-				$frm=$request->getpost();
-				$id=$frm['id'];
+	public function activolistaclienteAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
+			$listaAsis 			=	$tablaAsis->listaClienteActivo();
+			$listaAsis			=	\Zend\Json\Json::encode($listaAsis);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaAsis,array("indent" => " ")));
+			return $response;
+		}else{
+			return 0;
+		}
+	}
+	public function verserviciosAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
+			$frm=$request->getpost();
+			$id=$frm['id'];
 
-				$listaAsis 			=	$tablaAsis->verServicios($id);
-				$listaAsis			=	\Zend\Json\Json::encode($listaAsis);
-				$response->setContent(\Zend\Json\Json::prettyPrint($listaAsis,array("indent" => " ")));
-				return $response;
-			}
-			public function regasisAction()
-			{
-				$request = $this->getRequest();
-				$response = $this->getResponse();
-				if ($request->isPost()) {
+			$listaAsis 			=	$tablaAsis->verServicios($id);
+			$listaAsis			=	\Zend\Json\Json::encode($listaAsis);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaAsis,array("indent" => " ")));
+			return $response;
+		}else{
+			return 0;
+		}
+	}
+	public function regasisAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$asis		=	new Asistencia();
 				$asisTabla	=	new AsistenciaTabla($this->dbAdapter);
@@ -526,106 +668,138 @@ class RegistrosController extends AbstractActionController
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-	            	}
-        		}
-				return $response;
-			}
+            	}
+     		}
+			return $response;
+		}else{
+			return 0;
+		}
+	}
 
 //------------------------------------- PAGO -----------------------------------------
 	public function pagoAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$pag		=	$this->getRequest()->getBaseUrl();
-		$frmpago	=	new Frmpago('frmPago');
-		//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
-		$var		=	array(
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmpago	=	new Frmpago('frmPago');
+			//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
+			$var		=	array(
 				"titulo"		=>	"Registro de Pagos",
     			"frmPago"		=>	$frmpago,
     			"listaSuc"		=>	$listaSuc,
-				"url"			=>	$pag
-			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+				"url"			=>	$pag,
+				'id'			=>	$container->iduser,
+				'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 	public function buscaclienteAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablapago			=	new PagoTabla($this->dbAdapter);
-		$frm=$request->getpost();
-		$dni=$frm['txtDni'];
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablapago			=	new PagoTabla($this->dbAdapter);
+			$frm=$request->getpost();
+			$dni=$frm['txtDni'];
 
-		$listapago 			=	$tablapago->verCliente($dni);
-		$listapago			=	\Zend\Json\Json::encode($listapago);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listapago,array("indent" => " ")));
-		return $response;
+			$listapago 			=	$tablapago->verCliente($dni);
+			$listapago			=	\Zend\Json\Json::encode($listapago);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listapago,array("indent" => " ")));
+			return $response;
+		}else{
+			return 0;
+		}
 	}
-			public function regpagoAction()
-			{
-				$request = $this->getRequest();
-				$response = $this->getResponse();
-				if ($request->isPost()) {
-						$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-						$pago		=	new Pago();
-						$pagoTabla	=	new PagoTabla($this->dbAdapter);
-						$frm 		= 	$request->getPost();
-						$pago->setFechaRegPago($frm['dtpFechaReg']);
-						$pago->setFechaPago($frm['dtpFechaPago']);
-						$pago->setTotal($frm['txtPago']);
-						$pago->setMoneda($frm['cmbMoneda']);
-						$pago->setFormaPago($frm['cmbPago']);
-						$pago->setConPago($frm['cmbConcepto']);
-						$pago->setEstado($frm['cmbEstado']);
-						$pago->setidServicio($frm['txtIdSer']);
-						$pago->setidCuenta($frm['txtIdCta']);
-						$pago->setidPer($frm['txtIdPer']);
-						$pago->setidSucursal($frm['txtIdSuc']);
-						$pago->setidCliente($frm['txtIdCli']);
-			            $msje		=	$pagoTabla->insertarPago($pago);
-			            if (!$msje)
-			                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-			            else {
-			                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-			            }
-		        }
-				return $response;
-			}
+	public function regpagoAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$pago		=	new Pago();
+				$pagoTabla	=	new PagoTabla($this->dbAdapter);
+				$frm 		= 	$request->getPost();
+				$pago->setFechaRegPago($frm['dtpFechaReg']);
+				$pago->setFechaPago($frm['dtpFechaPago']);
+				$pago->setTotal($frm['txtPago']);
+				$pago->setMoneda($frm['cmbMoneda']);
+				$pago->setFormaPago($frm['cmbPago']);
+				$pago->setConPago($frm['cmbConcepto']);
+				$pago->setEstado($frm['cmbEstado']);
+				$pago->setidServicio($frm['txtIdSer']);
+				$pago->setidCuenta($frm['txtIdCta']);
+				$pago->setidPer($frm['txtIdPer']);
+				$pago->setidSucursal($frm['txtIdSuc']);
+				$pago->setidCliente($frm['txtIdCli']);
+	            $msje		=	$pagoTabla->insertarPago($pago);
+	            if (!$msje)
+	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+	            else {
+	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+	            }
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
+	}
 
 //------------------------------------- SOCIO ----------------------------------------
 	public function socioAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$pag		=	$this->getRequest()->getBaseUrl();
-		$frmsoc		=	new frmsocio('frmSocio');
-
-		
-		//$frmsoc-> get("cmbempresa")=setValueOptions($listaSuc);
-		
-		$var		=	array(
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$pag		=	$this->getRequest()->getBaseUrl();
+			$frmsoc		=	new frmsocio('frmSocio');
+			//$frmsoc-> get("cmbempresa")=setValueOptions($listaSuc);
+			$var		=	array(
 				"titulo"		=>	"Registro de Socio",
     			"frmSocio"	=>	$frmsoc,
     			"listaSuc"		=>	$listaSuc,
-				"url"			=>	$pag
+				"url"			=>	$pag,
+				'id'			=>	$container->iduser,
+				'nombre'		=>	$container->nombre
 			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 	public function regsocioAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$soc		=	new Socio;
 				$socTabla	=	new SocioTabla($this->dbAdapter);
@@ -656,17 +830,21 @@ class RegistrosController extends AbstractActionController
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
 	            }
-        }
+		}else{
+			return 0;
+		}
+	}
 		return $response;
 	}
 	public function regusuariosocioAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$soc		=	new Socio;
 				$socTabla	=	new SocioTabla($this->dbAdapter);
 				$frm 		= 	$request->getPost();
@@ -690,100 +868,141 @@ class RegistrosController extends AbstractActionController
 				$soc->setpersonal($frm['cmbpersonal']);
 				$soc->setestado($frm['cmbestado']);
 				$alias 		=	$frm['txtUsuario'];
-				
 
 				$msje= $socTabla->insertaSocioUsuario($soc,$alias);
-				
 				if (!$msje)
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 	            else {
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-	            }
-		return $response; 
+            }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 	public function buscasocioAction()
 	{
-		$request 			= 	$this->getRequest();
-		$response 			=	$this->getResponse();
-		$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablasocio			=	new SocioTabla($this->dbAdapter);
-		$frm=$request->getpost();
-		$dni=$frm['cmbsocio'];
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request 			= 	$this->getRequest();
+			$response 			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablasocio			=	new SocioTabla($this->dbAdapter);
+			$frm=$request->getpost();
+			$dni=$frm['cmbsocio'];
 
-		$listasocio 			=	$tablasocio->versocio($dni);
-		$listasocio			=	\Zend\Json\Json::encode($listasocio);
-		$response->setContent(\Zend\Json\Json::prettyPrint($listasocio,array("indent" => " ")));
-		return $response;
+			$listasocio 			=	$tablasocio->versocio($dni);
+			$listasocio			=	\Zend\Json\Json::encode($listasocio);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listasocio,array("indent" => " ")));
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 	public function buscaidAction()
 	{
-
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+		}else{
+			return 0;
+		}
 	}
 
 //------------------------------------- EMPRESA --------------------------------------
 	public function empresaAction()
 	{
-		$frmEmp		=	new FrmEmpresa('frmEmpresa');
-		$var		=	array(
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$frmEmp		=	new FrmEmpresa('frmEmpresa');
+			$var		=	array(
 				"titulo"		=>	"Registro de Empresa",
-       			"frmEmpresa"	=>	$frmEmp
+				"frmEmpresa"	=>	$frmEmp,
+				'id'			=>	$container->iduser,
+				'nombre'		=>	$container->nombre
 			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 	public function regempresaAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$emp		=	new Empresa();
 				$empTabla	=	new EmpresaTabla($this->dbAdapter);
 				$frm 		= 	$request->getPost();
 				$emp->setNombre_Em($frm['txtNombre']);
 				$msje		=	$empTabla->insertarEmpresa($emp);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 	            }
-        }
-		return $response;
+        	}
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
-//------------------------------------- SOCIO ----------------------------------------
+//------------------------------------- SERVICIO --------------------------------------
 	public function servicioAction()
 	{
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
-		$tablaPer	=	new PersonalTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$listaEmp	=	$tablaEmp->listaEmpresa();
-		$listaPer	=	$tablaPer->listaPersonal();
-		$frmSer		=	new frmServicio('frmServicio');
-		$frmSer->get("cmbEncargado")->setValueOptions($listaPer);
-		$frmSer->get("cmbSucursal")->setValueOptions($listaSuc);
-		$frmSer->get("cmbEmpresa")->setValueOptions($listaEmp);
-		$frmSer->get("lstSucursal")->setValueOptions($listaSuc);
-		$var		=	array(
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
+			$tablaPer	=	new PersonalTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$listaEmp	=	$tablaEmp->listaEmpresa();
+			$listaPer	=	$tablaPer->listaPersonal();
+			$frmSer		=	new frmServicio('frmServicio');
+			$frmSer->get("cmbEncargado")->setValueOptions($listaPer);
+			$frmSer->get("cmbSucursal")->setValueOptions($listaSuc);
+			$frmSer->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmSer->get("lstSucursal")->setValueOptions($listaSuc);
+			$container = new Container('personal');
+			// $var 	]=	array(
+			// );
+			$var		=	array(
 				"titulo"		=>	"Registro de Servicio",
-       			"frmServicio"	=>	$frmSer
+				"frmServicio"	=>	$frmSer,
+				'id'			=>	$container->iduser,
+				'nombre'		=>	$container->nombre,
 			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 	public function regservicioAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$ser		=	new Servicio();
 				$serTabla	=	new ServicioTabla($this->dbAdapter);
@@ -808,41 +1027,53 @@ class RegistrosController extends AbstractActionController
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 
 	            }
-        }
-		return $response;
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 //------------------------------------- PLAN -----------------------------------------
 	public function planAction()
 	{
-		$frmPlan		=	new frmPlan('frmPlan');
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
-		$tablaPer	=	new PersonalTabla($this->dbAdapter);
-		$tablaServ	=	new ServicioTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		// $listaEmp	=	$tablaEmp->listaEmpresa();
-		$listaPer	=	$tablaPer->listaPersonal();
-		$listaServ	=	$tablaServ->listaServicioBase();
-		$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
-		$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
-		// $frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
-		$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
-		$frmPlan->get("lstServicios")->setValueOptions($listaServ);
-		$var		=	array(
-				"titulo"		=>	"Registrar Plan",
-       			"frmPlan"	=>	$frmPlan
-			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$frmPlan		=	new frmPlan('frmPlan');
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
+			$tablaPer	=	new PersonalTabla($this->dbAdapter);
+			$tablaServ	=	new ServicioTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			// $listaEmp	=	$tablaEmp->listaEmpresa();
+			$listaPer	=	$tablaPer->listaPersonal();
+			$listaServ	=	$tablaServ->listaServicioBase();
+			$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
+			$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
+			// $frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
+			$frmPlan->get("lstServicios")->setValueOptions($listaServ);
+			$var		=	array(
+					"titulo"		=>	"Registrar Plan",
+					"frmPlan"		=>	$frmPlan,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return 0;
+		}
 	}
 	public function regplanAction()
 	{
-		$request = $this->getRequest();
-		$response = $this->getResponse();
-		if ($request->isPost()) {
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
 				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 				$ser		=	new Servicio();
 				$serTabla	=	new ServicioTabla($this->dbAdapter);
@@ -867,41 +1098,54 @@ class RegistrosController extends AbstractActionController
 				$servicios	=	$frm['lstServicios'];
 				$horario	=	$frm['horario'];
 				$msje		=	$serTabla->insertarPlan($ser,$horario,$sucursales,$servicios);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-	            }
-        }
-		return $response;
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+	        }
+			return $response;
+		}else{
+			return 0;
+		}
 	}
 
 //------------------------------------- PROMOCION -------------------------------------
 	public function promocionAction()
 	{
-		$frmPlan		=	new frmPlan('frmPlan');
-		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-		$tablaSuc	=	new SucursalTabla($this->dbAdapter);
-		$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
-		$tablaPer	=	new PersonalTabla($this->dbAdapter);
-		$tablaServ	=	new ServicioTabla($this->dbAdapter);
-		$listaSuc	=	$tablaSuc->listaSucursal();
-		$listaEmp	=	$tablaEmp->listaEmpresa();
-		$listaPer	=	$tablaPer->listaPersonal();
-		$listaServ	=	$tablaServ->listaServicioBase();
-		$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
-		$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
-		$frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
-		$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
-		$frmPlan->get("lstServicios")->setValueOptions($listaServ);
-		$var		=	array(
-				"titulo"		=>	"Registrar Plan",
-       			"frmPlan"	=>	$frmPlan
-			);
-		$view = new ViewModel($var);
-		$this->layout('layout/registro');
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$frmPlan		=	new frmPlan('frmPlan');
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
+			$tablaPer	=	new PersonalTabla($this->dbAdapter);
+			$tablaServ	=	new ServicioTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$listaEmp	=	$tablaEmp->listaEmpresa();
+			$listaPer	=	$tablaPer->listaPersonal();
+			$listaServ	=	$tablaServ->listaServicioBase();
+			$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
+			$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
+			$frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
+			$frmPlan->get("lstServicios")->setValueOptions($listaServ);
+			$var		=	array(
+					"titulo"		=>	"Registrar Plan",
+					"frmPlan"		=>	$frmPlan,
+					'id'			=>	$container->iduser,
+					'nombre'		=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		}else{
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
 	}
 
 }
