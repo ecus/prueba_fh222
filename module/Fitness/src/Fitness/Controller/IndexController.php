@@ -10,52 +10,110 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 
-use Zend\Cache\StorageFactory;
-use Zend\Session\Storage\ArrayStorage;
-use Zend\Session\SaveHandler\Cache;
+use Zend\Session\AbstractManager;
+use Zend\Session\Config\ConfigInterface;
+use Zend\Session\Container;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\Config\SessionConfig;
 use Zend\Session\SessionManager;
+use Zend\Crypt\Password\Bcrypt;
+
 
 use Fitness\Form\FrmLogin;
+use Fitness\Model\PersonalTabla;
 use Fitness\Model\Entity\Sucursal;
 
 class IndexController extends AbstractActionController
 {
+	public $sesion;
 	public function indexAction()
 	{
-		//return new ViewModel();
 		$pag	=	$this->getRequest()->getBaseUrl();
+		$msje	=	$this->params()->fromRoute('msje');
 		$form 	=	new FrmLogin('form');
 		$var	=	array(
 				"titulo"	=>	"Debe ir un formulario de Inicio de Sesion",
 				"url"		=>	$pag,
-				"form"		=>	$form
+				"form"		=>	$form,
+				"msje"		=>	$msje
 			);
 		$view = new ViewModel($var);
-		//$this->layout('layout/prueba');
+		//$this->layout('layout/prueba');'variable'
 		return $view;
 	}
 	public function recibeAction()
 	{
+		// echo "<br><br><br><br>";
+		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+        $perTabla			=	new PersonalTabla($this->dbAdapter);
 		$request            =   $this->getRequest();
         $response           =   $this->getResponse();
         $frm=$request->getpost();
 
-        $populateStorage = array(
-        			'usuario' 	=> $frm['txtUsuario'],
-        			'clave' 	=> $frm['txtClave'],);
-		$storage = new ArrayStorage($populateStorage);
-		$manager = new SessionManager();
-		$manager->setStorage($storage);
+		$recibe				=	$perTabla->loginPersonal($frm['txtUsuario'],$frm['txtClave']);
+			var_dump($recibe);
 
-		session_start();
-        echo "<br><br><br><br>";
-        var_dump($manager);
-		// return $this->redirect()->toUrl('menu');
+		if (isset($recibe->msje)) {
+			var_dump($recibe);
+		} else {
+			$bcrypt 		= 	new Bcrypt();
+			$config 		=	new SessionConfig();
+			$config->setOptions(array(
+				'remember_me_seconds'	=> 15,
+				'name'					=> 'zf2',
+			));
+
+			$manager = new SessionManager($config);
+
+			$container = new Container('personal',$manager);
+			$container->iduser 	=	$recibe->id_UPer;
+			$container->user 	=	$recibe->alias_UPer;
+			$container->pass 	=	$bcrypt->create($frm['txtClave']);
+			$container->nombre 	=	$recibe->apellidoPaterno_Per .' '. $recibe->apellidoMaterno_Per . ', '. $recibe->nombres_Per;
+			$container->sexo 	=	$recibe->sexo_Per;
+			// $container->cargo 	=	$recibe->sexo_Per;
+			Container::setDefaultManager($manager);
+			return $this->redirect()->toRoute('login-personal');
+		}
 	}
 	public function menuAction()
 	{
-		$view = new ViewModel();
-		return $view;
+		// echo "<br><br><br><br>";
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$var 	=	array(
+				'id'	=>	$container->iduser,
+				'nombre'=>	$container->nombre
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/menu');
+			return $view;
+		} else {
+			// return $this->redirect()->toRoute('login-personal-error');
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
+	public function logoutperAction()
+	{
+		// echo "<br><br><br><br>";
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$container->getManager()->getStorage()->clear('personal');
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Sesion Finalizada."
+										));
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										));
+		}
 	}
 	public function javascriptAction()
 	{

@@ -12,16 +12,34 @@ use Zend\Db\TableGateway\TableGateway;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
+<<<<<<< HEAD
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
+=======
+use Zend\Session\AbstractManager;
+use Zend\Session\Config\ConfigInterface;
+use Zend\Session\Container;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\SessionManager;
+>>>>>>> session 3
 
 class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
+        //
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $config = new SessionConfig();
+        $config->setOptions(array(
+            'remember_me_seconds'   => 15,
+            'name'                  => 'zf2',
+        ));
+        $manager = new SessionManager($config);
+        Container::setDefaultManager($manager);
     }
 
     public function getConfig()
@@ -32,9 +50,15 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
+<<<<<<< HEAD
             'Zend\Loader\ClassMapAutoloader' => array(
                 __DIR__ . '/autoload_classmap.php',
             ),
+=======
+            // 'Zend\Loader\ClassMapAutoloader' => array(
+            //     __DIR__ . '/autoload_classmap.php',
+            // ),
+>>>>>>> session 3
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,

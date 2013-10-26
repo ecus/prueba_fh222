@@ -51,6 +51,7 @@ return array(
                     ),
                 ),
             ),
+<<<<<<< HEAD
 
             'login' => array(
                 'type'    => 'Literal',
@@ -60,6 +61,16 @@ return array(
                         '__NAMESPACE__' => 'SanAuth\Controller',
                         'controller'    => 'Auth',
                         'action'        => 'login',
+=======
+            'login-personal' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/menu',
+                    'scheme' => 'https',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Fitness\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'menu',
                     ),
                 ),
                 'may_terminate' => true,
@@ -78,7 +89,39 @@ return array(
                     ),
                 ),
             ),
+            'login-personal-error' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/Index',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Fitness\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+>>>>>>> session 3
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'process' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:action]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+<<<<<<< HEAD
             
+=======
+
+/*
+>>>>>>> session 3
             'success' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -104,7 +147,11 @@ return array(
                         ),
                     ),
                 ),
+<<<<<<< HEAD
             ),
+=======
+            ),*/
+>>>>>>> session 3
         ),
     ),
     'service_manager' => array(
@@ -134,9 +181,15 @@ return array(
             'Fitness\Controller\Trabajo'    =>  'Fitness\Controller\TrabajoController',
             'Fitness\Controller\Reportes'    =>  'Fitness\Controller\ReportesController',
             'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController',
+<<<<<<< HEAD
             
             'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
             'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'
+=======
+
+            //'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
+            //'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'
+>>>>>>> session 3
         ),
     ),
     'view_manager' => array(

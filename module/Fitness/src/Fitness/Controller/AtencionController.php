@@ -37,6 +37,7 @@ use Fitness\Model\ServicioTabla;
 use Fitness\Model\SocioTabla;
 use Fitness\Model\SucursalTabla;
 
+use Zend\Session\Container;
 
 class AtencionController extends AbstractActionController
 {
@@ -299,12 +300,12 @@ class AtencionController extends AbstractActionController
                 $soc->setdocumento($frm['cmbDocumento']);
                 $soc->setpaterno($frm['txtApPaterno']);
                 $soc->setmaterno($frm['txtApMaterno']);
-                
+
                 $soc->setnombres($frm['txtNombre']);
                 $soc->setsexo($frm['cmbSexo']);
                 $soc->setfechanac($frm['dtpFechanac']);
                 $soc->setemail($frm['txtEmail']);
-                
+
                 $soc->setecivil($frm['cmbecivil']);
                 $soc->setDistrito($frm['cmbDistrito']);
                 $soc->setDireccion($frm['txtDireccion']);
@@ -338,7 +339,7 @@ class AtencionController extends AbstractActionController
                         $soc->setfecharegistro($fecha);
                         $soc->setfechainv(null);
                         break;
-                    
+
                     default:
                         // 0:SOCIO
                         $fecha  = date('Y-m-d');
@@ -347,11 +348,11 @@ class AtencionController extends AbstractActionController
                         $soc->setfechainv(null);
                         break;
                 }
-                
+
                 $soc->setestado($frm['cmbestado']);
                 $soc->setreferido(($frm['cmbsocio']=='')?null:$frm['cmbsocio']);
                 $soc->setempresa(($frm['cmbempresa']=='')?null:$frm['cmbempresa']);
-                
+
                 $soc->setpersonal(($frm['cmbpersonal']=='')?null:$frm['cmbpersonal']);
                 $xmltel=$frm['telefonos'];
 
@@ -393,17 +394,17 @@ class AtencionController extends AbstractActionController
                 $soc->setpersonal($frm['cmbpersonal']);
                 $soc->setestado($frm['cmbestado']);
                 $alias      =   $frm['txtUsuario'];
-                
+
 
                 $msje= $socTabla->insertaSocioUsuario($soc,$alias);
-                
+
                 if (!$msje)
                     $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
                 else {
                     $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
                 }
                 }
-        return $response; 
+        return $response;
     }
 
     public function buscasocioAction()
