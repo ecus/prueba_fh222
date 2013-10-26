@@ -3,13 +3,14 @@ namespace Fitness\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
+
 use Fitness\Model\Entity\Socio;
 
 class SocioTabla extends TableGateway
 {
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		return parent::__construct('', $adapter, $databaseSchema, 
+		return parent::__construct('', $adapter, $databaseSchema,
 			$selectResultPrototype);
 	}
 	public function insertaSocio(Socio $p, $xmltel)
@@ -48,130 +49,158 @@ class SocioTabla extends TableGateway
 		$var2=$p->getdocumento();
 		$var3=$p->getpaterno();
 		$var4=$p->getmaterno();
-		
+
 		$var5=$p->getnombres();
 		$var6=$p->getsexo();
 		$var7=$p->getfechanac();
 		$var8=$p->getemail();
-		
+
 		$var9=$p->getecivil();
 		$var10=$p->getDistrito();
 		$var11=$p->getDireccion();
 		$var12=$p->getfechavisita();
 		$var13=$p->getfecharegistro();
-		
+
 		$var14=$p->getfechainv();
 		$var15=$p->getestado();
 		$var16=$p->getreferido();
 		$var17=$p->getempresa();
-		
+
 		$var18=$p->getpersonal();
 		$var19=$xml->saveXML();
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		// `pa_insertaSocio`(''
-		// 	 dni,tipodoc, pat, mat,
-		//   nom,sexo,fechanac,mail,
-		//   ecivil, distrito,dir,fevisita,feregis,
-		//   feinvitacion,estado,referido,empresa,
-		//   personal,xml, @@@msje ) 
-		//   pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@a)
-		//   pa_insertaSocio(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,@a)
-		//   								(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@a)
-		  								
-		$stmt->prepare('CALL pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@a)'); 
-		
-		// // $stmt->prepare('CALL pa_insertSocio (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@a)'); 
-		// // $stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT); 
-		
-		$stmt->getResource()->bindParam(1, $var1); 
-		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT); 
-		$stmt->getResource()->bindParam(3, $var3); 
-		$stmt->getResource()->bindParam(4, $var4); 
-		$stmt->getResource()->bindParam(5, $var5); 
-		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT); 
-		$stmt->getResource()->bindParam(7, $var7); 
-		$stmt->getResource()->bindParam(8, $var8); 
-		$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT); 
-		$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT); 
-		$stmt->getResource()->bindParam(11, $var11); 
-		$stmt->getResource()->bindParam(12, $var12); 
-		$stmt->getResource()->bindParam(13, $var13); 
-		$stmt->getResource()->bindParam(14, $var14); 
-		$stmt->getResource()->bindParam(15, $var15); 
+		$stmt->prepare('CALL pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(7, $var7);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->getResource()->bindParam(13, $var13);
+		$stmt->getResource()->bindParam(14, $var14);
+		$stmt->getResource()->bindParam(15, $var15);
 		$stmt->getResource()->bindParam(16, $var16,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(17, $var17,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(19, $var19);		
+		$stmt->getResource()->bindParam(19, $var19);
 		$resultado=$stmt->execute();
-        
-		$resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-		$datos	=	$resulta->toArray();
-		return $datos[0]['mensaje'];
+
+		$stmt2  = $dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result = $stmt2->execute();
+		$output = $result->current();
+		return $output['mensaje'];
 	}
 	public function insertaSocioUsuario(Socio $p,$alias)
 	{
-		$datos=array(
-				$p->getNumerodoc(),
-				$p->getDocumento(),
-				$p->getPaterno(),
-				$p->getMaterno(),
-				$p->getNombres(),
-				$p->getSexo(),
-				$p->getFechanac(),
-				$p->getEmail(),
-				$p->getTelefono(),
-				$p->getMovil(),
-				$p->getEmergencia(),
-				$p->getEcivil(),
-				$p->getFechavisita(),
-				$p->getFecharegistro(),
-				$p->getFechainv(),
-				$p->getEstado(),
-				$p->getReferido(),
-				$p->getEmpresa(),
-				$p->getPersonal(),
-				$alias,
-				
-				);
-        $result =	$this->adapter->query('call pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@a)',$datos);
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Socio Registrado.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+		$var1	=	$p->getNumerodoc();
+		$var2	=	$p->getDocumento();
+		$var3	=	$p->getPaterno();
+		$var4	=	$p->getMaterno();
+		$var5	=	$p->getNombres();
+		$var6	=	$p->getSexo();
+		$var7	=	$p->getFechanac();
+		$var8	=	$p->getEmail();
+		$var9	=	$p->getTelefono();
+		$var10	=	$p->getMovil();
+		$var11	=	$p->getEmergencia();
+		$var12	=	$p->getEcivil();
+		$var13	=	$p->getFechavisita();
+		$var14	=	$p->getFecharegistro();
+		$var15	=	$p->getFechainv();
+		$var16	=	$p->getEstado();
+		$var17	=	$p->getReferido();
+		$var18	=	$p->getEmpresa();
+		$var19	=	$p->getPersonal();
+		$var20	=	$alias;
+
+        // $result =	$this->adapter->query('call pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)',$datos);
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(7, $var7);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->getResource()->bindParam(13, $var13);
+		$stmt->getResource()->bindParam(14, $var14);
+		$stmt->getResource()->bindParam(15, $var15);
+		$stmt->getResource()->bindParam(16, $var16,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(17, $var17,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(19, $var19);
+		$stmt->getResource()->bindParam(19, $var20);
+		$resultado=$stmt->execute();
+
+		$stmt2 = $dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result = $stmt2->execute();
+		$output = $result->current();
+		return $output['mensaje'];
 	}
 
-	public function versocio($cmbsocio)
+	public function versocio($socio)
 	{
-		try{
-			$var 		= array($cmbsocio);
-			$sql 		=	$this->adapter->query('CALL pa_buscarsocio (?)',$var);
-			$result		=	$sql->toArray();
-			return $result;
-		}catch(Zend_Exception $e){
-			return $e->getMessage();
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_buscarsocio(?)');
+			$stmt->getResource()->bindParam(1, $socio);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info[0];
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
+	public function listaSocio()
+	{
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaSocio()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
+			// var_dump($info);
+		} catch (Exception $e) {
+			throw $e;
 		}
 	}
 	public function listaEmpresas()
 	{
 		try{
-			$sql 	=	$this->adapter->query('CALL pa_listarEmpresas',Adapter::QUERY_MODE_EXECUTE);
-			// $result	=	$sql->toArray();
-			$result	=	array();
-			foreach ($sql->toArray() as $value) {
-				$result[$value['id_emp']]=$value['nombre_emp'];
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listarEmpresas()');
+			$sql		=	$stmt->execute();
+			while ($sql->next()) {
+				$salida[$sql->current()['id_emp']]	=	$sql->current()['nombre_emp'];
 			}
-			return $result;
+			return $salida;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
 	}
 	public function buscaid()
 	{
-		$sql = $this->adapter->query('SELECT MAX( id_Soc +1 ) AS id FROM socio');
+		$dbAdapter	=	$this->getAdapter();
+		$sql =$dbAdapter->query('SELECT MAX( id_Soc +1 ) AS id FROM socio');
 	}
 }

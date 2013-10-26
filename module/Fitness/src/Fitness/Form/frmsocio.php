@@ -133,6 +133,18 @@ class Frmsocio extends Form
                             'required'      =>'true'
                         ),
             ));
+//----------------txtPersonal -5---------------------------
+        $this->add(array(
+                'name'      =>  'txtPersonal',
+                'attributes'=>  array(
+                            'id'            =>	'txtPersonal',
+                            'type'          => 'hidden',
+                            // 'placeholder'   => 'Apellido Materno',
+                            'class'         => 'form-control soloTexto',
+                            'maxlength'     =>	'20',
+                            'required'      =>	'true'
+                        ),
+            ));
 //---------------dtpFechanac--8----------------------------
         $this->add(array(
              'type'         => 'Zend\Form\Element\Date',
@@ -225,61 +237,6 @@ class Frmsocio extends Form
                     ));
         $select->setEmptyOption('Seleccione...');
         $this->add($select); 
-// //--------------------txtTelCasa---10----------------------
-    //         $this->add(array(
-    //                 'name'      =>  'txtTelCasa',
-    //                 'options'   =>  array(
-    //                             'label' =>  'Tel. Fijo: ',
-    //                             'label_attributes'  => array(
-    //                                     'class'     =>  'control-label',
-    //                                     'for'       =>  'txtTelCasa'
-    //                                       ),
-    //                             ),
-    //                 'attributes'=>  array(
-    //                             'id'            =>  'txtTelCasa',
-    //                             'type'           => 'text',
-    //                             'placeholder'    => '223344',
-    //                             'class'          => 'form-control numerico',
-    //                             'maxlength'     =>'6'
-    //                         ),
-    //             ));
-// //---------------------txtTelMovil-----11------------------
-    //         $this->add(array(
-    //                 'name'      =>  'txtTelMovil',
-    //                 'options'   =>  array(
-    //                             'label' =>  'Movil: ',
-    //                             'label_attributes'  => array(
-    //                                     'class'     =>  'control-label',
-    //                                     'for'       =>  'txtTelMovil'
-    //                                       ),
-    //                             ),
-    //                 'attributes'=>  array(
-    //                             'id'            =>'txtTelMovil',
-    //                             'type'           => 'text',
-    //                             'placeholder'    => '999111222',
-    //                             'class'          => 'form-control numerico',
-    //                             'maxlength'     =>'9'
-    //                         ),
-    //             ));
-// //-------------------txtTelemergencia--12------------------
-    //          $this->add(array(
-    //                 'name'      =>  'txtTelemergencia',
-    //                 'options'   =>  array(
-    //                             'label' =>  'Tel. Emergencia: ',
-    //                             'label_attributes'  => array(
-    //                                     'class'     =>  'control-label',
-    //                                     'for'       =>  'txtTelemergencia',
-    //                                     'size'      =>'20'
-    //                                       ),
-    //                             ),
-    //                 'attributes'=>  array(
-    //                             'id'            =>'txtTelemergencia',
-    //                             'type'           => 'text',
-    //                             'placeholder'    => '223344',
-    //                             'class'          => 'form-control numerico',
-    //                             'maxlength'      =>  '7'
-    //                         ),
-    //             ));
 //---------------------txtEmail-----9----------------------
         $this->add(array(
                 'type'      =>  'Email',
@@ -368,7 +325,6 @@ class Frmsocio extends Form
                         )
          ));
 //--------------------cmbestado--17------------------------
-         
         $select = new Element\Select('cmbestado');
         $select->setLabel('Tipo de Registro: ');
         $select->setLabelAttributes(
@@ -391,7 +347,6 @@ class Frmsocio extends Form
             ));
         $this->add($select);
 //---------------------cmbsocio------18--------------------
-         
         $this->add(array(
                 'name'      =>  'cmbsocio',
                 'options'   =>  array(
@@ -442,20 +397,20 @@ class Frmsocio extends Form
             ));
         $this->add($select);
 //--------------------cmbpersonal----------20--------------
-        $select = new Element\Select('cmbpersonal');
-        $select->setLabel('Personal: ');
-        $select->setLabelAttributes(
-                    array(
-                        'class'     =>  'control-label',
-                        'for'       =>  'cmbpersonal'
-                        ) );
-        $select->setAttributes(
-                array(
-                    'class'          => 'form-control',
-                    'id'             =>  'cmbpersonal'
-                    ));
-        $select->setEmptyOption('Seleccione...');
-        $this->add($select);
+        // $select = new Element\Select('cmbpersonal');
+        // $select->setLabel('Personal: ');
+        // $select->setLabelAttributes(
+        //             array(
+        //                 'class'     =>  'control-label',
+        //                 'for'       =>  'cmbpersonal'
+        //                 ) );
+        // $select->setAttributes(
+        //         array(
+        //             'class'          => 'form-control',
+        //             'id'             =>  'cmbpersonal'
+        //             ));
+        // $select->setEmptyOption('Seleccione...');
+        // $this->add($select);
 
 //---------------Input File
         $file = new Element\File('txtFoto');

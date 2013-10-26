@@ -1,56 +1,71 @@
 <?php
 namespace Fitness\Model;
 
-use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
 use Fitness\Model\Entity\Asistencia;
 
-class AsistenciaTabla
+class AsistenciaTabla extends TableGateway
 {
-	protected $adapter;
-	public function __construct(Adapter $a)
+	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		$this->adapter=$a;
+		return parent::__construct('', $adapter, $databaseSchema,
+			$selectResultPrototype);
 	}
-	
+
 	public function insertarAsistencia(Asistencia $f)
 	{
-		$datos=array(
-				
-				$f->getFechaReg(),
-				$f->getFechaIng(),
-				$f->getidIns(),
-				//$f->getidHS(),//id de horario servicio
-				$f->getidCli(),
-				$f->getidPer(),
-				$f->getidSuc()//id de sucursal
-				);
-		
-        $result =	$this->adapter->query('CALL pa_insertAsistencia(?,?,?,?,?,?)',$datos);
-        //AQUI COMO CONTROLAR EL MENSAJE YA QUE EN EL SCRIPT NO ENVIO NINGUN MENSAJE
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Asistencia Registrado.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+		// $datos=array(
+		$var1	=	$f->getFechaReg();
+		$var2	=	$f->getFechaIng();
+		$var3	=	$f->getidIns();
+		// $var1	=	$f->getidHS(),//id de horario servici;
+		$var4	=	$f->getidCli();
+		$var5	=	$f->getidPer();
+		$var6	=	$f->getidSuc();//id de sucursa;
+				// );
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_insertaAsistencia(?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->execute();
+		// $stmt->getResource()->closeCursor();
+
+		$stmt2  = $dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result = $stmt2->execute();
+		$output = $result->current();
+		return $output['mensaje'];
+
+        // $result =	$this->adapter->query('CALL pa_insertAsistencia(?,?,?,?,?,?)',$datos);
 	}
-	
+
 	public function listaClienteActivo()
 	{
-		try{
-			$sql 		=	$this->adapter->query('CALL pa_ListaSociosActivos',Adapter::QUERY_MODE_EXECUTE);
-			$result		=	$sql->toArray();
-			return $result;
+		// try{
+		// 	$sql 		=	$this->adapter->query('CALL pa_ListaSociosActivos',Adapter::QUERY_MODE_EXECUTE);
+		// 	$result		=	$sql->toArray();
+		// 	return $result;
 
-		}catch(Zend_Exception $e){
-			return $e->getMessage();
+		// }catch(Zend_Exception $e){
+		// 	return $e->getMessage();
+		// }
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_ListaSociosActivos()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info[0];
+			// var_dump($info);
+		} catch (Exception $e) {
+			throw $e;
 		}
 	}
 
@@ -66,7 +81,7 @@ class AsistenciaTabla
 			return $e->getMessage();
 		}
 	}
-	
-		
+
+
 }
 ?>

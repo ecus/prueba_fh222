@@ -19,18 +19,13 @@ class frmInscripcion extends Form
 
         $this->add(array(
                 'name'      =>  'txtPersonal',
-                'options'   =>  array(
-                            'label' =>  'ID Personal: ',
-                            'label_attributes'  => array(
-                                    'class'     =>  'control-label',
-                                    'for'       =>  'txtPersonal'
-                                      ),
-                            ),
                 'attributes'=>  array(
-                            'type'           => 'text',
-                            'placeholder'    => 'Ejm.: 250.00',
-                            'class'          => 'form-control',
-                            'id'             => 'txtPersonal'
+                            'id'            =>  'txtPersonal',
+                            'type'          => 'hidden',
+                            // 'placeholder'   => 'Apellido Materno',
+                            'class'         => 'form-control soloTexto',
+                            'maxlength'     =>  '20',
+                            'required'      =>  'true'
                         ),
             ));
 

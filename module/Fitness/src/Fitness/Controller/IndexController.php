@@ -51,7 +51,6 @@ class IndexController extends AbstractActionController
         $frm=$request->getpost();
 
 		$recibe				=	$perTabla->loginPersonal($frm['txtUsuario'],$frm['txtClave']);
-			var_dump($recibe);
 
 		if (isset($recibe->msje)) {
 			var_dump($recibe);

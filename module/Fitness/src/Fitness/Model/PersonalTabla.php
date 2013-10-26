@@ -14,108 +14,172 @@ class PersonalTabla extends TableGateway
 		return parent::__construct('', $adapter, $databaseSchema,
 			$selectResultPrototype);
 	}
-	/*
 	public function insertarPersonal(Personal $per)
 	{
-		$datos=array(
-				$per->getDni(),
-				$per->getNombre(),
-				$per->getApPaterno(),
-				$per->getApMaterno(),
-				$per->getFechaNac(),
-				$per->getSexo(),
-				$per->getDireccion_per(),
-				$per->getTelfCasa_per(),
-				$per->getTelfMovil_per(),
-				$per->getEmail_per()
-				);
-        $result =	$this->adapter->query('CALL pa_insertaPersonal(?,?,?,?,?,?,?,?,?,?,@a)',$datos);
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Personal Registrado.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+		$var1	=	$per->getDni();
+		$var2	=	$per->getNombre();
+		$var3	=	$per->getApPaterno();
+		$var4	=	$per->getApMaterno();
+		$var5	=	$per->getFechaNac();
+		$var6	=	$per->getSexo();
+		$var7	=	$per->getDireccion_per();
+		$var8	=	$per->getTelfCasa_per();
+		$var9	=	$per->getTelfMovil_per();
+		$var10	=	$per->getEmail_per();
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_insertaPersonal(?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(7, $var7);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9);
+		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->execute();
+		$stmt2  = $dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result = $stmt2->execute();
+		$output = $result->current();
+		return $output['mensaje'];
 	}
 	public function insertarPersonalUsuario(Personal $per,$alias)
 	{
-		$datos=array(
-				$per->getDni(),
-				$per->getNombre(),
-				$per->getApPaterno(),
-				$per->getApMaterno(),
-				$per->getFechaNac(),
-				$per->getSexo(),
-				$per->getDireccion_per(),
-				$per->getTelfCasa_per(),
-				$per->getTelfMovil_per(),
-				$per->getEmail_per(),
-				$alias
-				);
-        $result =	$this->adapter->query('CALL pa_insertaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,@a)',$datos);
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Personal Registrado.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+		$bcrypt			= 	new Bcrypt();
+
+		$var1	=	$per->getDni();
+		$var2	=	$per->getNombre();
+		$var3	=	$per->getApPaterno();
+		$var4	=	$per->getApMaterno();
+		$var5	=	$per->getFechaNac();
+		$var6	=	$per->getSexo();
+		$var7	=	$per->getDireccion_per();
+		$var8	=	$per->getTelfCasa_per();
+		$var9	=	$per->getTelfMovil_per();
+		$var10	=	$per->getEmail_per();
+		$var11	=	$alias;
+		$var12	=	$bcrypt->create($per->getApPaterno());
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_insertaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(7, $var7);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9);
+		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->execute();
+
+		$stmt2	=	$dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result =	$stmt2->execute();
+		$output =	$result->current();
+		return $output['mensaje'];
 	}
 	public function actualizarPersonalUsuario(Personal $per,$estado)
 	{
-		$datos=array(
-				$per->getId(),
-				$per->getDni(),
-				$per->getNombre(),
-				$per->getApPaterno(),
-				$per->getApMaterno(),
-				$per->getFechaNac(),
-				$per->getSexo(),
-				$per->getDireccion_per(),
-				$per->getTelfCasa_per(),
-				$per->getTelfMovil_per(),
-				$per->getEmail_per(),
-				$per->getEstado(),
-				$estado
-				);
-        $result =	$this->adapter->query('CALL pa_actualizaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,@a)',$datos);
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		return $datos[0]['mensaje'];
+		$var1	=	$per->getId();
+		$var2	=	$per->getDni();
+		$var3	=	$per->getNombre();
+		$var4	=	$per->getApPaterno();
+		$var5	=	$per->getApMaterno();
+		$var6	=	$per->getFechaNac();
+		$var7	=	$per->getSexo();
+		$var8	=	$per->getDireccion_per();
+		$var9	=	$per->getTelfCasa_per();
+		$var10	=	$per->getTelfMovil_per();
+		$var11	=	$per->getEmail_per();
+		$var12	=	$per->getEstado();
+		$var13	=	$estado;
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_actualizaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6);
+		$stmt->getResource()->bindParam(7, $var7,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9);
+		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->getResource()->bindParam(13, $var13);
+		$stmt->execute();
+
+		$stmt2	=	$dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result =	$stmt2->execute();
+		$output =	$result->current();
+		return $output['mensaje'];
 	}
-	public function actualizarPersonal(Personal $per,$alias)
+	public function actualizarPersonal(Personal $per)
 	{
-		$datos=array(
-				$per->getId(),
-				$per->getDni(),
-				$per->getNombre(),
-				$per->getApPaterno(),
-				$per->getApMaterno(),
-				$per->getFechaNac(),
-				$per->getSexo(),
-				$per->getDireccion_per(),
-				$per->getTelfCasa_per(),
-				$per->getTelfMovil_per(),
-				$per->getEmail_per(),
-				$per->getEstado()
-				);
-        $result =	$this->adapter->query('CALL pa_actualizaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,@a)',$datos);
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		return $datos[0]['mensaje'];
+		$var1	=	$per->getId();
+		$var2	=	$per->getDni();
+		$var3	=	$per->getNombre();
+		$var4	=	$per->getApPaterno();
+		$var5	=	$per->getApMaterno();
+		$var6	=	$per->getFechaNac();
+		$var7	=	$per->getSexo();
+		$var8	=	$per->getDireccion_per();
+		$var9	=	$per->getTelfCasa_per();
+		$var10	=	$per->getTelfMovil_per();
+		$var11	=	$per->getEmail_per();
+		$var12	=	$per->getEstado();
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_actualizaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6);
+		$stmt->getResource()->bindParam(7, $var7,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9);
+		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->execute();
+
+		$stmt2	=	$dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result =	$stmt2->execute();
+		$output =	$result->current();
+		return $output['mensaje'];
 	}
 	public function buscaPersonal($dni)
 	{
-		$datos	=	array($dni);
-        $resulta=	$this->adapter->query('CALL pa_buscaPersonal(?)',$datos);
-        $datos	=	$resulta->toArray();
-		if ($datos== null){
-				return "No se encontro ningun registro con el valor ingresado.";
-			}else{
-				return $datos;
-			}
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_buscaPersonal(?)');
+			$stmt->getResource()->bindParam(1, $dni);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info[0];
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
+	/*
 	public function generaUsuario(Personal $p)
 	{
 		var_dump($p);
@@ -128,10 +192,8 @@ class PersonalTabla extends TableGateway
 		$stmt->prepare('CALL pa_listaPersonal()');
 		$sql		=	$stmt->execute();
 		while ($sql->next()) {
-			// $result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
 			$salida[$sql->current()['id_per']]	=	$sql->current()['apellidoPaterno_Per'].' '.$sql->current()['apellidoMaterno_Per'].', '.$sql->current()['nombres_per'];
 		}
-		// var_dump($salida);
 		return $salida;
 	}
 	public function loginPersonal($nombre,$clave)

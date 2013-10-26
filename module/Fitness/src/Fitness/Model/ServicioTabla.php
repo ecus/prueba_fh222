@@ -3,20 +3,8 @@ namespace Fitness\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
-//use Zend\Db\ResultSet\ResultSet;
-//use Zend\Db\ResultSet\AbstractResultSet;
-
-// use Zend\Stdlib\Hydrator\Reflection as ReflectionHydrator;
-// use Zend\Db\ResultSet\HydratingResultSet;
-// use Zend\Db\Sql\Sql;
-// use Zend\Db\Statement;
-// use Zend\Db;
-// use Zend\Db\Adapter\ParameterContainer;
-// use Zend\Db\Adapter\StatementContainer;
-// use Zend\Db\Adapter\Driver\ConnectionInterface;
-// use Zend\Db\Adapter\Driver\StatementInterface;
-// use Zend\Db\Adapter\Driver\ResultInterface;
 use Fitness\Model\Entity\Servicio;
+
 class ServicioTabla extends TableGateway
 {
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
@@ -24,13 +12,6 @@ class ServicioTabla extends TableGateway
 		return parent::__construct('', $adapter, $databaseSchema,
 			$selectResultPrototype);
 	}
-//////
-	// public function __construct(Adapter $a)
-	// {
-	// 	$this->adapter=$a;
-	// }
-///
-///
 	public function insertarServicio(servicio $ser=NULL,$datosXML,$sucXML)
 	{
 		try
@@ -132,15 +113,6 @@ class ServicioTabla extends TableGateway
 			$result = $stmt2->execute();
 			$output = $result->current();
 			return $output['mensaje'];
-			// $sql=$this->adapter->query('CALL pa_insertaServicioHorario(?,?,?,?,,?,?,?,?,?,?,?,@msje)', $var);
-			// $sql->fetchAll(PDO::FETCH_ASSOC);
-			// $resulta=$this->adapter->query('SELECT @msje as mensaje',Adapter::QUERY_MODE_EXECUTE);
-			// $datos	=	$resulta->toArray();
-			// if (strcmp($datos[0]['mensaje'], null)==0){
-				// return "Servicio Registrado.";
-			// }else{
-			// 	return $datos[0]['mensaje'];
-			// }
 		}catch(Zend_Db_Adapter_Exception $e){
 			return $e->getMessage();
 		}catch (Zend_Exception $e) {
@@ -287,10 +259,6 @@ class ServicioTabla extends TableGateway
 	public function listaServicioBase()
 	{
 		try{
-			// $sql 	=	$this->adapter->query('CALL pa_listaServicioBase',Adapter::QUERY_MODE_EXECUTE);
-			// // $result	=	$sql->toArray();
-			// echo '<br /><br /><br /><br />';
-			// $result	=	array();
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_listaServicioBase()');
@@ -298,10 +266,6 @@ class ServicioTabla extends TableGateway
 			while ($sql->next()) {
 				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
 			}
-			// foreach ($sql->current() as $value) {
-			// 	var_dump($value);
-			// 	$result[$value['id_Serv']]=$value['nombre_Serv'];
-			// }
 			return $result;
 		}catch(Zend_Exception $e){
 			throw $e;
@@ -327,9 +291,6 @@ class ServicioTabla extends TableGateway
 	public function resumenServicio($id)
 	{
 		try{
-
-			// echo '<br /><br /><br /><br />';
-			// $id=16;
 			$contenedor=array();
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
@@ -339,35 +300,30 @@ class ServicioTabla extends TableGateway
 			//// info basica del servicio o plan
 			$info=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($info)>0) {
-				// var_dump($info[0]);
 				$contenedor['info']=$info[0];
 			}
 			$stmt->getResource()->nextRowset();
 			//// info de promo
 			$promo=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($promo)>0) {
-				// var_dump($promo[0]);
 				$contenedor['promo']=$promo[0];
 			}
 			$stmt->getResource()->nextRowset();
 			//// info de sucursal
 			$sucursal=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($sucursal)>0) {
-				// var_dump($sucursal[0]);
 				$contenedor['sucursal']=$sucursal;
 			}
 			$stmt->getResource()->nextRowset();
 			//// info de servicios
 			$serv=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($serv)>0) {
-				// var_dump($serv[0]);
 				$contenedor['serv']=$serv;
 			}
 			$stmt->getResource()->nextRowset();
 			//// info de horario
 			$horario=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($horario)>0) {
-				// var_dump($horario[0]);
 				$contenedor['horario']=$horario;
 			}
 			$stmt->getResource()->nextRowset();
