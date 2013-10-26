@@ -51,17 +51,6 @@ return array(
                     ),
                 ),
             ),
-<<<<<<< HEAD
-
-            'login' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/auth',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'SanAuth\Controller',
-                        'controller'    => 'Auth',
-                        'action'        => 'login',
-=======
             'login-personal' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -97,7 +86,6 @@ return array(
                         '__NAMESPACE__' => 'Fitness\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
->>>>>>> session 3
                     ),
                 ),
                 'may_terminate' => true,
@@ -116,12 +104,8 @@ return array(
                     ),
                 ),
             ),
-<<<<<<< HEAD
-            
-=======
 
 /*
->>>>>>> session 3
             'success' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -147,11 +131,7 @@ return array(
                         ),
                     ),
                 ),
-<<<<<<< HEAD
-            ),
-=======
             ),*/
->>>>>>> session 3
         ),
     ),
     'service_manager' => array(
@@ -181,15 +161,9 @@ return array(
             'Fitness\Controller\Trabajo'    =>  'Fitness\Controller\TrabajoController',
             'Fitness\Controller\Reportes'    =>  'Fitness\Controller\ReportesController',
             'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController',
-<<<<<<< HEAD
-            
-            'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
-            'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'
-=======
 
             //'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
             //'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'
->>>>>>> session 3
         ),
     ),
     'view_manager' => array(

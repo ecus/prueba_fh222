@@ -12,17 +12,15 @@ use Zend\Db\TableGateway\TableGateway;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
-<<<<<<< HEAD
+
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
-=======
 use Zend\Session\AbstractManager;
 use Zend\Session\Config\ConfigInterface;
 use Zend\Session\Container;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\SessionManager;
->>>>>>> session 3
 
 class Module
 {
@@ -50,15 +48,12 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
-<<<<<<< HEAD
             'Zend\Loader\ClassMapAutoloader' => array(
                 __DIR__ . '/autoload_classmap.php',
             ),
-=======
             // 'Zend\Loader\ClassMapAutoloader' => array(
             //     __DIR__ . '/autoload_classmap.php',
             // ),
->>>>>>> session 3
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
@@ -86,19 +81,16 @@ class Module
             ),
             //////////
             'Fitness\Model\MyAuthStorage' => function($sm){
-                return new \Fitness\Model\MyAuthStorage('zf_tutorial');  
+                return new \Fitness\Model\MyAuthStorage('zf_tutorial');
             },
-            
             'AuthService' => function($sm) {
                 $dbAdapter      = $sm->get('Zend\Db\Adapter\Adapter');
                         $dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter, 'users','user_name','pass_word', 'MD5(?)');
-                
                 $authService = new AuthenticationService();
                 $authService->setAdapter($dbTableAuthAdapter);
                 $authService->setStorage($sm->get('Fitness\Model\MyAuthStorage'));
-                 
                 return $authService;
             },
         );
-    }    
+    }
 }
