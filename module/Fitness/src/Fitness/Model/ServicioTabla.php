@@ -288,6 +288,22 @@ class ServicioTabla extends TableGateway
 		}
 	}
 //
+	public function listaPlan()
+	{
+		try {
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaPlan()');
+			$sql=$stmt->execute();
+			while ($sql->next()) {
+				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+			}
+			return $result;
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
+//
 	public function resumenServicio($id)
 	{
 		try{

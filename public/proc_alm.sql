@@ -229,6 +229,18 @@ DELIMITER ;
 
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaInscripcion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaInscripcion`(IN ini DATE,IN fin DATE, IN socio SMALLINT,IN servicio SMALLINT,IN personal SMALLINT,OUT msje VARCHAR(80))
+BEGIN
+  INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
+  VALUES (ini,fin,socio,servicio,personal);
+  SET  msje:= 'Socio Registrado';
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaPersonal`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaPersonal`(
 	IN dni CHAR(8),IN nom VARCHAR(45),IN pat VARCHAR(45),IN mat VARCHAR(45),IN fecha DATE, IN sexo TINYINT(1),IN dir VARCHAR(75),
@@ -743,7 +755,7 @@ BEGIN
 
 			SET mmax=0;
 
-      SET m= CONCAT(nom, ' ', pat, ' se Registro en el sistema con ID: ', soc ,' ..!!');
+      SET m= CONCAT(nom, ' ', pat, ' se Registró en el sistema.');
 		  SELECT m INTO msje;
   	ELSE
 	  	SET m='La persona ya fue Registrada..!! (DNI Registrado)';
@@ -759,15 +771,24 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaSocioUsuarios`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaSocioUsuarios`(
 	IN dni CHAR(11),in tipodoc tinyint,IN pat VARCHAR(45),IN mat VARCHAR(45),IN nom VARCHAR(45),in sexo tinyint(1),
- 	 in fechanac date,in mail varchar(50),IN tcasa VARCHAR(10),IN tmov VARCHAR(10),IN temer VARCHAR(10),
+ 	 in fechanac date,in mail varchar(50),
   	in ecivil tinyint,in fevisita date,in feregis date,in feinvitacion date,in estado tinyint,
- 	 in referido smallint,in empresa tinyint,in personal smallint,in alias char(15),OUT msje VARCHAR(80))
+ 	 in referido smallint,in empresa tinyint,in personal smallint,in alias char(15),in xml text,OUT msje VARCHAR(80))
 BEGIN
 	DECLARE existe SMALLINT;
 	DECLARE codigo SMALLINT;
 	DECLARE m VARCHAR(80);
 	DECLARE socios VARCHAR(150);
 	DECLARE cantidad TINYINT;
+
+  DECLARE j int DEFAULT 1;
+  DECLARE numero char(10);
+  DECLARE tipo tinyint;
+  DECLARE emergencia tinyint(1);
+  DECLARE nombreEmergencia varchar(35);
+  DECLARE parentesco varchar(15);
+	DECLARE mmax int DEFAULT 0;
+
 	SET existe = 0;
 	SET cantidad = 0;
 	SELECT id_Soc INTO existe FROM socio WHERE documento_soc=dni;
@@ -785,15 +806,37 @@ BEGIN
 			START TRANSACTION;
 				INSERT INTO socio
 				(	documento_soc,tipoDocumento_soc,apellidoPaterno_soc,apellidoMaterno_soc,nombres_Soc,sexo_Soc,
-					fechaNacimiento_Soc,email_Soc,telefonoCasa_Soc,telefonoMovil_Soc,telefonoEmergencia_Soc,estadoCivil_Soc,
+					fechaNacimiento_Soc,email_Soc,estadoCivil_Soc,
 					fechaVisita_Soc,fechaRegistro_Soc,fechaInvitacion_Soc,estado_Soc,Socio_Referido,empresa_id_emp,Personal_id_Per)
-				VALUES (dni,tipodoc,pat,mat,nom,sexo,fechanac,mail,tcasa,tmov,temer,ecivil,fevisita,feregis,feinvitacion,
+				VALUES (dni,tipodoc,pat,mat,nom,sexo,fechanac,mail,ecivil,fevisita,feregis,feinvitacion,
 					estado,referido,empresa,personal);
 				
 				SELECT MAX(LAST_INSERT_ID(id_Soc)) INTO codigo FROM socio;
+
+      --  para telefonos
+			SET mmax:=ExtractValue(xml, 'count(lista/telefono)');
+
+			WHILE j<=mmax DO
+				SET numero:=ExtractValue(xml, 'lista/telefono[$j]/numero');
+				SET tipo:=ExtractValue(xml, 'lista/telefono[$j]/tipo');
+				SET emergencia:=ExtractValue(xml, 'lista/telefono[$j]/emergencia');
+        SET nombreEmergencia:=ExtractValue(xml, 'lista/telefono[$j]/nombre');
+        SET parentesco:=ExtractValue(xml, 'lista/telefono[$j]/parentesco');
+
+        INSERT INTO telefono
+        (numero_Tel, tipo_tel, emergencia_Tel, nombreEmergencia_Tel, parentesco_Tel, Socio_id_Soc)
+        VALUES
+        (numero,tipo,emergencia,nombreEmergencia,parentesco,codigo);
+
+				SET j=j+1;
+			END WHILE;
+
+			SET mmax=0;
+
 				INSERT INTO usuariosocio
 				(	alias_user,clave_user,Socio_id_Soc	)	VALUES
 				(	alias,md5(pat),codigo	);
+      SET  msje:= CONCAT(nom, ' ', pat, ' se Registró en el sistema.');
 			COMMIT;
 		ELSE
 			SELECT CONCAT(apellidoPaterno_Soc,' ',apellidoMaterno_Soc,', ',nombres_Soc) INTO socios FROM socio WHERE documento_soc=dni;
@@ -921,6 +964,16 @@ DELIMITER ;
 
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_listaPlan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_listaPlan`()
+begin
+  SELECT id_Serv,nombre_Serv FROM servicio WHERE tipo_Serv=1;
+end $$
+
+DELIMITER ;
+
+DELIMITER $$
+
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_listaServicio`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_listaServicio`()
 begin
@@ -1032,7 +1085,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_loginPersonalId`(IN
 BEGIN
     SELECT
 		  personal.apellidoMaterno_Per,personal.apellidoPaterno_Per,personal.nombres_Per,
-      personal.sexo_Per,usuariopersonal.id_UPer,usuariopersonal.alias_UPer
+      personal.sexo_Per,personal.id_per,usuariopersonal.id_UPer,usuariopersonal.alias_UPer
     FROM personal INNER JOIN usuariopersonal
     ON personal.id_per=usuariopersonal.personal_id_per
     WHERE usuariopersonal.personal_id_per=id

@@ -43,7 +43,7 @@ class IndexController extends AbstractActionController
 	}
 	public function recibeAction()
 	{
-		// echo "<br><br><br><br>";
+		echo "<br><br><br><br>";
 		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
         $perTabla			=	new PersonalTabla($this->dbAdapter);
 		$request            =   $this->getRequest();
@@ -66,6 +66,7 @@ class IndexController extends AbstractActionController
 
 			$container = new Container('personal',$manager);
 			$container->iduser 	=	$recibe->id_UPer;
+			$container->idper 	=	$recibe->id_per;
 			$container->user 	=	$recibe->alias_UPer;
 			$container->pass 	=	$bcrypt->create($frm['txtClave']);
 			$container->nombre 	=	$recibe->apellidoPaterno_Per .' '. $recibe->apellidoMaterno_Per . ', '. $recibe->nombres_Per;
@@ -81,7 +82,8 @@ class IndexController extends AbstractActionController
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
 			$var 	=	array(
-				'id'	=>	$container->iduser,
+				'id'	=>	$container->idper,
+				'per'		=>	$container->idper,
 				'nombre'=>	$container->nombre
 				);
 			$view = new ViewModel($var);

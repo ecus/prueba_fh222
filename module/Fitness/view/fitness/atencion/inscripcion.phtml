@@ -25,7 +25,10 @@
 					<!--  <div class="controls"> -->
 						<div class="input-group">
 							<span class="input-group-addon"><i class="icon-home icono"></i></span>
-							<?php echo $this->formInput($name); ?>
+							<?php
+								$name->setAttribute('value', date("Y-m-d"));
+								echo $this->formInput($name);
+							?>
 						</div>
 				</div>
 				<div class="form-group">
@@ -58,7 +61,7 @@
 				</div>
 				<?php
 					$name = $form->get('txtPersonal');
-					$name->setAttribute('value', $this->id);
+					$name->setAttribute('value', $this->per);
 					echo $this->formInput($name);
 				?>
 				<!-- <input type="hidden" name="txtId" id="txtId" value="" />

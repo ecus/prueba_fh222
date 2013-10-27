@@ -62,7 +62,7 @@ class PersonalTabla extends TableGateway
 		$var9	=	$per->getTelfMovil_per();
 		$var10	=	$per->getEmail_per();
 		$var11	=	$alias;
-		$var12	=	$bcrypt->create($per->getApPaterno());
+		$var12	=	$bcrypt->create($var3);
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
@@ -216,7 +216,7 @@ class PersonalTabla extends TableGateway
 				$id				=	$salida->Personal_id_Per;
 				$claveSegura	=	$salida->clave_UPer;
 
-				if($bcrypt->verify($clave, $claveSegura)) {
+				if($bcrypt->verify($clave,$claveSegura)) {
 					$stmt2		= $dbAdapter->createStatement();
 					$stmt2->prepare("CALL pa_loginPersonalId(?)");
 					$stmt2->getResource()->bindParam(1, $id);

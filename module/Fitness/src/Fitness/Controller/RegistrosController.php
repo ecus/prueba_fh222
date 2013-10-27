@@ -65,6 +65,7 @@ class RegistrosController extends AbstractActionController
 					"listaSuc" 		=>	$listaSuc,
 					"url"			=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -96,6 +97,7 @@ class RegistrosController extends AbstractActionController
 					"verSucursal"	=>	$verSucursal,
 					"url"			=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -276,6 +278,7 @@ class RegistrosController extends AbstractActionController
 					"listaSuc"		=>	$listaSuc,
 					"url"			=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -516,6 +519,7 @@ class RegistrosController extends AbstractActionController
     			"listaSuc"		=>	$listaSuc,
 				"url"			=>	$pag,
 				'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 				'nombre'		=>	$container->nombre
 			);
 		$view = new ViewModel($var);
@@ -596,6 +600,7 @@ class RegistrosController extends AbstractActionController
 		   			"listaSuc"		=>	$listaSuc,
 					"url"			=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -693,6 +698,7 @@ class RegistrosController extends AbstractActionController
     			"listaSuc"		=>	$listaSuc,
 				"url"			=>	$pag,
 				'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 				'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -779,6 +785,7 @@ class RegistrosController extends AbstractActionController
     			"listaSuc"		=>	$listaSuc,
 				"url"			=>	$pag,
 				'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 				'nombre'		=>	$container->nombre
 			);
 			$view = new ViewModel($var);
@@ -920,6 +927,7 @@ class RegistrosController extends AbstractActionController
 				"titulo"		=>	"Registro de Empresa",
 				"frmEmpresa"	=>	$frmEmp,
 				'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 				'nombre'		=>	$container->nombre
 			);
 			$view = new ViewModel($var);
@@ -982,6 +990,7 @@ class RegistrosController extends AbstractActionController
 				"titulo"		=>	"Registro de Servicio",
 				"frmServicio"	=>	$frmSer,
 				'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 				'nombre'		=>	$container->nombre,
 			);
 			$view = new ViewModel($var);
@@ -1058,6 +1067,7 @@ class RegistrosController extends AbstractActionController
 					"titulo"		=>	"Registrar Plan",
 					"frmPlan"		=>	$frmPlan,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -1134,6 +1144,7 @@ class RegistrosController extends AbstractActionController
 					"titulo"		=>	"Registrar Plan",
 					"frmPlan"		=>	$frmPlan,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);

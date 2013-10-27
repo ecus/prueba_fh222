@@ -47,6 +47,7 @@ class AtencionController extends AbstractActionController
 		if (isset($container->iduser)) {
 			$var 	=	array(
 					'id'		=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'	=>	$container->nombre
 				);
 			$view	=	new ViewModel($var);
@@ -77,6 +78,7 @@ class AtencionController extends AbstractActionController
 					"listaSuc"		=>	$listaSuc,
 					"url"			=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -157,6 +159,7 @@ class AtencionController extends AbstractActionController
 						"listaSuc"      =>  $listaSuc,
 						"url"           =>  $pag,
 						'id'			=>	$container->iduser,
+						'per'		=>	$container->idper,
 						'nombre'		=>	$container->nombre
 					);
 			$view	=	new ViewModel($var);
@@ -256,6 +259,7 @@ class AtencionController extends AbstractActionController
 					"listaSuc"	=>	$listaSuc,
 					"url"		=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view = new ViewModel($var);
@@ -345,6 +349,7 @@ class AtencionController extends AbstractActionController
 					"listaSuc"	=>	$listaSuc,
 					"url"		=>	$pag,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view	=	new ViewModel($var);
@@ -467,32 +472,72 @@ class AtencionController extends AbstractActionController
 		$request  = $this->getRequest();
 		$response = $this->getResponse();
 		if ($request->isPost()) {
-			$this->dbAdapter =$this->getServiceLocator()->get('Zend\Db\Adapter');
-			$soc		=	new Socio;
-			$socTabla	=	new SocioTabla($this->dbAdapter);
-			$frm		=	$request->getPost();
-            $soc->setpaterno($frm['txtApPaterno']);
-            $soc->setmaterno($frm['txtApMaterno']);
-            $soc->setnombres($frm['txtNombre']);
-            $soc->setfechanac($frm['dtpFechanac']);
-            $soc->setemail($frm['txtEmail']);
-            $soc->settelefono($frm['txtTelCasa']);
-            $soc->setmovil($frm['txtTelMovil']);
-            $soc->setemergencia($frm['txtTelemergencia']);
-            $soc->setecivil($frm['cmbecivil']);
-            $soc->setfechavisita($frm['1985-10-11']);
-            $soc->setfecharegistro($frm['1985-10-11']);
-            $soc->setfechainv($frm['dtpFechaInvitacion']);
-            $soc->setreferido($frm['cmbsocio']);
-            $soc->setempresa($frm['cmbempresa']);
-            $soc->setdocumento($frm['cmbDocumento']);
-            $soc->setnumerodoc($frm['txtDni']);
-            $soc->setsexo($frm['cmbSexo']);
-            $soc->setpersonal($frm['txtPersonal']);
-            $soc->setestado($frm['cmbestado']);
-			$alias =	$frm['txtUsuario'];
+			$this->dbAdapter=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$soc			=	new Socio;
+				$socTabla		=	new SocioTabla($this->dbAdapter);
+				$frm			=	$request->getPost();
+				$soc->setnumerodoc($frm['txtDni']);
+				$soc->setdocumento($frm['cmbDocumento']);
+				$soc->setpaterno($frm['txtApPaterno']);
+				$soc->setmaterno($frm['txtApMaterno']);
 
-			$msje = $socTabla->insertaSocioUsuario($soc,$alias);
+				$soc->setnombres($frm['txtNombre']);
+				$soc->setsexo($frm['cmbSexo']);
+				$soc->setfechanac($frm['dtpFechanac']);
+				$soc->setemail($frm['txtEmail']);
+
+				$soc->setecivil($frm['cmbecivil']);
+				$soc->setDistrito($frm['cmbDistrito']);
+				$soc->setDireccion($frm['txtDireccion']);
+
+				switch ($frm['cmbestado']) {
+					case 1:
+						// 1: INVITADO
+						$fecha	=	date('Y-m-d');
+						$soc->setfechavisita(null);
+						$soc->setfecharegistro(null);
+						$soc->setfechainv($fecha);
+						break;
+					case 2:
+						// 2: VISITA
+						$fecha	=	date('Y-m-d');
+						$soc->setfechavisita($fecha);
+						$soc->setfecharegistro(null);
+						$soc->setfechainv(null);
+						break;
+					case 3:
+						// 3: RECUPERACION
+						$fecha	=	date('Y-m-d');
+						$soc->setfechavisita(null);
+						$soc->setfecharegistro($fecha);
+						$soc->setfechainv(null);
+						break;
+					case 4:
+						// 4: BECADO
+						$fecha	=	date('Y-m-d');
+						$soc->setfechavisita(null);
+						$soc->setfecharegistro($fecha);
+						$soc->setfechainv(null);
+						break;
+					default:
+						// 0:SOCIO
+						$fecha	=	date('Y-m-d');
+						$soc->setfechavisita(null);
+						$soc->setfecharegistro($fecha);
+						$soc->setfechainv(null);
+						break;
+				}
+
+				$soc->setestado($frm['cmbestado']);
+				$soc->setreferido(($frm['cmbsocio']  =='')?null:$frm['cmbsocio']);
+				$soc->setempresa(($frm['cmbempresa'] =='')?null:$frm['cmbempresa']);
+
+				$soc->setpersonal(($frm['txtPersonal'] =='')?null:$frm['txtPersonal']);
+				$xmltel	=	$frm['telefonos'];
+			$alias =	$frm['txtUsuario'];
+			$xmltel	=	$frm['telefonos'];
+			// var_dump($soc);
+			$msje = $socTabla->insertaSocioUsuario($soc,$alias,$xmltel);
 			if (!$msje)
 				$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 			else {
@@ -542,6 +587,7 @@ class AtencionController extends AbstractActionController
 					"titulo"		=>	"Registro de Empresa",
 					"frmEmpresa"	=>	$frmEmp,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view	=	new ViewModel($var);
@@ -588,12 +634,13 @@ class AtencionController extends AbstractActionController
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tablaServ			=	new ServicioTabla($this->dbAdapter);
 			$frmins				=	new frmInscripcion('frmInscripcion');
-			$listaServ			=	$tablaServ->listaServicio();
+			$listaServ			=	$tablaServ->listaPlan();
 			$frmins->get("cmbServicio")->setValueOptions($listaServ);
 			$var 	=	array(
 					"titulo"			=>	"Registro de Inscripcion",
 					"frmInscripcion"	=>	$frmins,
 					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
 					'nombre'		=>	$container->nombre
 				);
 			$view	=	new ViewModel($var);

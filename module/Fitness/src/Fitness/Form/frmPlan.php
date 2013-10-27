@@ -16,8 +16,8 @@ class frmPlan extends Form
 	{
 		parent::__construct($name);
 
-/////// PLAN 
-    ///// txtNombre           
+/////// PLAN
+    ///// txtNombre
         $this->add(array(
                 'name'      =>  'txtNombre',
                 'options'   =>  array(
@@ -239,7 +239,7 @@ class frmPlan extends Form
                                       ),
                             ),
                 'attributes'=>  array(
-                            'type'           => 'text',
+                            'type'           => 'hidden',
                             'placeholder'    => 'Ejm.: 250.00',
                             'class'          => ' form-control',
                             'id'             => 'txtPersonal'

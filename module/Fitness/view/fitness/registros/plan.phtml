@@ -169,19 +169,12 @@
 						<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
 						<?php echo $this->formInput($name); ?>
 					</div>
-				</div>	
-				<div class="form-group col-6">
+				</div>
 					<?php
 					    $name = $form->get('txtPersonal');
-					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-					    echo $this->formElementErrors($name);
-					    echo $formLabel->closeTag();
+						$name->setAttribute('value', $this->per);
+						echo $this->formInput($name);
 					?>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
-						<?php echo $this->formInput($name); ?>
-					</div>
-				</div>
 			</div>
 				<?php echo $this->formInput($form->get('txtPromocion')); ?>
 				<?php echo $this->formInput($form->get('txtTipoDuracion')); ?>

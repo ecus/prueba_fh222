@@ -1,6 +1,7 @@
 jQuery(function($){
-        var contadorNumero  = 0;
-        var listaNumeros    = [];
+		var usuario			=	0;
+        var contadorNumero	=	0;
+        var listaNumeros	=	[];
         $('.detalle').slideUp();
         $('#boxInfoEmergencia').slideUp();
         $('#boxAcceso').slideUp();
@@ -124,26 +125,29 @@ jQuery(function($){
         $('#btnRegSocio').on('click',function(event){
             if($("#frmSocio").valid()){
                 console.log("paso");
-                $.post("regsocio", {
-                        cmbestado   : $(cmbestado).val(),
-                        cmbDocumento: $(cmbDocumento).val(),
-                        txtDni      : $(txtDni).val(),
-                        txtNombre   : $(txtNombre).val(),
-                        txtApPaterno: $(txtApPaterno).val(),
-                        txtApMaterno: $(txtApMaterno).val(),
-                        dtpFechanac : $(dtpFechanac).val(),
-                        cmbSexo     : $(cmbSexo).val(),
-                        cmbecivil   : $(cmbecivil).val(),
-                        txtEmail    : $(txtEmail).val(),
-                        txtDireccion: $(txtDireccion).val(),
-                        // dtpFechaVisita: $(dtpFechaVisita).val(),
-                        // dtpFechareg : $(dtpFechareg).date,
-                        // dtpFechaInvitacion:$(dtpFechaInvitacion).val(),
-                        cmbsocio    : $(cmbsocio).val(),
-                        cmbempresa  : $(cmbempresa).val(),
-                        txtPersonal : $(txtPersonal).val(),
-                        cmbDistrito : $(cmbDistrito).val(),
-                        telefonos   : listaNumeros
+                if (usuario==0) {
+                	var op 	="regsocio";
+                } else{
+                	var op 	="regusuariosocio";
+                };
+                $.post(op, {
+						cmbestado   : $(cmbestado).val(),
+						cmbDocumento: $(cmbDocumento).val(),
+						txtDni      : $(txtDni).val(),
+						txtNombre   : $(txtNombre).val(),
+						txtApPaterno: $(txtApPaterno).val(),
+						txtApMaterno: $(txtApMaterno).val(),
+						dtpFechanac : $(dtpFechanac).val(),
+						cmbSexo     : $(cmbSexo).val(),
+						cmbecivil   : $(cmbecivil).val(),
+						txtEmail    : $(txtEmail).val(),
+						txtDireccion: $(txtDireccion).val(),
+						cmbsocio    : $(cmbsocio).val(),
+						cmbempresa  : $(cmbempresa).val(),
+						txtPersonal : $(txtPersonal).val(),
+						cmbDistrito : $(cmbDistrito).val(),
+                        telefonos   : listaNumeros,
+                        txtUsuario  :$(txtUsuario).val(),
                     },function(data){
                         if(data.response == false){
                             console.log('no se puede registrar');
@@ -151,7 +155,6 @@ jQuery(function($){
                             limpiaControles();
                             $("#msjeModal").empty().html(data.response);
                             $("#modalSocio").modal();
-                           // listasucursal('A');
                         }
                         $("#barra").slideUp();
                     }, 'json');
@@ -161,28 +164,24 @@ jQuery(function($){
         });
         $('#btnRegUsSocio').on('click',function(event){
             if($("#frmSocio").valid()){
-                console.log("paso");
                 $.post("regusuariosocio", {
-                        txtDni: $(txtDni).val(),
-                        cmbDocumento: $(cmbDocumento).val(),
-                        txtNombre:$(txtNombre).val(),
-                        txtApPaterno:$(txtApPaterno).val(),
-                        txtApMaterno: $(txtApMaterno).val(),
-                        dtpFechanac: $(dtpFechanac).val(),
-                        cmbSexo:$(cmbSexo).val(),
-                        txtTelCasa:$(txtTelCasa).val(),
-                        txtTelMovil: $(txtTelMovil).val(),
-                        txtTelemergencia:$(txtTelemergencia).val(),
-                        txtEmail:$(txtEmail).val(),
-                        dtpFechaVisita: $(dtpFechaVisita).val(),
-                        dtpFechareg: $(dtpFechareg).date,
-                        dtpFechaInvitacion:$(dtpFechaInvitacion).val(),
-                        cmbecivil:$(cmbecivil).val(),
-                        cmbestado:$(cmbestado).val(),
-                        cmbsocio:$(cmbsocio).val(),
-                        cmbempresa:$(cmbempresa).val(),
-                        txtPersonal:$(txtPersonal).val(),
-                        txtUsuario  :$(txtUsuario).val()
+                        cmbestado   : $(cmbestado).val(),
+						cmbDocumento: $(cmbDocumento).val(),
+						txtDni      : $(txtDni).val(),
+						txtNombre   : $(txtNombre).val(),
+						txtApPaterno: $(txtApPaterno).val(),
+						txtApMaterno: $(txtApMaterno).val(),
+						dtpFechanac : $(dtpFechanac).val(),
+						cmbSexo     : $(cmbSexo).val(),
+						cmbecivil   : $(cmbecivil).val(),
+						txtEmail    : $(txtEmail).val(),
+						txtDireccion: $(txtDireccion).val(),
+						cmbsocio    : $(cmbsocio).val(),
+						cmbempresa  : $(cmbempresa).val(),
+						txtPersonal : $(txtPersonal).val(),
+						cmbDistrito : $(cmbDistrito).val(),
+                        txtUsuario  :$(txtUsuario).val(),
+                        telefonos   : listaNumeros
                     },function(data){
                         if(data.response == false){
                             console.log('no se puede registrar');
@@ -358,16 +357,17 @@ jQuery(function($){
             var user     =  crearNombre();
             console.log(rpta);
             if(rpta=='Si'){
-            console.log('dasjsdajkadskj');
                 // if(nombre!='' && apellido!=''){
                 if(nombre.length>0 && apellido.length>0){
                     $("#boxAcceso").slideDown();
                     $(optUsuario).val('1');
                     $(txtUsuario).attr('placeholder',user);
                     $(txtUsuario).val(user);
+                    usuario	=	1;
                 }else{
                     $('#msjeModal').empty().html('Debe completar los campos de Nombre y Apellido Paterno');
                     $('#modalSocio').modal();
+                    usuario	=	0;
                     // $("#boxAcceso").slideDown();
                 }
             }else{

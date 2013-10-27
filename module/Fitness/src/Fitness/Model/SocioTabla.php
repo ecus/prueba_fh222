@@ -25,21 +25,22 @@ class SocioTabla extends TableGateway
 				{
 					$telefono=$xml->createElement('telefono');
 					$telefono =$root->appendChild($telefono);
+						if (isset($value['numeroTel'])) {
+							$numero=$xml->createElement('numero',$value['numeroTel']);
+							$numero =$telefono->appendChild($numero);
 
-						$numero=$xml->createElement('numero',$value['numeroTel']);
-						$numero =$telefono->appendChild($numero);
+							$tipo=$xml->createElement('tipo',$value['tipoTel']);
+							$tipo =$telefono->appendChild($tipo);
 
-						$tipo=$xml->createElement('tipo',$value['tipoTel']);
-						$tipo =$telefono->appendChild($tipo);
+							$emergencia=$xml->createElement('emergencia',$value['emergenciaTel']);
+							$emergencia =$telefono->appendChild($emergencia);
 
-						$emergencia=$xml->createElement('emergencia',$value['emergenciaTel']);
-						$emergencia =$telefono->appendChild($emergencia);
+							$nombre=$xml->createElement('nombre',$value['nombreTel']);
+							$nombre =$telefono->appendChild($nombre);
 
-						$nombre=$xml->createElement('nombre',$value['nombreTel']);
-						$nombre =$telefono->appendChild($nombre);
-
-						$parentesco=$xml->createElement('parentesco',$value['parentescoTel']);
-						$parentesco =$telefono->appendChild($parentesco);
+							$parentesco=$xml->createElement('parentesco',$value['parentescoTel']);
+							$parentesco =$telefono->appendChild($parentesco);
+						}
 				}
 				$xml->formatOutput = true;
 				$xml->saveXML();
@@ -69,6 +70,7 @@ class SocioTabla extends TableGateway
 		$var18=$p->getpersonal();
 		$var19=$xml->saveXML();
 
+		// var_dump($p);
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
 		$stmt->prepare('CALL pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
@@ -87,7 +89,7 @@ class SocioTabla extends TableGateway
 		$stmt->getResource()->bindParam(13, $var13);
 		$stmt->getResource()->bindParam(14, $var14);
 		$stmt->getResource()->bindParam(15, $var15);
-		$stmt->getResource()->bindParam(16, $var16,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(16, $var16);
 		$stmt->getResource()->bindParam(17, $var17,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(19, $var19);
@@ -99,8 +101,39 @@ class SocioTabla extends TableGateway
 		$output = $result->current();
 		return $output['mensaje'];
 	}
-	public function insertaSocioUsuario(Socio $p,$alias)
+	public function insertaSocioUsuario(Socio $p,$alias,$xmltel)
 	{
+		$xml = new \DomDocument('1.0', 'UTF-8');
+
+		$root = $xml->createElement('lista');
+		$root = $xml->appendChild($root);
+		if (is_array($xmltel))
+			{
+				foreach ($xmltel as $value)
+				{
+					$telefono=$xml->createElement('telefono');
+					$telefono =$root->appendChild($telefono);
+						if (isset($value['numeroTel'])) {
+							$numero=$xml->createElement('numero',$value['numeroTel']);
+							$numero =$telefono->appendChild($numero);
+
+							$tipo=$xml->createElement('tipo',$value['tipoTel']);
+							$tipo =$telefono->appendChild($tipo);
+
+							$emergencia=$xml->createElement('emergencia',$value['emergenciaTel']);
+							$emergencia =$telefono->appendChild($emergencia);
+
+							$nombre=$xml->createElement('nombre',$value['nombreTel']);
+							$nombre =$telefono->appendChild($nombre);
+
+							$parentesco=$xml->createElement('parentesco',$value['parentescoTel']);
+							$parentesco =$telefono->appendChild($parentesco);
+						}
+				}
+				$xml->formatOutput = true;
+				$xml->saveXML();
+			}
+
 		$var1	=	$p->getNumerodoc();
 		$var2	=	$p->getDocumento();
 		$var3	=	$p->getPaterno();
@@ -109,23 +142,21 @@ class SocioTabla extends TableGateway
 		$var6	=	$p->getSexo();
 		$var7	=	$p->getFechanac();
 		$var8	=	$p->getEmail();
-		$var9	=	$p->getTelefono();
-		$var10	=	$p->getMovil();
-		$var11	=	$p->getEmergencia();
-		$var12	=	$p->getEcivil();
-		$var13	=	$p->getFechavisita();
-		$var14	=	$p->getFecharegistro();
-		$var15	=	$p->getFechainv();
-		$var16	=	$p->getEstado();
-		$var17	=	$p->getReferido();
-		$var18	=	$p->getEmpresa();
-		$var19	=	$p->getPersonal();
-		$var20	=	$alias;
+		$var9	=	$p->getEcivil();
+		$var10	=	$p->getFechavisita();
+		$var11	=	$p->getFecharegistro();
+		$var12	=	$p->getFechainv();
+		$var13	=	$p->getEstado();
+		$var14	=	$p->getReferido();
+		$var15	=	$p->getEmpresa();
+		$var16	=	$p->getPersonal();
+		$var17	=	$alias;
+		$var18	=	$xml->saveXML();
 
         // $result =	$this->adapter->query('call pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)',$datos);
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -135,17 +166,15 @@ class SocioTabla extends TableGateway
 		$stmt->getResource()->bindParam(7, $var7);
 		$stmt->getResource()->bindParam(8, $var8);
 		$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(10, $var10);
 		$stmt->getResource()->bindParam(11, $var11);
 		$stmt->getResource()->bindParam(12, $var12);
-		$stmt->getResource()->bindParam(13, $var13);
-		$stmt->getResource()->bindParam(14, $var14);
-		$stmt->getResource()->bindParam(15, $var15);
+		$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(14, $var14,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(15, $var15,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(16, $var16,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(17, $var17,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(19, $var19);
-		$stmt->getResource()->bindParam(19, $var20);
+		$stmt->getResource()->bindParam(17, $var17);
+		$stmt->getResource()->bindParam(18, $var18);
 		$resultado=$stmt->execute();
 
 		$stmt2 = $dbAdapter->createStatement();
