@@ -60,7 +60,7 @@
                         $variables = $children[0];
                     ?>
                     <div class="col-4 col-sm-4 col-lg-3 filtro" >
-                        <?php $img=(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png'; 
+                        <?php $img=(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png';
                         ?>
                         <img id="avatarPerFoto" src="<?php echo $this->basePath() . '/perfil/'.$img; ?>" width="70" height="75px">
                         <svg width="0" height="0">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="col-8 col-sm-8 col-lg-9" id="avatarPerInfo">
                         <div class="row">
-                            <h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup>Coordinador</sup>
+                            <h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup><small>Coordinador</small></sup>
                             <br />
                             <sup>
                                 <a href="sdsad">Configuracion</a>

@@ -159,7 +159,7 @@ class AtencionController extends AbstractActionController
 						"listaSuc"      =>  $listaSuc,
 						"url"           =>  $pag,
 						'id'			=>	$container->iduser,
-						'per'		=>	$container->idper,
+						'per'			=>	$container->idper,
 						'nombre'		=>	$container->nombre
 					);
 			$view	=	new ViewModel($var);
@@ -181,12 +181,12 @@ class AtencionController extends AbstractActionController
 			$request			=	$this->getRequest();
 			$response			=	$this->getResponse();
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-			// $tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
-			// $listaAsis			=	$tablaAsis->listaClienteActivo();
-			$tablaSoc			=	new SocioTabla($this->dbAdapter);
-			$listaSoc			=	$tablaSoc->listaSocio();
-			$listaSoc			=	\Zend\Json\Json::encode($listaSoc);
-			$response->setContent(\Zend\Json\Json::prettyPrint($listaSoc,array("indent" => " ")));
+			$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
+			$listaAsis			=	$tablaAsis->listaClienteActivo();
+			// $tablaSoc			=	new SocioTabla($this->dbAdapter);
+			// $listaSoc			=	$tablaSoc->listaSocio();
+			$listaAsis			=	\Zend\Json\Json::encode($listaAsis);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaAsis,array("indent" => " ")));
 			return $response;
 		} else {
 			return 0;

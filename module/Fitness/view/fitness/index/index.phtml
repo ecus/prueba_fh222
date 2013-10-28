@@ -3,14 +3,15 @@
 <br>
 <br>
 <div class="row">
-	<div class="col-12 col-sm-6 col-lg-6">
+	<div class="col-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3  form-inline" role="form">
 		<fieldset>
 			<legend>Iniciar Sesion</legend>
 			<?php
 			if (isset($this->msje)) {
 				echo '
 				<div class="col-12">
-					<center><span class="label label-warning">'.$this->msje.'</span></center>
+					<center><span class="label label-warning"><lead>'.$this->msje.'</lead></span></center>
+					<br/>
 				</div>
 				';
 			}
@@ -26,14 +27,14 @@
 				$formLabel	=	$this->plugin('formLabel');
 				echo $this->form()->openTag($form);
 			?>
-			<div class=" form-group">
+			<div class="form-group row">
 				<?php
 					$name = $form->get('txtUsuario');
 					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 					echo $this->formElementErrors($name);
 					echo $formLabel->closeTag();
 				?>
-				<div class="input-group">
+				<div class="input-group col-10">
 					<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
 					<?php echo $this->formInput($name); ?>
 				</div>
@@ -45,7 +46,7 @@
 					echo $this->formElementErrors($name);
 					echo $formLabel->closeTag();
 				?>
-				<div class="input-group">
+				<div class="input-group col-10">
 					<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
 					<?php echo $this->formInput($name); ?>
 				</div>

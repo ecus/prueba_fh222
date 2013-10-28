@@ -20,9 +20,9 @@ class FrmLogin extends Form
 		$this->add(array(
                 'name'      =>  'txtUsuario',
                 'options'   =>  array(
-                            'label' =>  'ID Personal: ',
+                            'label' =>  'Usuario: ',
                             'label_attributes'  => array(
-                                    'class'     =>  'control-label',
+                                    'class'     =>  'control-label col-2',
                                     'for'       =>  'txtUsuario'
                                       ),
                             ),
@@ -38,7 +38,7 @@ class FrmLogin extends Form
                 'options'   =>  array(
                             'label' =>  'Clave: ',
                             'label_attributes'  => array(
-                                    'class'     =>  'control-label',
+                                    'class'     =>  'control-label col-2',
                                     'for'       =>  'txtClave'
                                       ),
                             ),

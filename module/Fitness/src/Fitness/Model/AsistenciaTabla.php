@@ -27,7 +27,7 @@ class AsistenciaTabla extends TableGateway
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaAsistencia(?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaAsistencia(?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2);
 		$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
@@ -62,7 +62,7 @@ class AsistenciaTabla extends TableGateway
 			$stmt->prepare('CALL pa_ListaSociosActivos()');
 			$stmt->execute();
 			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
-			return $info[0];
+			return $info;
 			// var_dump($info);
 		} catch (Exception $e) {
 			throw $e;
@@ -70,13 +70,16 @@ class AsistenciaTabla extends TableGateway
 	}
 
 	//----------------------------------------
-	public function verServicios($txtidCli)
+	public function verServicios($id)
 	{
 		try{
-			$var 		= array($txtidCli);
-			$sql 		=	$this->adapter->query('CALL pa_leeSocio (?)',$var);
-			$result		=	$sql->toArray();
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_leeSocio(?)');
+			$stmt->getResource()->bindParam(1, $id);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}

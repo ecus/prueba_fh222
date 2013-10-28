@@ -46,10 +46,10 @@
 			<fieldset>
 				<legend>Registro de Asistencia</legend>
 
- 				<!-- <div id='boxServicios'>
+ 				<div id='boxServicios'>
 
- 				</div> -->
-
+ 				</div>
+				<br />
 				<div class="form-group">
 								<?php
 								    $name = $form->get('dtpFechaReg');
@@ -83,7 +83,7 @@
 				<input type="hidden" name="txtidHS"  id="txtidHS" value="" />
 				<input type="hidden" name="txtidCli" id="txtidCli" value="" />
 				<input type="hidden" name="txtidPer" id="txtidPer" value="<?php echo $this->per; ?>" />
-				<input type="hidden" name="txtidSuc" id="txtidSuc" value="1" />
+				<input type="hidden" name="txtidSuc" id="txtidSuc" value="2" />
 				<?php echo $this->formElement($form->get('btnRegAsistencia')) ?>
 				<?php echo $this->form()->closeTag() ?>
 				<!-- <button class="btn btn-inverse btn-block btn-large" id="btnCancelar">Nuevo</button> -->

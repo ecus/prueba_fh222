@@ -10,11 +10,11 @@ jQuery(function($){
                         },
                     },
             messages:{
-                        
+
                         dtpFechaIng:{
                             required: '<span class="label label-warning">Campo Requerido</span>'
                         },
-                        
+
                     },
         });
      function limpiaControles(){
@@ -43,7 +43,7 @@ jQuery(function($){
              var accion =$(this).attr('value');
              if(accion=='Registrar'){
                 if($("#frmAsistencia").valid()){
-                 // $("#barra").slideDown(); 
+                 // $("#barra").slideDown();
                    $.post("regasis",{
                   //  console.log('no se puede registrar');
 
@@ -63,7 +63,7 @@ jQuery(function($){
                             $("#msjeModal").empty().html(data.response);
                             $("#modalAsistencia").modal();
                             }
-                   },'json'); 
+                   },'json');
                 }
              }
         });
@@ -94,7 +94,7 @@ jQuery(function($){
                                 "sInfoFiltered": "(_MAX_ filtrados del total de elementos)",
                                 "sSearch":"Buscar: "
                             },
-                              "aoColumns": [
+                            "aoColumns": [
                                             { "mData": "documento_soc" },
                                             { "mData": "cliente" },
                                             { "mData": "id_Soc" }
@@ -102,78 +102,67 @@ jQuery(function($){
                             "aoColumnDefs": [
                                           { "sWidth": "1%", "aTargets": [ 0 ] }
                                         ],
+                          });
 
-                                             
-                            });
-                       
                             $('#example tbody tr').each( function() {
-                            var sTitle;
-                            var nTds = $('td', this);
-                            var id = $(nTds[2]).text();
-                            $(nTds[2]).text("");
-                            var botones='<div class="btn-group">';
-                            botones += '<a class="btn btn-primary btnAccion" id="'+id+'" title="Editar"><i class="icon-edit"></i></a>';
-                            $(nTds[2]).append(botones);
-                        } );
-
-                        $('.btnAccion').on('click',function(event){
-                        auxId= $(this).attr("id");
-                        var accion="";
-                        if($(this).attr("title")=="Editar"){
-                             $(txtidCli).val(auxId);
-                             $("#barra").slideDown();
-                             
-                             $.post("verservicios",{
-                                id: $(this).attr("id"),
-                            },function(data){
-                                 if(data.response == false){
-                                        // console.log('no tiene sevicios registrados...');
-                                  }else{
-                                           
-                                           var suc     =    data;
-                                           var tabla="<table>";
-                                                  tabla+="<thead>";
-                                                      tabla+="<td>Nombre</td>";
-                                                      tabla+="<td>Seleccionar</td>";
-                                                  tabla+="</thead>";
-                                                tabla+="<tbody>";
-                                            $.each(data,function(){
-                                               var dat=$(this)[0];
-                                               tabla+='<tr>';
-                                               tabla+='<td>'+dat['nombre_Serv']+'</td>';
-                                               tabla+='<td><a class="btn btn-primary btnSelect" title="Click" id='+dat['id_Ins'] + '>Click</a></td>';
-                                                tabla+='</tr>';
-                                                  
-                                            }); 
-                                                tabla+='</tbody> </table>';
-                                               $('#boxServicios').empty().append(tabla);
-                                               $("#barra").slideUp();
-
-                                        };
-                                $('.btnSelect').on('click',function(event){
-                                console.log('vjgbnhhhhhhhhhhhhhhhhhhhhh');
+                              var sTitle;
+                              var nTds = $('td', this);
+                              var id = $(nTds[2]).text();
+                              $(nTds[2]).text("");
+                              var botones='<div class="btn-group">';
+                              botones += '<a class="btn btn-primary btnAccion" id="'+id+'" title="Editar"><i class="icon-edit"></i></a>';
+                              $(nTds[2]).append(botones);
+                            });
+                            $('.btnAccion').on('click',function(event){
                                 auxId= $(this).attr("id");
                                 var accion="";
-                                if($(this).attr("title")=="Click"){
-                                     $(txtidIns).val(auxId);
+                                if($(this).attr("title")=="Editar"){
+                                 $(txtidCli).val(auxId);
+                                 $("#barra").slideDown();
+
+                                 $.post("verservicios",{
+                                    id: $(this).attr("id"),
+                                  },function(data){
+                                     if(data.response == false){
+                                            console.log('no tiene sevicios registrados...');
+                                      }else{
+
+                                                   console.debug(data);
+                                               var suc     =    data;
+                                               var tabla="<table>";
+                                                      tabla+="<thead>";
+                                                          tabla+="<td>Nombre</td>";
+                                                          tabla+="<td>Seleccionar</td>";
+                                                      tabla+="</thead>";
+                                                    tabla+="<tbody>";
+                                                $.each(data,function(){
+                                                   var dat=$(this)[0];
+                                                   tabla+='<tr>';
+                                                   tabla+='<td>'+dat.nombre_Serv+'</td>';
+                                                   tabla+='<td><a class="btn btn-primary btnSelect" title="Click" id='+dat.id_Ins + '>Click</a></td>';
+                                                    tabla+='</tr>';
+                                                });
+                                                    tabla+='</tbody> </table>';
+                                                   $('#boxServicios').empty().append(tabla);
+                                                   $("#barra").slideUp();
+                                            };
+                                    $('.btnSelect').on('click',function(event){
+                                      console.log('vjgbnhhhhhhhhhhhhhhhhhhhhh');
+                                      auxId= $(this).attr("id");
+                                      var accion="";
+                                      if($(this).attr("title")=="Click"){
+                                         $(txtidIns).val(auxId);
+                                      };
+                                    });
+                                   }, 'json');
                                 };
-                               
-
                             });
-                               }, 'json');
-                                 
-                            };
-
-                        });
-                            
-                            
-
                             ////Jjjj
                     },'json');
-                    
+
                     $("#barra").slideUp();
-         
-              
+
+
     };
     listacliente();
 

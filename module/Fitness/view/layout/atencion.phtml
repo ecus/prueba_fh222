@@ -10,8 +10,6 @@
 						->prependStylesheet($this->basePath() . '/css/font-awesome.css')
 						->prependStylesheet($this->basePath() . '/css/font-awesome-ie7.css')
 						->prependStylesheet($this->basePath() . '/css/style.css')
-						// ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
-						// ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
 						->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
 						->prependStylesheet($this->basePath() . '/css/jquery.dataTables.css')
 						->prependStylesheet($this->basePath() . '/css/indice.css')
@@ -60,7 +58,7 @@
 						$variables	=	$children[0];
 					?>
 					<div class ="col-4 col-sm-4 col-lg-3 filtro" >
-						<?php $img =(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png'; 
+						<?php $img =(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png';
                         ?>
 						<img id ="avatarPerFoto" src="<?php echo $this->basePath() . '/perfil/'.$img; ?>" width="70" height="75px">
 						<svg width ="0" height="0">
@@ -80,7 +78,7 @@
 					</div>
 					<div class ="col-8 col-sm-8 col-lg-9" id="avatarPerInfo">
 						<div class ="row">
-							<h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup>Coordinador</sup>
+							<h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup><small>Coordinador</small></sup>
 							<br />
 							<sup>
 								<a href ="sdsad">Configuracion</a>
@@ -92,17 +90,17 @@
 			</div>
 			<div class ="row">
 				<ul class ="breadcrumb">
-					<li><a href ="<?php echo $this->url().'atencion/socio' ?>"><i class="icon-user"></i> Registrar Socio</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/socio' ?>"><i class="fa fa-user"></i> Registrar Socio</a></li>
 					<span class ="divider">&nbsp; | &nbsp;</span>
-					<li><a href ="<?php echo $this->url().'atencion/inscripcion' ?>"><i class="icon-paste"></i> Registrar Inscripcion</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/inscripcion' ?>"><i class="fa fa-paste"></i> Registrar Inscripcion</a></li>
 					<span class ="divider">&nbsp; | &nbsp;</span>
-					<li><a href ="<?php echo $this->url().'atencion/asistencia' ?>"><i class="icon-stackexchange"></i> Asistencia</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/asistencia' ?>"><i class="fa fa-stackexchange"></i> Asistencia</a></li>
 					<span class ="divider">&nbsp; | &nbsp;</span>
-					<li><a href ="<?php echo $this->url().'atencion/pago' ?>"><i class="icon-money"></i> Pago</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/pago' ?>"><i class="fa fa-money"></i> Pago</a></li>
 					<span class ="divider">&nbsp; | &nbsp;</span>
-					<li><a href ="<?php echo $this->url().'atencion/freezing' ?>"><i class="icon-th-large"></i> Freezing</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/freezing' ?>"><i class="fa fa-th-large"></i> Freezing</a></li>
 					<span class ="divider">&nbsp; | &nbsp;</span>
-					<li><a href ="<?php echo $this->url().'atencion/empresa' ?>"><i class="icon-building"></i> Empresa</a></li>
+					<li><a href ="<?php echo $this->url().'atencion/empresa' ?>"><i class="fa fa-building"></i> Empresa</a></li>
 				</ul>
 			</div>
 		</div>

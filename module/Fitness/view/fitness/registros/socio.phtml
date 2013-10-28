@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="span12">
-		
+
 			<div class="hero-unit ">
 			<?php
 				$form 	=	$this->frmSocio;
@@ -37,15 +37,15 @@
 				</div>
 				</div>
 			<!--cmbDocumento-->
-            	<div class="control-group span4">
-             <?php
-                $suc = $form->get('cmbDocumento');
-                echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
-                echo $formLabel->closeTag();
-                echo $this->formSelect($suc);
-                echo $this->formElementErrors($suc);
-             ?>
-            	</div>
+				<div class ="control-group span4">
+				<?php
+					$suc = $form->get('cmbDocumento');
+					echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+					echo $formLabel->closeTag();
+					echo $this->formSelect($suc);
+					echo $this->formElementErrors($suc);
+				?>
+				</div>
             <!-- txtNombre -->
 						<div class="control-group span4">
 							<?php
@@ -127,7 +127,7 @@
                     ?>
                 </div>
             <!-- txtTelCasa -->
-						
+
 						<div class="control-group span4">
 							<?php
 							    $name = $form->get('txtTelCasa');
@@ -232,10 +232,10 @@
                 		</div>
               		</div>
             	</div>
-					
-						
-						
-			<!-- cmbestado -->	
+
+
+
+			<!-- cmbestado -->
 				<div class="control-group span4">
             		<?php
               			$suc = $form->get('cmbestado');
@@ -244,7 +244,7 @@
                 		echo $this->formSelect($suc);
                 		echo $this->formElementErrors($suc);
             		?>
-            	</div>		
+            	</div>
  			<!-- cmbsocio -->
            		<div class="control-group span4">
 					<?php
@@ -261,8 +261,8 @@
 						</div>
 					</div>
             	</div>
-     <!--       -->	
-            	
+     <!--       -->
+
             <!-- cmbempresa -->
            		<div class="control-group span4">
             		<?php
@@ -272,7 +272,7 @@
                 		echo $this->formSelect($suc);
                 		echo $this->formElementErrors($suc);
             		?>
-            	</div>					
+            	</div>
             <!-- cmbpersonal -->
            				<div class="control-group span4">
 							<?php
@@ -280,16 +280,16 @@
 							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 							    echo $this->formElementErrors($name);
 							    echo $formLabel->closeTag();
-							    
+
 							?>
 							 <?php echo $this->formInput($name); ?>
-						</div>		
+						</div>
 
-						
-		
-	
-			
-						<div class='row hero-unit'> Usuario con Acceso al sistema: 
+
+
+
+
+						<div class='row hero-unit'> Usuario con Acceso al sistema:
 							<div class="btn-group"  id="Estados">
 								<a class="btn btn-medium btn-info btnAccesos">Si</a>
 								<a class="btn btn-medium btn-info btnAccesos">No</a>
@@ -314,17 +314,17 @@
 
 						</div>
 
-							
+
 							<input type="hidden" name="optUsuario" id="optUsuario" value="0" />
 							<input type="hidden" name="txtId" id="txtId" value="" />
 							<input type="hidden" name="txtIdUper" id="txtIdUper" value="" />
 							<input type="hidden" name="txtSexo" id="txtSexo" value="0" />
 							<input type="hidden" name="txtEstado" id="txtEstado" value="" />
 							<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
-		
+
 		<?php echo $this->formElement($form->get('send')) ?>
-		<?php echo $this->form()->closeTag() ?>  
-		
+		<?php echo $this->form()->closeTag() ?>
+
 	</fieldset>
 	</div>
 
