@@ -8,7 +8,7 @@
     </div>
     <div id="collapseOne" class="accordion-body collapse in">
       <div class="accordion-inner">
-		
+
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-home icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -67,7 +67,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-home icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -81,7 +81,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-home icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-money icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -96,7 +96,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-home icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -110,7 +110,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-star-half-o icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -124,7 +124,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -138,7 +138,7 @@
 							?>
 							 <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+									<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
 									<?php echo $this->formInput($name); ?>
 								</div>
 							</div>
@@ -159,7 +159,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-bookmark-o icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -171,7 +171,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-money icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-money icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -183,7 +183,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-comments-alt icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -195,7 +195,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-th-large icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -207,7 +207,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-money icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-money icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -219,7 +219,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-calendar icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
@@ -233,7 +233,7 @@
 							    echo $formLabel->closeTag();
 							?>
 							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-building icono"></i></span>
+								<span class="input-group-addon"><i class="fa fa-building icono"></i></span>
 							<?php
 								echo $this->formSelect($linea);
 								echo $this->formElementErrors($linea);
@@ -250,7 +250,7 @@
 							?>
 							 <!-- <div class="controls">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-eye-open icono"></i></span> -->
+									<span class="input-group-addon"><i class="fa fa-eye-open icono"></i></span> -->
 									<?php //echo $this->formInput($name); ?>
 						<!--</div>
 							</div>
@@ -268,19 +268,12 @@
 							echo $formLabel->closeTag();
 							echo $this->formSelect($lstServicios);
 							echo $this->formElementErrors($lstServicios);
+
+						    $name = $form->get('txtPersonal');
+							$name->setAttribute('value', $this->per);
+							echo $this->formInput($name);
+							echo "<br />";
 						?>
-						<div class="form-group">
-							<?php
-							    $name = $form->get('txtPersonal');
-							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-							    echo $this->formElementErrors($name);
-							    echo $formLabel->closeTag();
-							?>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="icon-eye-open icono"></i></span>
-								<?php echo $this->formInput($name); ?>
-							</div>
-						</div>
 		    			<?php echo $this->formElement($form->get('btnRegPlan')) ?>
 						<?php echo $this->form()->closeTag() ?>
 						<a class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</a>
@@ -298,7 +291,7 @@
 									    echo $formLabel->closeTag();
 									?>
 									<div class="input-group">
-										<span class="input-group-addon"><i class="icon-user icono"></i></span>
+										<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
 										<?php
 											echo $this->formSelect($linea);
 											echo $this->formElementErrors($linea);
@@ -313,7 +306,7 @@
 									    echo $formLabel->closeTag();
 									?>
 									<div class="input-group">
-										<span class="input-group-addon"><i class="icon-building icono"></i></span>
+										<span class="input-group-addon"><i class="fa fa-building icono"></i></span>
 										<?php
 											echo $this->formSelect($linea);
 											echo $this->formElementErrors($linea);

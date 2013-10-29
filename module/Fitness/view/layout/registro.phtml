@@ -1,14 +1,23 @@
 <?php echo $this->doctype(); ?>
+<?php
+	$children 	=	$this->viewModel()->getCurrent()->getChildren();
+	$variables	=	$children[0];
+	$titulo		=	$children[0]->getTemplate();
+	$titulo		=	explode("/", $titulo);
+	$titulo		=	$titulo[count($titulo)-1];
+	// var_dump($titulo[count($titulo)-1]);
+?>
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <?php echo $this->headTitle('Fitness House || '. $this->translate('Registros'))->setSeparator(' - ')->setAutoEscape(false) ?>
+	<head>
+		<meta charset ="utf-8">
+		<?php //echo $this->headTitle('Fitness House || '. $this->translate('Registros'))->setSeparator(' - ')->setAutoEscape(false) ?>
+		<?php echo $this->headTitle('Fitness House || '. $titulo)->setSeparator(' - ')->setAutoEscape(false) ?>
 
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
 
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome.min.css')
                         ->prependStylesheet($this->basePath() . '/css/font-awesome-ie7.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
@@ -55,10 +64,6 @@
                 <div class="col-12 col-sm-12 col-lg-7">
                 </div>
                 <div class="col-12 col-sm-12 col-lg-5" id="avatarPer">
-                    <?php
-                        $children = $this->viewModel()->getCurrent()->getChildren();
-                        $variables = $children[0];
-                    ?>
                     <div class="col-4 col-sm-4 col-lg-3 filtro" >
                         <?php $img=(file_exists('public/perfil/'.$variables->id.'.jpg'))?$variables->id.'.jpg':'logo.png';
                         ?>
@@ -91,17 +96,17 @@
                 </div>
             </div>
                 <ul class="breadcrumb">
-                    <li><a href="<?php echo $this->url().'registros/sucursal' ?>"><i class="icon-building"></i> Registrar Sucursal</a></li>
+                    <li><a href="<?php echo $this->url().'registros/sucursal' ?>"><i class="fa fa-building"></i> Registrar Sucursal</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>
-                    <li><a href="<?php echo $this->url().'registros/personal' ?>"><i class="icon-group"></i> Personal</a></li>
+                    <li><a href="<?php echo $this->url().'registros/personal' ?>"><i class="fa fa-group"></i> Personal</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>
-                    <li><a href="<?php echo $this->url().'registros/servicio' ?>"><i class="icon-tag"></i> Servicio Base</a></li>
+                    <li><a href="<?php echo $this->url().'registros/servicio' ?>"><i class="fa fa-tag"></i> Servicio Base</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>
-                    <li><a href="<?php echo $this->url().'registros/plan' ?>"><i class="icon-tags"></i> Plan</a></li>
+                    <li><a href="<?php echo $this->url().'registros/plan' ?>"><i class="fa fa-tags"></i> Plan</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>
-                    <li><a href="<?php echo $this->url().'registros/promocion' ?>"><i class="icon-star"></i> Promocion</a></li>
+                    <li><a href="<?php echo $this->url().'registros/promocion' ?>"><i class="fa fa-star"></i> Promocion</a></li>
                     <span class="divider">&nbsp; | &nbsp;</span>
-                    <li><a href="<?php echo $this->url().'registros/empresa' ?>"><i class="icon-inbox"></i> Empresa</a></li>
+                    <li><a href="<?php echo $this->url().'registros/empresa' ?>"><i class="fa fa-suitcase"></i> Empresa</a></li>
                 </ul>
         </div>
         <div class="container">
