@@ -1,22 +1,20 @@
 jQuery(function($){
-    var oTable;
-    var giRedraw = false;
-    var auxId;
-     $('#frmAsistencia').validate({
-            debug: true,
-            rules: {
-                        dtpFechaIng: {
-                            required: true,
-                        },
-                    },
-            messages:{
-
-                        dtpFechaIng:{
-                            required: '<span class="label label-warning">Campo Requerido</span>'
-                        },
-
-                    },
-        });
+	var oTable;
+	var giRedraw = false;
+	var auxId;
+	$('#frmAsistencia').validate({
+		debug: true,
+		rules: {
+				dtpFechaIng: {
+					required: true,
+					},
+				},
+		messages:{
+				dtpFechaIng:{
+					required: '<span class ="label label-warning">Campo Requerido</span>'
+					},
+				},
+		});
      function limpiaControles(){
             $('#btnlimpiar').attr('title',"Actualizar");
             $('#btnlimpiar').attr('value',"Registrar");
@@ -26,7 +24,7 @@ jQuery(function($){
             $('#boxServicios').empty();
             $(dtpFechaIng).val("");
             $(txtidIns).val("");
-            $(txtidCli).val("");
+			$(txtidCli).val("");
             //$(txtidPer).val("");
            // $(txtidSuc).val("");
             // $(txtIdPer).val("");
@@ -87,12 +85,12 @@ jQuery(function($){
                             // "bPaginate": false,
                             "bAutoWidth": false,
                             "oLanguage": {
-                                "sLengthMenu": "Mostrar _MENU_ elementos",
-                                "sZeroRecords": "No se encontro el valor ingresado",
-                                "sInfo": "_START_ a _END_ de _TOTAL_ elementos",
-                                "sInfoEmpty": "0 a 0 de 0 elementos",
-                                "sInfoFiltered": "(_MAX_ filtrados del total de elementos)",
-                                "sSearch":"Buscar: "
+								"sLengthMenu"	:	"Mostrar _MENU_ elementos",
+								"sZeroRecords"	:	"No se encontro el valor ingresado",
+								"sInfo"			:	"_START_ a _END_ de _TOTAL_ elementos",
+								"sInfoEmpty"	:	"0 a 0 de 0 elementos",
+								"sInfoFiltered"	:	"(_MAX_ filtrados del total de elementos)",
+								"sSearch"		:	"Buscar: "
                             },
                             "aoColumns": [
                                             { "mData": "documento_soc" },
@@ -106,11 +104,11 @@ jQuery(function($){
 
                             $('#example tbody tr').each( function() {
                               var sTitle;
-                              var nTds = $('td', this);
-                              var id = $(nTds[2]).text();
+								var nTds	=	$('td', this);
+								var id		=	$(nTds[2]).text();
                               $(nTds[2]).text("");
                               var botones='<div class="btn-group">';
-                              botones += '<a class="btn btn-primary btnAccion" id="'+id+'" title="Editar"><i class="icon-edit"></i></a>';
+                              botones += '<a class="btn btn-primary btnAccion" id="'+id+'" title="Editar"><i class="fa fa-edit"></i></a>';
                               $(nTds[2]).append(botones);
                             });
                             $('.btnAccion').on('click',function(event){
@@ -139,7 +137,7 @@ jQuery(function($){
                                                    var dat=$(this)[0];
                                                    tabla+='<tr>';
                                                    tabla+='<td>'+dat.nombre_Serv+'</td>';
-                                                   tabla+='<td><a class="btn btn-primary btnSelect" title="Click" id='+dat.id_Ins + '>Click</a></td>';
+                                                   tabla+='<td><a class="btn btn-primary btnSelect" title="Click" id='+dat.id_Ins + '><i class="fa fa-thumb-tack fa-rotate-90"></i></a></td>';
                                                     tabla+='</tr>';
                                                 });
                                                     tabla+='</tbody> </table>';

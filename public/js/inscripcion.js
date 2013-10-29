@@ -44,7 +44,7 @@ jQuery(function($) {
 
 
 function listacliente(){
-        var control     =   "activolistacliente";
+        var control     =   "listasocios";
                     $('#tablaTitulo').empty().html("Listado de Clientes");
                     $("#barra").slideDown();
           $.post(control, {

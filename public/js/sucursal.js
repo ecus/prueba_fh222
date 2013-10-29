@@ -175,8 +175,8 @@ jQuery(function($) {
                             var id = $(nTds[3]).text();
                             $(nTds[3]).text("");
                             var botones='<div class="btn-group">';
-                            botones += '<a class="btn btn-gym btnAccion" id="'+id+'" title="Editar"><i class="icon-edit"></i></a>';
-                            botones +='<a class="btn btn-gym btnAccion" id="'+id+'" title="Inactiva"><i class="icon-eraser"></i></a>';
+                            botones += '<a class="btn btn-gym btnAccion" id="'+id+'" title="Editar"><i class="fa fa-edit"></i></a>';
+                            botones +='<a class="btn btn-gym btnAccion" id="'+id+'" title="Inactiva"><i class="fa fa-eraser"></i></a>';
                             botones +='</div>';
                             $(nTds[3]).append(botones);
                         } );
