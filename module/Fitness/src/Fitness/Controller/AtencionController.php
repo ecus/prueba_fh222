@@ -177,8 +177,8 @@ class AtencionController extends AbstractActionController
 	public function activolistaclienteAction()
 	{
 		$container = new Container('personal');
-        if (isset($container->iduser)) {
-			$request			=	$this->getRequest();
+		if (isset($container->iduser)) {
+			$request            =	$this->getRequest();
 			$response			=	$this->getResponse();
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
@@ -682,6 +682,24 @@ class AtencionController extends AbstractActionController
 				}
 		}
 		return $response;
+	}
+	public function listasociosAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request            =	$this->getRequest();
+			$response			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			// $tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
+			// $listaAsis			=	$tablaAsis->listaClienteActivo();
+			$tablaSoc			=	new SocioTabla($this->dbAdapter);
+			$listaSoc			=	$tablaSoc->listaSocio();
+			$listaSoc			=	\Zend\Json\Json::encode($listaSoc);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaSoc,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
 	}
 ////// termina controlador
 }

@@ -844,4 +844,52 @@ class RegistrosController extends AbstractActionController
 		}
 	}
 
+//------------------------------------- EMPRESA --------------------------------------
+	public function empresaAction()
+	{
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$frmEmp	=	new FrmEmpresa('frmEmpresa');
+			$var	=	array(
+					"titulo"		=>	"Registro de Empresa",
+					"frmEmpresa"	=>	$frmEmp,
+					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
+					'nombre'		=>	$container->nombre
+				);
+			$view	=	new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
+	public function regempresaAction()
+	{
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$request	=	$this->getRequest();
+			$response	=	$this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$emp				=	new Empresa();
+				$empTabla			=	new EmpresaTabla($this->dbAdapter);
+				$frm				=	$request->getPost();
+				$emp->setNombre_Em($frm['txtNombre']);
+				$msje				=	$empTabla->insertarEmpresa($emp);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
+	}
 }
