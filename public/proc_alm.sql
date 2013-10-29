@@ -219,10 +219,17 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaAsistencia`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaAsistencia`(in fecReg datetime, in fecIng datetime, in idIns int, in idSoc smallint,in idPer smallint,in idSuc tinyint,out msje varchar(80))
 begin
-declare id int;
-  insert into asistencia(id_Asis,fechaRegistro_asis,fechaIngreso_asis,Inscripcion_id_Ins,Socio_id_Soc,Personal_id_Per,Sucursal_id_Suc)
-  values(id,fecReg,fecIng,idIns,idSoc,idPer,idSuc);
-  set msje:= 'Asistencia Registrada';
+  declare id int default 0;
+  select id_Asis INTO id from asistencia where fechaIngreso_Asis=fecIng and Socio_id_Soc=idSoc;
+
+  CASE
+    WHEN id = 0 THEN
+      insert into asistencia(id_Asis,fechaRegistro_asis,fechaIngreso_asis,Inscripcion_id_Ins,Socio_id_Soc,Personal_id_Per,Sucursal_id_Suc)
+      values(fecReg,fecIng,idIns,idSoc,idPer,idSuc);
+      set msje:= 'Asistencia Registrada';
+    WHEN id > 0 THEN
+      SET msje:= 'La fecha de ingreso indicada ya se registró con anterioridad.';
+  END CASE;
 end $$
 
 DELIMITER ;
