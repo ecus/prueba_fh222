@@ -35,7 +35,7 @@ jQuery(function($) {
                         txtIdPer :{
                             required: '<span class="label label-warning">Campo Obligatorio</span>',
                             digits: '<span class="label label-warning">Solo numeros</span>',
-                            
+
                         },
                         txtIdCli: {
                             required:'<span class="label label-warning">Campo Obligatorio</span>'
@@ -80,7 +80,7 @@ jQuery(function($) {
              var accion =$(this).attr('value');
              if(accion=='Registrar'){
                 if($("#frmFreezing").valid()){
-                 // $("#barra").slideDown(); 
+                 // $("#barra").slideDown();
                    $.post("regfree",{
                   //  console.log('no se puede registrar');
                         dtpFechaReg: $(dtpFechaReg).val(),
@@ -98,7 +98,7 @@ jQuery(function($) {
                             $("#msjeModal").empty().html(data.response);
                             $("#modalFreezing").modal();
                             }
-                   },'json'); 
+                   },'json');
                 }
              }
         });
@@ -120,12 +120,12 @@ jQuery(function($) {
                         }
                         $("#barra").slideUp();
                     }, 'json');
-                           
+
                 });
                 $('#btnRegFreezing').attr('title',"Actualizar Sucursal");
                 $('#btnRegFreezing').attr('value',"Registrar");
         });
-           
+
 function fnGetSelected( oTableLocal )
     {
         var aReturn = new Array();

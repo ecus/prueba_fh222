@@ -1,61 +1,70 @@
 <?php
 namespace Fitness\Model;
 
-use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
 use Fitness\Model\Entity\Pago;
 
-class PagoTabla
+class PagoTabla extends TableGateway
 {
-	protected $adapter;
-	public function __construct(Adapter $a)
+	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		$this->adapter=$a;
+		return parent::__construct('', $adapter, $databaseSchema,
+			$selectResultPrototype);
 	}
-	public function insertarPago(Pago $f)
+	public function insertarPago(Pago $p)
 	{
-		$datos=array(
-				
-				$f->getFechaRegPago(),
-				$f->getFechaPago(),
-				$f->getTotal(),
-				$f->getMoneda(),
-				$f->getFormaPago(),
-				$f->getConPago(),
-				$f->getEstado(),
-				$f->getidServicio(),
-				$f->getidCuenta(),
-				$f->getidPer(),
-				$f->getidSucursal(),
-				$f->getidCliente()
-				);
-		
-        $result =	$this->adapter->query('CALL pa_InsertarPago (?,?,?,?,?,?,?,?,?,?,?,?)',$datos);
-        //AQUI COMO CONTROLAR EL MENSAJE YA QUE EN EL SCRIPT NO ENVIO NINGUN MENSAJE
-        $resulta =   $this->adapter->query('SELECT @a as mensaje',Adapter::QUERY_MODE_EXECUTE);
-        $datos	=	$resulta->toArray();
-		if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Pago Registrado.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+		$var1	=	$p->getFechaRegPago();
+		$var2	=	$p->getFechaPago();
+		$var3	=	$p->getTotal();
+		$var4	=	$p->getMoneda();
+		$var5	=	$p->getFormaPago();
+		$var6	=	$p->getConPago();
+		$var7	=	$p->getEstado();
+		$var8	=	$p->getidServicio();
+		$var9	=	$p->getidCuenta();
+		$var10	=	$p->getidPer();
+		$var11	=	$p->getidSucursal();
+		$var12	=	$p->getidCliente();
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		$stmt->prepare('CALL pa_InsertarPago (?,?,?,?,?,?,?,?,?,?,?,?)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(7, $var7,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+		$stmt->execute();
+		$stmt->getResource()->closeCursor();
+
+		$stmt2	=	$dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result	=	$stmt2->execute();
+		$output	=	$result->current();
+		return $output['mensaje'];
 	}
-	public function verCliente($txtDni)
+	public function verCliente($dni)
 	{
 		try{
-			$var 		= array($txtDni);
-			$sql 		=	$this->adapter->query('CALL pa_CliServicio (?)',$var);
-			$result		=	$sql->toArray();
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_ClienteInscripcion(?)');
+			$stmt->getResource()->bindParam(1, $dni);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
 	}
-	
+
 }
 ?>

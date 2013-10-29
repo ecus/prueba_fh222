@@ -1,40 +1,41 @@
 <?php
 namespace Fitness\Model;
 
-use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
 use Fitness\Model\Entity\Sucursal;
 
-class SucursalTabla
+class SucursalTabla extends TableGateway
 {
-	protected $adapter;
-	public function __construct(Adapter $a)
+	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null)
 	{
-		$this->adapter=$a;
+		return parent::__construct('', $adapter, $databaseSchema,
+			$selectResultPrototype);
 	}
 	public function insertarSucursal(Sucursal $suc=NULL)
 	{
 		try
 		{
-			$var=array(
-						$suc->getDisplay_Suc(),
-						$suc->getUbicacion_Suc(),
-						$suc->getLinea(),
-						$suc->getTelefono_Suc()
-					);
-			$sql = $this->adapter->query('CALL pa_insertaSucursal (?,?,?,?,@msje)',$var);
-			$resulta =   $this->adapter->query('SELECT @msje as mensaje',Adapter::QUERY_MODE_EXECUTE);
-	        $datos	=	$resulta->toArray();
-			if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Sucursal Registrada.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+			$var1	=	$suc->getDisplay_Suc();
+			$var2	=	$suc->getUbicacion_Suc();
+			$var3	=	$suc->getLinea();
+			$var4	=	$suc->getTelefono_Suc();
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaSucursal (?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4);
+			$stmt->execute();
+			$stmt->getResource()->closeCursor();
+
+			$stmt2	=	$dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result	=	$stmt2->execute();
+			$output	=	$result->current();
+			return $output['mensaje'];
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -43,22 +44,30 @@ class SucursalTabla
 	{
 		try
 		{
-			$var=array(
-						$suc->getDisplay_Suc(),
-						$suc->getUbicacion_Suc(),
-						$suc->getLinea(),
-						$suc->getTelefono_Suc(),
-						$suc->getEstado(),
-						$suc->getId(),
-					);
-			$sql = $this->adapter->query('CALL pa_actualizaSucursal(?,?,?,?,?,?,@msje)',$var);
-			$resulta =   $this->adapter->query('SELECT @msje as mensaje',Adapter::QUERY_MODE_EXECUTE);
-	        $datos	=	$resulta->toArray();
-			if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Sucursal Actualizada.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+			$var1	=	$suc->getDisplay_Suc();
+			$var2	=	$suc->getUbicacion_Suc();
+			$var3	=	$suc->getLinea();
+			$var4	=	$suc->getTelefono_Suc();
+			$var5	=	$suc->getEstado();
+			$var6	=	$suc->getId();
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_actualizaSucursal(?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4);
+			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+			$stmt->execute();
+			$stmt->getResource()->closeCursor();
+
+			$stmt2	=	$dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result	=	$stmt2->execute();
+			$output	=	$result->current();
+			return $output['mensaje'];
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -66,13 +75,12 @@ class SucursalTabla
 	public function listaSucursal()
 	{
 		try{
-			$sql 	=	$this->adapter->query('CALL pa_listaSucursal',Adapter::QUERY_MODE_EXECUTE);
-			// $result	=	$sql->toArray();
-			$result	=	array();
-			foreach ($sql->toArray() as $value) {
-				$result[$value['id_suc']]=$value['nombre_suc'];
-			}
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaSucursal()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -80,10 +88,12 @@ class SucursalTabla
 	public function listaSucursalActivo()
 	{
 		try{
-			$sql 		=	$this->adapter->query('CALL pa_listaSucursalActivo',Adapter::QUERY_MODE_EXECUTE);
-			$result		=	$sql->toArray();
-			return $result;
-
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaSucursalActivo()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -91,9 +101,12 @@ class SucursalTabla
 	public function listaSucursalInactivo()
 	{
 		try{
-			$sql 		=	$this->adapter->query('CALL pa_listaSucursalInactivo',Adapter::QUERY_MODE_EXECUTE);
-			$result		=	$sql->toArray();
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaSucursalInactivo()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -101,9 +114,12 @@ class SucursalTabla
 	public function verSucursal()
 	{
 		try{
-			$sql 		=	$this->adapter->query('CALL pa_listaSucursal',Adapter::QUERY_MODE_EXECUTE);
-			$result		=	$sql->toArray();
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaSucursal()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -111,10 +127,13 @@ class SucursalTabla
 	public function leeSucursal($id)
 	{
 		try{
-			$var		=	array($id);
-			$sql 		= $this->adapter->query('CALL pa_leeSucursal (?)',$var);
-			$result		=	$sql->toArray();
-			return $result;
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_leeSucursal(?)');
+			$stmt->getResource()->bindParam(1, $id);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -122,15 +141,28 @@ class SucursalTabla
 	public function desactivaSucursal($id)
 	{
 		try{
-			$var		=	array($id);
-			$this->adapter->query('CALL pa_desactivarSucursal (?,@msje)',$var);
-			$resulta =   $this->adapter->query('SELECT @msje as mensaje',Adapter::QUERY_MODE_EXECUTE);
-	        $datos	=	$resulta->toArray();
-			if (strcmp($datos[0]['mensaje'], null)==0){
-				return "Sucursal Eliminada.";
-			}else{
-				return $datos[0]['mensaje'];
-			}
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_desactivarSucursal(?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->execute();
+			$stmt->getResource()->closeCursor();
+
+			$stmt2	=	$dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result	=	$stmt2->execute();
+			$output	=	$result->current();
+			return $output['mensaje'];
+
+			// $var		=	array($id);
+			// $this->adapter->query('CALL pa_desactivarSucursal (?,@msje)',$var);
+			// $resulta =   $this->adapter->query('SELECT @msje as mensaje',Adapter::QUERY_MODE_EXECUTE);
+			// $datos =	$resulta->toArray();
+			// if (strcmp($datos[0]['mensaje'], null)==0){
+			// 	return "Sucursal Eliminada.";
+			// }else{
+			// 	return $datos[0]['mensaje'];
+			// }
 			// $result		=	$sql->toArray();
 			// $result		=	"Sucursal ahora es Inactiva.";
 			// return $result;

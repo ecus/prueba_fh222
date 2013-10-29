@@ -95,7 +95,7 @@ class AtencionController extends AbstractActionController
 
 	public function regfreeAction()
 	{
-		$container	=	new Container('personal');
+		$container		=	new Container('personal');
 		if (isset($container->iduser)) {
 			$request	=	$this->getRequest();
 			$response	=	$this->getResponse();
