@@ -56,6 +56,7 @@ BEGIN
 		estado_suc		=	estado
 	WHERE
 		id_suc=id;
+  SET msje:='Sucursal Actualizada.';
 END $$
 
 DELIMITER ;
@@ -110,13 +111,14 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_ClienteInscripcion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_ClienteInscripcion`(in dni varchar(11))
-begin
-SELECT soc.id_Soc,soc.documento_Soc,concat_ws(' ', apellidoPaterno_Soc, apellidoMaterno_Soc,nombres_Soc) as cliente,
-inc.id_Ins,inc.fechaInicio_Ins
-from socio soc
-INNER JOIN inscripcion inc on soc.id_Soc = inc.Socio_id_Soc
-where soc.documento_Soc = dni and inc.estado_Ins=1;
-end $$
+BEGIN
+  SELECT soc.id_Soc,soc.documento_Soc,CONCAT(soc.apellidoPaterno_Soc,' ', soc.apellidoMaterno_Soc,', ',soc.nombres_Soc) as cliente,
+  inc.id_Ins,inc.fechaInicio_Ins, serv.freezing_Serv
+  FROM socio soc
+  INNER JOIN inscripcion inc ON soc.id_Soc = inc.Socio_id_Soc
+  INNER JOIN servicio serv ON inc.Servicio_id_Serv=serv.id_Serv
+  WHERE soc.documento_Soc = dni AND inc.estado_Ins=1;
+END $$
 
 DELIMITER ;
 
@@ -239,9 +241,30 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaInscripcion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaInscripcion`(IN ini DATE,IN fin DATE, IN socio SMALLINT,IN servicio SMALLINT,IN personal SMALLINT,OUT msje VARCHAR(80))
 BEGIN
-  INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
-  VALUES (ini,fin,socio,servicio,personal);
-  SET  msje:= 'Socio Registrado';
+  DECLARE id INT DEFAULT 0;
+  DECLARE cantidad INT DEFAULT 0;
+  DECLARE fecha CHAR(15);
+  SELECT id_Ins INTO id FROM inscripcion WHERE Socio_id_Soc=socio;
+
+  CASE
+    WHEN id=0 THEN
+      INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
+      VALUES (ini,fin,socio,servicio,personal);
+      SET  msje:= 'Socio Inscrito';
+    WHEN id>0 THEN
+      SELECT DATEDIFF(DATE(NOW()),fechaFin_Ins) INTO cantidad FROM inscripcion WHERE id_Ins=id;
+      CASE
+        WHEN cantidad=0 THEN
+          INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
+          VALUES (ini,fin,socio,servicio,personal);
+          SET  msje:= 'Socio Inscrito';
+        WHEN cantidad<=5 THEN
+          SELECT DATE_ADD( NOW(),INTERVAL cantidad DAY) INTO fecha;
+          SET  msje:= CONCAT('El socio, ya esta inscrito en un plan y le quedan ',cantidad,' días, se sugiere registrarlo con esta fecha esta de incio: ', fecha );
+        WHEN cantidad>5 THEN
+          SET  msje:= CONCAT('El socio, ya esta inscrito en un plan y le quedan ',cantidad,' días');
+      END CASE;
+  END CASE;
 END $$
 
 DELIMITER ;
@@ -574,17 +597,18 @@ DELIMITER ;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_InsertarFreezing`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_InsertarFreezing`(in FecReg datetime,in dias tinyint,in coment varchar(150),in idInsc int, in idSoc smallint,in idPer int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_InsertarFreezing`(in FecReg datetime,in dias tinyint,in coment varchar(150),in idInsc int, in idSoc smallint,in idPer int,OUT msje VARCHAR(80))
 begin
 DECLARE cod smallint;
 	SELECT (COALESCE( MAX( id_Free ) , 0 ) +1) INTO cod FROM freezing;
-start transaction;
-insert into freezing(id_Free,fechaRegistro_free,cantidadDias_free,descripcion_free,Inscripcion_id_Ins,
-Socio_id_Soc,Personal_id_Per)
-values(cod,FecReg,dias,coment,idInsc,idSoc,idPer);
+  start transaction;
+    insert into freezing(id_Free,fechaRegistro_free,cantidadDias_free,descripcion_free,Inscripcion_id_Ins,
+    Socio_id_Soc,Personal_id_Per)
+    values(cod,FecReg,dias,coment,idInsc,idSoc,idPer);
 
-UPDATE inscripcion insc SET insc.estado_Ins = 0 WHERE insc.Socio_id_Soc = idSoc;
-commit;
+    UPDATE inscripcion insc SET insc.estado_Ins = 0 WHERE insc.Socio_id_Soc = idSoc;
+    SET msje:='Freezing registrado.';
+  commit;
 end $$
 
 DELIMITER ;
@@ -593,15 +617,16 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_InsertarPago`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_InsertarPago`(in FecReg datetime,in FecPago datetime,in pago decimal(6,2),in moneda tinyint,in forma tinyint, in concepto tinyint,
-                                 in estado tinyint(1),in idSer smallint, in idCta int, in idPer smallint,in idSuc tinyint, in idSoc smallint)
+                                 in estado tinyint(1),in idSer smallint, in idCta int, in idPer smallint,in idSuc tinyint, in idSoc smallint,out msje varchar(80))
 begin
 DECLARE cod int;
 	SELECT (COALESCE( MAX( id_Pago ) , 0 ) +1) INTO cod FROM pago;
 
-insert into pago(id_Pago,fechaRegistro_Pago,fechaPago_Pago,monto_Pago,moneda_pago,forma_Pago,concepto_Pago,estado_Pago,Servicio_id_Serv,
-Cuenta_id_Cuenta,Personal_id_Per,Sucursal_id_Suc,Socio_id_Soc)
-values(cod,FecReg,FecPago,pago,moneda,forma,concepto,estado,idSer,idCta,idPer,idSuc,idSoc);
+  insert into pago(id_Pago,fechaRegistro_Pago,fechaPago_Pago,monto_Pago,moneda_pago,forma_Pago,concepto_Pago,estado_Pago,Servicio_id_Serv,
+  Cuenta_id_Cuenta,Personal_id_Per,Sucursal_id_Suc,Socio_id_Soc)
+  values(cod,FecReg,FecPago,pago,moneda,forma,concepto,estado,idSer,idCta,idPer,idSuc,idSoc);
 
+  SET msje:= 'Pago Registrado.';
 end $$
 
 DELIMITER ;
