@@ -207,7 +207,6 @@ class SocioTabla extends TableGateway
 			$stmt->execute();
 			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			return $info;
-			// var_dump($info);
 		} catch (Exception $e) {
 			throw $e;
 		}

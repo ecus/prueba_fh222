@@ -35,13 +35,19 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a href="./" class="navbar-brand"></a>
+            <a href="./personal" class="navbar-brand"></a>
             <div class="nav-collapse collapse bs-navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li>
-                    <a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a>
-                </li>
-              </ul>
+                    <ul class="nav navbar-nav">
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/registros' ?>">Registros</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/atencion' ?>">Atencion</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/reportes' ?>">Reportes</a>
+                    </li>
+                </ul>
             </div>
           </div>
         </div>
@@ -80,7 +86,7 @@
                             <br />
                             <sup>
                                 <a href="sdsad">Configuracion</a>
-                                <a href="<?php echo $this->basePath() . '/fitness/index/logoutper'; ?>">Salir</a>
+                                <a href="<?php echo $this->basePath() . '/fitness/personal/logoutper'; ?>">Salir</a>
                             </sup>
                         </div>
                     </div>
@@ -92,11 +98,6 @@
                 <p>Desarrollado por: Conectados</p>
             </footer>
         </div> <!-- /container -->
-        <div class="navbar-inverse navbar-fixed-bottom bs-docs-nav">
-            <div class="container">
-                sdd
-            </div>
-        </div>
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

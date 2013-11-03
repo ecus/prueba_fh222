@@ -1,8 +1,8 @@
 jQuery(function($) {
     var oTable;
-    var horarios=[];
+    var horarios = [];
     var giRedraw = false;
-    var fila=1;
+    var fila = 1;
     var auxId;
         $("#frmPlan").validate({
             debug: true,
@@ -63,8 +63,6 @@ jQuery(function($) {
         });
 
         $('#btnRegPlan').on('click',function(event){
-            // var aux=($(cmbEmpresa).val())?$(cmbEmpresa).val():null;
-            // console.log(aux);
             if ($(frmPlan).valid()){
                 if (horarios.length==0)
                 {
@@ -88,11 +86,12 @@ jQuery(function($) {
                 };
             };
         });
+
         $('#btnCancelar').on('click',function(event){
             console.log($(lstSucursal).val());
         });
-        $('#btnRegistrar').on('click',function(event){
 
+        $('#btnRegistrar').on('click',function(event){
             var accion = $('#btnRegPlan').attr('value');
             $('#modalAccion').modal('hide');
             if (accion=='Registrar'){
@@ -113,6 +112,7 @@ jQuery(function($) {
                         lstServicios    :$(lstServicios).val(),
                         txtPersonal     :$(txtPersonal).val(),
                         chkLimite       :($(chkLimite).attr('checked'))?1:0,
+                        cmbPlanBase     :($(cmbPlanBase).val()>0)?$(cmbPlanBase).val():null,
                         horario         :horarios
                         // cmbEmpresa      :$(cmbEmpresa).val(),
                     }, function(data) {
@@ -185,6 +185,66 @@ jQuery(function($) {
                     });
             };
         });
+
+        $('#btnBuscaPlan').on('click',function(event){
+            var boton = $(this).children('i');
+            boton.removeClass('fa-search');
+            boton.addClass('fa-spinner fa-spin');
+            if ($(cmbPlanBase).val()) {
+                $.post("resumenplan",{
+                    cmbPlanBase :   $(cmbPlanBase).val(),
+                }, function(data) {
+                    if (data.response == false){
+                        console.log ('No se puede registrar');
+                    }else{
+                        info    =   data.info;
+                        suc     =   data.sucursal;
+                        serv    =   data.serv;
+                        $(txtNombre).val(info.nombre_serv);
+                        $(txtMonto).val(info.montoBase_serv);
+
+                        $(txtDuracion).val(info.duracion_serv);
+                        $(txtdiasCupon).val(info.diascupon_Serv);
+                        $(txtfreezing).val(info.freezing_serv);
+                        $(txtMontoIni).val(info.montoinicial_Serv);
+                        $(txtCuotaMax).val(info.cuotasMaximo_serv);
+                        $(chkLimite).val(info.pagoMaximo_serv);
+                        $(chkLimite).prop('checked', true);
+                        // var fecha = info.fechaRegistro_serv.split(' ');
+                        // console.log(fecha);
+                        // fecha = fecha[0].split("/");
+                        // fecha = fecha[2]+'-'+fecha[1]+'-'+fecha[0];
+                        // $(dtpFecha).val(fecha);
+                        $("#btnVigencia"+info.tipoduracion_serv).val(1);
+                        $("#btnVigencia"+info.tipoduracion_serv).parent("label").addClass('active');
+                        $.each(suc, function() {
+                            var nombre = $(this)[0].nombre_suc;
+                            $.each($("#lstSucursal option"), function() {
+                                   if ($(this).text()==nombre) {
+                                        $(this).attr('selected', 'selected');
+                                   };
+                              });
+                        });
+                        $.each(serv, function() {
+                            var nombre = $(this)[0].nombre_serv;
+                            $.each($("#lstServicios option"), function() {
+                                   if ($(this).text()==nombre) {
+                                        $(this).attr('selected', 'selected');
+                                   };
+                              });
+                        });
+                        boton.removeClass('fa-spinner fa-spin');
+                        boton.addClass('fa-search');
+                    }
+                },'json');
+            } else{
+                $("#msjeModal").empty().html("Selecione un plan de referencia.");
+                $("#modalServicio").modal();
+                boton.removeClass('fa-spinner fa-spin');
+                boton.addClass('fa-search');
+            };
+        });
+
         function addHorario(id){
             var dias    = [];
             var mensaje = [];

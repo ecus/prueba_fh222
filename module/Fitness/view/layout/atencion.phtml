@@ -44,13 +44,19 @@
 					<span class ="icon-bar"></span>
 					<span class ="icon-bar"></span>
 				</button>
-				<a href ="<?php echo $this->url('home') ?>" class="navbar-brand"></a>
+				<a href ="<?php echo $this->url('home').'fitness/personal' ?>" class="navbar-brand"></a>
 				<!-- <a class ="brand" href="<?php //echo $this->url() ?>"></a> -->
 				<div class ="nav-collapse collapse bs-navbar-collapse">
 					<ul class ="nav navbar-nav">
 						<li>
-							<a href ="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+							<a href ="<?php echo $this->url('home').'fitness/registros' ?>">Registros</a>
+						</li>
 						<li>
+							<a href ="<?php echo $this->url('home').'fitness/atencion' ?>">Atencion</a>
+						</li>
+						<li>
+							<a href ="<?php echo $this->url('home').'fitness/reportes' ?>">Reportes</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -86,16 +92,18 @@
 					</div>
 					<div class ="col-8 col-sm-8 col-lg-9" id="avatarPerInfo">
 						<div class ="row">
-							<h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4><sup><small>Coordinador</small></sup>
+							<h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4>
+							<!-- <sup><small>Coordinador</small></sup> -->
 							<br />
 							<sup>
 								<a href ="sdsad">Configuracion</a>
-								<a href ="<?php echo $this->basePath() . '/fitness/index/logoutper'; ?>">Salir</a>
+								<a href ="<?php echo $this->basePath() . '/fitness/personal/logoutper'; ?>">Salir</a>
 							</sup>
 						</div>
 					</div>
 				</div>
 			</div>
+			<br />
 			<div class ="row">
 				<ul class ="breadcrumb">
 					<li><a href ="<?php echo $this->url().'atencion/socio' ?>"><i class="fa fa-user"></i> Registrar Socio</a></li>

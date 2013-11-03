@@ -259,6 +259,7 @@ class ServicioTabla extends TableGateway
 	public function listaServicioBase()
 	{
 		try{
+
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_listaServicioBase()');
@@ -267,6 +268,7 @@ class ServicioTabla extends TableGateway
 				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
 			}
 			return $result;
+			// var_dump($result);
 		}catch(Zend_Exception $e){
 			throw $e;
 		}
@@ -283,6 +285,7 @@ class ServicioTabla extends TableGateway
 				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
 			}
 			return $result;
+			// var_dump($result);
 		} catch (Exception $e) {
 			throw $e;
 		}

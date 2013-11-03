@@ -58,7 +58,7 @@ return array(
                     'scheme' => 'https',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Fitness\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'Personal',
                         'action'        => 'menu',
                     ),
                 ),
@@ -81,10 +81,10 @@ return array(
             'login-personal-error' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/Index',
+                    'route'    => '/personal',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Fitness\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'Personal',
                         'action'        => 'index',
                     ),
                 ),
@@ -161,6 +161,7 @@ return array(
             'Fitness\Controller\Trabajo'    =>  'Fitness\Controller\TrabajoController',
             'Fitness\Controller\Reportes'    =>  'Fitness\Controller\ReportesController',
             'Fitness\Controller\Atencion'   =>  'Fitness\Controller\AtencionController',
+            'Fitness\Controller\Personal'   =>  'Fitness\Controller\PersonalController',
 
             //'Fitness\Controller\Auth' => 'Fitness\Controller\AuthController',
             //'Fitness\Controller\Success' => 'Fitness\Controller\SuccessController'

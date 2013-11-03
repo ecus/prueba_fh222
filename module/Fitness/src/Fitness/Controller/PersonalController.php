@@ -23,23 +23,33 @@ use Fitness\Form\FrmLogin;
 use Fitness\Model\PersonalTabla;
 use Fitness\Model\Entity\Sucursal;
 
-class IndexController extends AbstractActionController
+class PersonalController extends AbstractActionController
 {
-	public $sesion;
 	public function indexAction()
 	{
-		$pag	=	$this->getRequest()->getBaseUrl();
-		$msje	=	$this->params()->fromRoute('msje');
-		$form 	=	new FrmLogin('form');
-		$var	=	array(
-				"titulo"	=>	"Debe ir un formulario de Inicio de Sesion",
-				"url"		=>	$pag,
-				"form"		=>	$form,
-				"msje"		=>	$msje
-			);
-		$view = new ViewModel($var);
-		//$this->layout('layout/prueba');'variable'
-		return $view;
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			return $this->forward()->dispatch("Fitness\Controller\Personal",
+									array(
+										"action"	=>	"menu",
+										'id'	=>	$container->idper,
+										'per'		=>	$container->idper,
+										'nombre'=>	$container->nombre
+										));
+		} else {
+			$pag	=	$this->getRequest()->getBaseUrl();
+			$msje	=	$this->params()->fromRoute('msje');
+			$form 	=	new FrmLogin('form');
+			$var	=	array(
+					"titulo"	=>	"Debe ir un formulario de Inicio de Sesion",
+					"url"		=>	$pag,
+					"form"		=>	$form,
+					"msje"		=>	$msje
+				);
+			$view = new ViewModel($var);
+			//$this->layout('layout/prueba');'variable'
+			return $view;
+		}
 	}
 	public function recibeAction()
 	{
@@ -115,30 +125,5 @@ class IndexController extends AbstractActionController
 										"action"	=>	"index",
 										));
 		}
-	}
-	public function javascriptAction()
-	{
-		$view = new ViewModel();
-		return $view;
-	}
-	public function gettingstartedAction()
-	{
-		$view = new ViewModel();
-		return $view;
-	}
-	public function cssAction()
-	{
-		$view = new ViewModel();
-		return $view;
-	}
-	public function customizeAction()
-	{
-		$view = new ViewModel();
-		return $view;
-	}
-	public function componentsAction()
-	{
-		$view = new ViewModel();
-		return $view;
 	}
 }

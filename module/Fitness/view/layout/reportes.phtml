@@ -46,14 +46,20 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a href="./" class="navbar-brand"></a>
+            <a href="./personal" class="navbar-brand"></a>
                 <!-- <a class="brand" href="<?php echo $this->url() ?>"></a> -->
             <div class="nav-collapse collapse bs-navbar-collapse">
               <ul class="nav navbar-nav">
-                <li>
-                    <a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
-                <li>
-              </ul>
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/registros' ?>">Registros</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/atencion' ?>">Atencion</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('home').'fitness/reportes' ?>">Reportes</a>
+                    </li>
+                </ul>
             </div>
           </div>
         </div>
@@ -92,7 +98,7 @@
                             <br />
                             <sup>
                                 <a href="sdsad">Configuracion</a>
-                                <a href="<?php echo $this->basePath() . '/fitness/index/logoutper'; ?>">Salir</a>
+                                <a href="<?php echo $this->basePath() . '/fitness/personal/logoutper'; ?>">Salir</a>
                             </sup>
                         </div>
                     </div>

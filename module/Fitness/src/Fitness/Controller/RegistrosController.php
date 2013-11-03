@@ -21,8 +21,8 @@ use Fitness\Form\frmCuenta;
 use Fitness\Form\FrmBuscar;
 use Fitness\Form\Frmfreezing;
 use Fitness\Form\frmEmpresa;
-use Fitness\Form\frmServicio;
-use Fitness\Form\frmPlan;
+use Fitness\Form\FrmServicio;
+use Fitness\Form\FrmPlan;
 
 use Fitness\Model\Entity\Cuenta;
 use Fitness\Model\Entity\Sucursal;
@@ -663,19 +663,18 @@ class RegistrosController extends AbstractActionController
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$listaEmp	=	$tablaEmp->listaEmpresa();
 			$listaPer	=	$tablaPer->listaPersonal();
-			$frmSer		=	new frmServicio('frmServicio');
+			$frmSer		=	new FrmServicio('frmServicio');
 			$frmSer->get("cmbEncargado")->setValueOptions($listaPer);
 			$frmSer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$frmSer->get("cmbEmpresa")->setValueOptions($listaEmp);
 			$frmSer->get("lstSucursal")->setValueOptions($listaSuc);
-			$container = new Container('personal');
-			// $var 	]=	array(
-			// );
+			// $container = new Container('personal');
+			// var_dump($frmSer);
 			$var		=	array(
 				"titulo"		=>	"Registro de Servicio",
 				"frmServicio"	=>	$frmSer,
 				'id'			=>	$container->iduser,
-					'per'		=>	$container->idper,
+				'per'			=>	$container->idper,
 				'nombre'		=>	$container->nombre,
 			);
 			$view = new ViewModel($var);
@@ -733,19 +732,21 @@ class RegistrosController extends AbstractActionController
 	{
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
-			$frmPlan		=	new frmPlan('frmPlan');
+			$frmPlan		=	new FrmPlan('frmPlan');
 			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
 			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
 			$tablaPer	=	new PersonalTabla($this->dbAdapter);
 			$tablaServ	=	new ServicioTabla($this->dbAdapter);
 			$listaSuc	=	$tablaSuc->listaSucursal();
+			$listaPlan	=	$tablaServ->listaPlan();
 			// $listaEmp	=	$tablaEmp->listaEmpresa();
 			$listaPer	=	$tablaPer->listaPersonal();
 			$listaServ	=	$tablaServ->listaServicioBase();
 			$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
 			$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
 			// $frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmPlan->get("cmbPlanBase")->setValueOptions($listaPlan);
 			$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
 			$frmPlan->get("lstServicios")->setValueOptions($listaServ);
 			$var		=	array(
@@ -805,6 +806,19 @@ class RegistrosController extends AbstractActionController
 		}
 	}
 
+	public function resumenplanAction()
+	{
+		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+		$request 	= 	$this->getRequest();
+		$response 	=	$this->getResponse();
+		$frm 		= 	$request->getPost();
+		$id			=	$frm['cmbPlanBase'];
+		$tablaServ  =   new ServicioTabla($this->dbAdapter);
+		$repServ   	=   $tablaServ->resumenServicio($id);
+		$repServ	=	\Zend\Json\Json::encode($repServ);
+		$response->setContent(\Zend\Json\Json::prettyPrint($repServ,array("indent" => " ")));
+		return $response;
+	}
 //------------------------------------- PROMOCION ------------------------------------
 	public function promocionAction()
 	{

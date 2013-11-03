@@ -78,9 +78,12 @@ class SucursalTabla extends TableGateway
 			$dbAdapter	=	$this->getAdapter();
 			$stmt		=	$dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_listaSucursal()');
-			$stmt->execute();
-			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
-			return $info;
+			$sql		=	$stmt->execute();
+			// $info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			while ($sql->next()) {
+				$result[$sql->current()['id_suc']]	=	$sql->current()['nombre_suc'];
+			}
+			return $result;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();
 		}
@@ -93,6 +96,7 @@ class SucursalTabla extends TableGateway
 			$stmt->prepare('CALL pa_listaSucursalActivo()');
 			$stmt->execute();
 			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			$sql		=	$stmt->execute();
 			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();

@@ -18,7 +18,8 @@ class Servicio
 	private $pagoMaximo_ser;
 	private $cuota_ser;
 	private $personal_id_per;
-	
+	private $servicioBase;
+
 	public function __construct($datos=array())
 	{
 		$this->id_ser		 		=	NULL;
@@ -31,7 +32,7 @@ class Servicio
 		$this->fechaRegistro_ser	=	NULL;
 		$this->promocion_ser 		=	NULL;
 		$this->personal_id_per 		=	NULL;
-	
+		$this->servicioBase 		=	NULL;
 	}
 	public function getData()
 	{
@@ -46,7 +47,7 @@ class Servicio
 			'fecha'					=>	$this->fechaRegistro_ser,
 			'promocion'				=>	$this->promocion_ser,
 			'personal'				=>	$this->personal_id_per,
-			
+			'servicioBase'			=>	$this->servicioBase
 			);
 		return $array;
 	}
@@ -176,6 +177,14 @@ class Servicio
 	{
 		return $this->personal_id_per;
 	}
-
+	public function setServicioBase($ser)
+	{
+		$this->servicioBase=$per;
+		return $this;
+	}
+	public function getServicioBase()
+	{
+		return $this->servicioBase;
+	}
 }
 ?>

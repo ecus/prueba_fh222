@@ -10,7 +10,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Form\Fieldset;
 
-class frmPlan extends Form
+class FrmPlan extends Form
 {
 	public function __construct($name = null)
 	{
@@ -148,7 +148,7 @@ class frmPlan extends Form
                             'placeholder'    => 'Ejm.: 15',
                             'class'          => 'numerico form-control',
                             'maxlength'      => 3,
-                            'id'        => 'txtfreezing'
+                            'id'               => 'txtfreezing'
                         ),
             ));
 
@@ -300,8 +300,21 @@ class frmPlan extends Form
                     'id'        => 'cmbSucursal'
                     ));
         $select->setEmptyOption('Seleccione...');
-        $select->setValueOptions(array(
-            0=>'dsalj'));
+        $this->add($select);
+
+        $select = new Element\Select('cmbPlanBase');
+        $select->setLabel('Actualizar Plan: ');
+        $select->setLabelAttributes(
+                    array(
+                        'class'     =>  'control-label',
+                        'for'       =>  'cmbPlanBase'
+                        ) );
+        $select->setAttributes(
+                array(
+                    'class'          => 'form-control',
+                    'id'        => 'cmbPlanBase'
+                    ));
+        $select->setEmptyOption('Seleccione...');
         $this->add($select);
 
         $plan = new Element\MultiCheckbox('lstDetallePlan');

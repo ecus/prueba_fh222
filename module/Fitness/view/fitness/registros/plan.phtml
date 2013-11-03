@@ -14,6 +14,9 @@
 		?>
 		<fieldset>
 			<legend><?php echo $this->titulo ?></legend>
+			<div class="row">
+				
+			</div>
 			<div class="col-12 col-sm-4 col-lg-4">
 				<!-- 1 -->
 				<div class="form-group">
@@ -160,6 +163,25 @@
 				<!-- 12 -->
 				<div class="form-group col-6">
 					<?php
+						$linea = $form->get('cmbPlanBase');
+						echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-bookmark-o icono"></i></span>
+						<?php
+							echo $this->formSelect($linea);
+							echo $this->formElementErrors($linea);
+						?>
+						<div class="input-group-btn">
+							<a class="btn btn-default" data-toogle="button" buttonType="primary" id="btnBuscaPlan">
+								<i class="fa fa-search icon"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-6">
+					<?php
 					    $name = $form->get('dtpFecha');
 					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 					    echo $this->formElementErrors($name);
@@ -170,11 +192,11 @@
 						<?php echo $this->formInput($name); ?>
 					</div>
 				</div>
-					<?php
-					    $name = $form->get('txtPersonal');
-						$name->setAttribute('value', $this->per);
-						echo $this->formInput($name);
-					?>
+				<?php
+					$name = $form->get('txtPersonal');
+					$name->setAttribute('value', $this->per);
+					echo $this->formInput($name);
+				?>
 			</div>
 				<?php echo $this->formInput($form->get('txtPromocion')); ?>
 				<?php echo $this->formInput($form->get('txtTipoDuracion')); ?>
