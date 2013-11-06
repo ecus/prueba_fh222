@@ -577,6 +577,23 @@ class AtencionController extends AbstractActionController
 		}
 	}
 
+	public function referirlistasocioAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request            =	$this->getRequest();
+			$response			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSoc			=	new SocioTabla($this->dbAdapter);
+			$listaSoc			=	$tablaSoc->listaSocioReferir();
+			$listaSoc			=	\Zend\Json\Json::encode($listaSoc);
+			$response->setContent(\Zend\Json\Json::prettyPrint($listaSoc,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
+	}
+
 //------------------------------------- EMPRESA --------------------------------------
 	public function empresaAction()
 	{
@@ -674,6 +691,7 @@ class AtencionController extends AbstractActionController
 				$ins->setSocio_id($frm['optCliente']);
 				$ins->setServicio_id($frm['cmbServicio']);
 				$ins->setPersonal_id($frm['txtPersonal']);
+				$ins->setTipo_ins($frm['cmbTipoInscripcion']);
 				$msje	=	$insTabla->insertarinscripcion($ins);
 				if (!$msje)
 					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));

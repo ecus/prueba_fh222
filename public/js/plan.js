@@ -55,6 +55,7 @@ jQuery(function($) {
                         },
                     },
         });
+
         $('.btnVigencia').on('click',function(event){
             // $(txtSexo).val($(this).attr('id').charAt($(this).attr('id').length-1));
             var x=$(this).find('input').attr('id');
@@ -201,12 +202,12 @@ jQuery(function($) {
                         suc     =   data.sucursal;
                         serv    =   data.serv;
                         $(txtNombre).val(info.nombre_serv);
-                        $(txtMonto).val(info.montoBase_serv);
+                        $(txtMonto).val(Math.floor(info.montoBase_serv));
 
                         $(txtDuracion).val(info.duracion_serv);
                         $(txtdiasCupon).val(info.diascupon_Serv);
                         $(txtfreezing).val(info.freezing_serv);
-                        $(txtMontoIni).val(info.montoinicial_Serv);
+                        $(txtMontoIni).val(Math.floor(info.montoinicial_Serv));
                         $(txtCuotaMax).val(info.cuotasMaximo_serv);
                         $(chkLimite).val(info.pagoMaximo_serv);
                         $(chkLimite).prop('checked', true);

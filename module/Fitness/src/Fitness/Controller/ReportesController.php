@@ -40,7 +40,7 @@ class ReportesController extends AbstractActionController
 				"titulo"		=>	"Registro de Sucursal",
 			);
 		$view = new ViewModel($var);
-		$this->layout('layout/reportes');
+		$this->layout('layout/menu');
 		return $view;
 	}
 	public function replanAction()

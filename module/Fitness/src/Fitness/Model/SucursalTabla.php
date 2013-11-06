@@ -96,7 +96,6 @@ class SucursalTabla extends TableGateway
 			$stmt->prepare('CALL pa_listaSucursalActivo()');
 			$stmt->execute();
 			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
-			$sql		=	$stmt->execute();
 			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();

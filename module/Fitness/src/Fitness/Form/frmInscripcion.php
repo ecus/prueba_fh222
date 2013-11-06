@@ -109,7 +109,7 @@ class frmInscripcion extends Form
 
 
         $select = new Element\Select('cmbServicio');
-        $select->setLabel('Servicio: ');
+        $select->setLabel('Plan: ');
         $select->setLabelAttributes(
                     array(
                         'class'     =>  'control-label',
@@ -121,6 +121,26 @@ class frmInscripcion extends Form
                     'id'        => 'cmbServicio'
                     ));
         $select->setEmptyOption('Seleccione...');
+        $this->add($select);
+
+        $select = new Element\Select('cmbTipoInscripcion');
+        $select->setLabel('Tipo Inscripcion: ');
+        $select->setLabelAttributes(
+                    array(
+                        'class'     =>  'control-label',
+                        'for'       =>  'cmbTipoInscripcion'
+                        ) );
+        $select->setAttributes(
+                array(
+                    'class'          => 'form-control',
+                    'id'        => 'cmbTipoInscripcion'
+                    ));
+        $select->setEmptyOption('Seleccione...');
+        $select->setValueOptions(array(
+            0=>'Regular',
+            1=>'Invitado',
+            2=>'Becado',
+            3=>'Recuperación'));
         $this->add($select);
 
         $this->add(array(

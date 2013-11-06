@@ -787,7 +787,7 @@ class RegistrosController extends AbstractActionController
 				$ser->setDuracion_ser($frm['txtDuracion']);
 				$ser->setfechaReg_ser($frm['dtpFecha']);
 				$ser->setPromocion_ser(0);
-				// $ser->setEmpresa_id_emp(($frm['cmbEmpresa']=='')?null:$frm['cmbEmpresa']);
+				$ser->setservicioBase(($frm['cmbPlanBase']=='')?null:$frm['cmbPlanBase']);
 				// $ser->setEmpresa_id_emp(($frm['cmbEmpresa']=='')?null:$frm['cmbEmpresa']);
 				$ser->setPersonal_id_per($frm['txtPersonal']);
 				$sucursales	=	$frm['lstSucursal'];

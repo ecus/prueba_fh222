@@ -203,10 +203,10 @@ class Frmsocio extends Form
                     ));
         $select->setEmptyOption('Seleccione...');
          $select->setValueOptions(array(
-                0 => 'Casado',
-                1 => 'Soltero'
+                0 => 'Soltero',
+                1 => 'Casado'
             ));
-        $this->add($select); 
+        $this->add($select);
 //------------------cmbCiudad--13--------------------------
         $select = new Element\Select('cmbCiudad');
         $select->setLabel('Ciudad: ');
@@ -340,24 +340,21 @@ class Frmsocio extends Form
         $select->setEmptyOption('Seleccione...');
          $select->setValueOptions(array(
                 0 => 'Socio',
-                1 => 'Invitado',
-                2 => 'Visita',
-                3 => 'Recuperacion',
-                4 => 'Becado'
+                1 => 'Visita',
             ));
         $this->add($select);
 //---------------------cmbsocio------18--------------------
         $this->add(array(
-                'name'      =>  'cmbsocio',
+                'name'      =>  'txtSocio',
                 'options'   =>  array(
                             'label' =>  'Dni-Socio ref.: ',
                             'label_attributes'  => array(
                                     'class'     =>  'control-label',
-                                    'for'       =>  'cmbsocio'
+                                    'for'       =>  'txtSocio'
                                       ),
                             ),
                 'attributes'=>  array(
-                            'id'            =>'cmbsocio',
+                            'id'            =>'txtSocio',
                             'type'           => 'text',
                             'placeholder'    => 'Socio Referido',
                             'class'          => 'form-control numerico',

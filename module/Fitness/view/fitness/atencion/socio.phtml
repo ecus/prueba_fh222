@@ -208,25 +208,31 @@
 					</div>
 				</div>
 				<br />
-				<div class="col-12">
-					<div class="col-12 col-lg-3 accordion-group">
-						<br />
-						<a class="btn btn-gym btn-block" id="btnAgregaTel">A&ntilde;adir N&uacute;mero Telef&oacute;nico</a>
-						<hr />
-						<legend>N&uacute;meros A&ntilde;adidos</legend>
-							<div id="boxNumeros" class='col-12'>
+				<div class="row">
+					<div class="col-12 col-sm-5 col-lg-5">
+						<fieldset>
+							<legend>Referido por: </legend>
+						</fieldset>
+						<table class="table table-bordered table-striped table-condensed" id="example">
+							<caption id="tablaTitulo"></caption>
+						 	<thead>
+								<tr>
+									<th><i class="fa fa-check-square-o fa-lg"></i></th>
+									<th>DNI</th>
+									<th>Nombre de Socio</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<br>
+							<div id="barra" class="progress progress-info progress-striped active">
+								<div class="bar" style="width:100%"></div>
 							</div>
-						<div class="col-12" >
-							<center>
-							<hr />
-							<span class='label label-default'>Tel. Fijo</span>
-							<span class='label label-info'>Tel. Movil</span>
-							<span class='label label-danger'>Tel. Emergencia</span>
-							</center>
-							<br />
+						<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
 						</div>
 					</div>
-					<div class="boxNumero col-12 col-lg-9 accordion-group">
+					<div class="boxNumero col-12 col-lg-4 accordion-group">
 						<legend>Informacion del Numero</legend>
 						<div class="form-group form-inline">
 							<label for="cmbTipoCel">Tipo de Telefono</label>
@@ -248,10 +254,10 @@
 							<label for="">Numero: </label>
 							<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-phone icono"></i></span>
-							<input type="text" class="form-control numerico" name="txtNumero" id="txtNumero" maxlength="10" />
+							<input type="text" class="form-control rpm" name="txtNumero" id="txtNumero" maxlength="10" />
 							</div>
 						</div>
-						<div class="form-group col-6" id="boxEmergencia">
+						<div class="form-group col-12" id="boxEmergencia">
 							<label for="Emergencia">¿Es Telefono de Emergencia?: </label>
 							<div class="btn-group" data-toggle="buttons" id="Emergencia">
 								<label class="btn btn-gym btnEmergencia">
@@ -280,15 +286,32 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-12 col-lg-3 accordion-group">
+						<br />
+						<a class="btn btn-gym btn-block" id="btnAgregaTel">A&ntilde;adir N&uacute;mero Telef&oacute;nico</a>
+						<hr />
+						<legend>N&uacute;meros A&ntilde;adidos</legend>
+							<div id="boxNumeros" class='col-12'>
+							</div>
+						<div class="col-12" >
+							<center>
+							<hr />
+							<span class='label label-default'>Tel. Fijo</span>
+							<span class='label label-info'>Tel. Movil</span>
+							<span class='label label-danger'>Tel. Emergencia</span>
+							</center>
+							<br />
+						</div>
+					</div>
 				</div>
 				<br />
 			</div>
 			<!-- Socio - Empresa -->
 			<div class="col-12">
-				<!-- cmbsocio -->
+				<!-- txtSocio -->
 		  		<div class="form-group col-12 col-sm-6 col-lg-6">
 					<?php
-						$name = $form->get('cmbsocio');
+						$name = $form->get('txtSocio');
 						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
 						echo $this->formElementErrors($name);
 						echo $formLabel->closeTag();

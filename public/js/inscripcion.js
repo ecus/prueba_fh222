@@ -43,7 +43,7 @@ jQuery(function($) {
 
 
 
-function listacliente(){
+    function listacliente(){
         var control     =   "listasocios";
                     $('#tablaTitulo').empty().html("Listado de Clientes");
                     $("#barra").slideDown();
@@ -102,13 +102,14 @@ function listacliente(){
                                         dtpFechaIni : $(dtpFechaIni).val(),
                                         dtpFechaFin : $(dtpFechaFin).val(),
                                         cmbServicio : $(cmbServicio).val(),
+                                        cmbTipoInscripcion : $(cmbTipoInscripcion).val(),
                                         txtPersonal : $(txtPersonal).val(),
                                         optCliente  : $(':input:checked').val(),
                                     },function(data){
                                         if(data.response == false){
                                             console.log('no se puede registrar');
                                         }else{
-                                            // limpiaControles();
+                                            limpiaControles();
                                             $("#msjeModal").empty().html(data.response);
                                             $("#modalIns").modal();
                                             // listasucursal('A');
@@ -122,10 +123,18 @@ function listacliente(){
                     },'json');
 
                     $("#barra").slideUp();
-
-
     };
     listacliente();
+    function limpiaControles () {
+        $(dtpFechaIni).val();
+        $(dtpFechaFin).val();
+        $.each($(optCliente), function(event) {
+            $(this).prop('checked', false);
+        });
+        $("#cmbServicio option:nth(0)").attr("selected","selected");
+        $(txtPersonal).val();
+        $("#cmbTipoInscripcion option:nth(0)").attr("selected","selected");
+    }
 });
 
 function fnGetSelected( oTableLocal )

@@ -3,6 +3,7 @@ jQuery(function($) {
     var strPag  = paginas[paginas.length-1];
     var controller=['fitness','registros','atencion'];
     $('.numerico').validarCampo('0123456789');
+    $('.rpm').validarCampo('*#0123456789');
     $('.moneda').validarCampo('.0123456789');
     $('.soloTexto').validarCampo(' abcdefghijklmnñopqrstuvwxyzáéíóú');
     $('.soloTextoNombre').validarCampo(' abcdefghijklmnñopqrstuvwxyzáéíóú-123456789');

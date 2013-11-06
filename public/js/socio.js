@@ -142,7 +142,7 @@ jQuery(function($){
 						cmbecivil   : $(cmbecivil).val(),
 						txtEmail    : $(txtEmail).val(),
 						txtDireccion: $(txtDireccion).val(),
-						cmbsocio    : $(cmbsocio).val(),
+						cmbsocio    : $(optCliente).val(),
 						cmbempresa  : $(cmbempresa).val(),
 						txtPersonal : $(txtPersonal).val(),
 						cmbDistrito : $(cmbDistrito).val(),
@@ -176,11 +176,11 @@ jQuery(function($){
 						cmbecivil   : $(cmbecivil).val(),
 						txtEmail    : $(txtEmail).val(),
 						txtDireccion: $(txtDireccion).val(),
-						cmbsocio    : $(cmbsocio).val(),
+						cmbsocio    : $(optCliente).val(),
 						cmbempresa  : $(cmbempresa).val(),
 						txtPersonal : $(txtPersonal).val(),
 						cmbDistrito : $(cmbDistrito).val(),
-                        txtUsuario  :$(txtUsuario).val(),
+                        txtUsuario  : $(txtUsuario).val(),
                         telefonos   : listaNumeros
                     },function(data){
                         if(data.response == false){
@@ -240,6 +240,7 @@ jQuery(function($){
                                         etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
                                     };
                                 };
+                                limpiaTelefono();
                     }else{
                         $.each(listaNumeros, function(index,val){
                             if(JSON.stringify(val)==JSON.stringify({numeroTel : numero,tipoTel : tipo,emergenciaTel:0})) {
@@ -263,6 +264,7 @@ jQuery(function($){
                                         etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
                                     };
                                 };
+                                limpiaTelefono();
                                 return false;
                             };
                         });
@@ -282,6 +284,7 @@ jQuery(function($){
                             nombreTel  :   nombreTele,
                             parentescoTel : parentesco
                         });
+                        limpiaTelefono();
                     }else{
                         contadorNumero  +=  1;
                         if (nombreTele.length>0 && parentesco.length>0){
@@ -298,6 +301,7 @@ jQuery(function($){
                                         nombreTel  :   nombreTele,
                                         parentescoTel : parentesco
                                     });
+                                    limpiaTelefono();
                                 };
                                 return false;
                             });
@@ -308,7 +312,7 @@ jQuery(function($){
                     };
                 };
                 $('#boxNumeros').append(etiqueta);
-                console.debug(listaNumeros);
+                // console.debug(listaNumeros);
                 //////
                 $('.btnClose').on('click',function(event){
                     event.preventDefault();
@@ -383,6 +387,18 @@ jQuery(function($){
             $(txtUsuario).val(user.toLowerCase());
             return user.toLowerCase();
         };
+        function limpiaTelefono () {
+            $("cmbTipoCel option:nth(0)").attr('selected', true);
+            $(txtNumero).val('');
+            $(txtParentesco).val('');
+            $(txtNombreTel).val('');
+            $("#boxInfoEmergencia").slideUp();
+            $.each($('.btnEmergencia'), function() {
+                if ($(this).text()=='No') {
+                    $(this).click();
+                };
+            });
+        }
         function limpiaControles(){
             $(txtDni).removeAttr('disabled');
             $(txtId).val('');
@@ -392,9 +408,16 @@ jQuery(function($){
             $(txtApPaterno).val('');
             $(txtApMaterno).val('');
             $(dtpFechanac).val('');
+            $(txtDireccion).val('');
+            $(txtEmergencia).val('');
             $(txtSexo).val(0);
             $(txtEmail).val('');
             $(txtUsuario).val('');
+            $("cmbSexo option:nth(0)").attr('selected', true);
+            $("cmbecivil option:nth(0)").attr('selected', true);
+            $("cmbCiudad option:nth(0)").attr('selected', true);
+            $("cmbDistrito option:nth(0)").attr('selected', true);
+            $("cmbempresa option:nth(0)").attr('selected', true);
             $("#btnSexo0").removeClass('active');
             $("#btnSexo1").removeClass('active');
             $("#btnEstado0").removeClass('active');
@@ -406,7 +429,68 @@ jQuery(function($){
             $("#boxAcceso").slideUp();
             $('#btnRegPersonal').attr('title',"Registrar");
             $('#btnRegPersonal').attr('value',"Registrar");
+            $.each($('#btnClose'), function() {
+                $(this).click();
+            });
+            $.each($(optCliente), function(event) {
+                 $(this).prop('checked', false);
+            });
+            limpiaTelefono();
         };
-        ////////////////////////// fin formulario personal //////////////////////////////
+        function listacliente(){
+            var control     =   "referirlistasocio";
+            $('#tablaTitulo').empty().html("Listado de Clientes");
+            $("#barra").slideDown();
+            $.post(control, {
+                },function(data){
+                     console.debug(data);
+                        oTable =$('#example').dataTable({
+                                "bDestroy": true,
+                                "aaData":data,
+                                // "bScrollCollapse": true,
+                                "bAutoWidth": false,
+                                "oLanguage": {
+                                    "sLengthMenu": "Mostrar _MENU_ elementos",
+                                    "sZeroRecords": "No se encontro el valor ingresado",
+                                    "sInfo": "_START_ a _END_ de _TOTAL_ elementos",
+                                    "sInfoEmpty": "0 a 0 de 0 elementos",
+                                    "sInfoFiltered": "(_MAX_ filtrados del total de elementos)",
+                                    "sSearch":"Buscar: "
+                                },
+                                  "aoColumns": [
+                                                { "mData": "id_Soc" },
+                                                { "mData": "documento_soc" },
+                                                { "mData": "cliente" }
+                                            ],
+                                "aoColumnDefs": [
+                                              { "sWidth": "1%", "aTargets": [ 0 ] }
+                                            ],
+                                "bPaginate": false,
+                                // "sPaginationType": "full_numbers",
+                                // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+                                // "iDisplayLength": 5,
+                            });
 
-  });
+                            $('#example tbody tr').each( function() {
+                                var sTitle;
+                                var nTds = $('td', this);
+                                var id = $(nTds[0]).text();
+                                $(nTds[0]).text("");
+                                var botones='<div class="btn-group">';
+                                botones += '<input type="radio" name="optCliente" id="optCliente" value="'+id+'" />';
+                                $(nTds[0]).append(botones);
+                            });
+                        oTable =$('#example').dataTable({
+                            "bDestroy": true,
+                            "sPaginationType": "full_numbers",
+                            // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+                            "aLengthMenu": [[3], [3]],
+                            "iDisplayLength": 3,
+                            });
+                    },'json');
+
+                    $("#barra").slideUp();
+    };
+    listacliente();
+    ////////////////////////// fin formulario personal //////////////////////////////
+});

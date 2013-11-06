@@ -1,5 +1,29 @@
 <div class="row">
 	<div class="col-12 col-sm-6 col-lg-6">
+		<!-- <div class="color5 hero-unit">
+			<p id="dataAsistencia"></p> -->
+			<fieldset>
+				<legend>Lista de Cliente</legend>
+			</fieldset>
+			<table class="table table-bordered table-striped table-condensed" id="example">
+				<caption id="tablaTitulo"></caption>
+			 	<thead>
+					<tr>
+						<th><i class="fa fa-check-square-o fa-lg"></i></th>
+						<th>Nombre de Socio</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<br>
+				<div id="barra" class="progress progress-info progress-striped active">
+					<div class="bar" style="width:100%"></div>
+				</div>
+			<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
+			</div>
+	</div>
+	<div class="col-12 col-sm-6 col-lg-6">
 			<?php
 				$form 	=	$this->frmInscripcion;
 				$form->prepare();
@@ -15,6 +39,21 @@
 			?>
 			<fieldset>
 				<legend><?php echo $this->titulo ?></legend>
+				<div class="form-group">
+					<?php
+						$linea = $form->get('cmbServicio');
+						echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+						echo $formLabel->closeTag();
+					?>
+					<!-- <div class="controls"> -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-tags icono"></i></span>
+						<?php
+							echo $this->formSelect($linea);
+							echo $this->formElementErrors($linea);
+						?>
+					</div>
+				</div>
 				<div class="form-group">
 					<?php
 					    $name = $form->get('dtpFechaIni');
@@ -46,13 +85,13 @@
 				</div>
 				<div class="form-group">
 					<?php
-						$linea = $form->get('cmbServicio');
+						$linea = $form->get('cmbTipoInscripcion');
 					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
 					    echo $formLabel->closeTag();
 					?>
 					<!-- <div class="controls"> -->
 						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-tags icono"></i></span>
+							<span class="input-group-addon"><i class="fa fa-check icono"></i></span>
 					<?php
 						echo $this->formSelect($linea);
 						echo $this->formElementErrors($linea);
@@ -70,30 +109,6 @@
 				<?php echo $this->form()->closeTag() ?>
 				<button class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</button>
 			</fieldset>
-	</div>
-	<div class="col-12 col-sm-6 col-lg-6">
-		<!-- <div class="color5 hero-unit">
-			<p id="dataAsistencia"></p> -->
-			<fieldset>
-				<legend>Lista de Cliente</legend>
-			</fieldset>
-			<table class="table table-bordered table-striped table-condensed" id="example">
-				<caption id="tablaTitulo"></caption>
-			 	<thead>
-					<tr>
-						<th>Seleccionar</th>
-						<th>Cliente</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-			<br>
-				<div id="barra" class="progress progress-info progress-striped active">
-					<div class="bar" style="width:100%"></div>
-				</div>
-			<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
-			</div>
 	</div>
 </div>
 <div id="modalIns" class="modal fade">

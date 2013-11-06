@@ -179,7 +179,7 @@ class Servicio
 	}
 	public function setServicioBase($ser)
 	{
-		$this->servicioBase=$per;
+		$this->servicioBase=$ser;
 		return $this;
 	}
 	public function getServicioBase()

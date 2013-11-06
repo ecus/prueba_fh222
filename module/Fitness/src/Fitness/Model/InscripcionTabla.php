@@ -23,16 +23,18 @@ class InscripcionTabla extends TableGateway
 			$var3	=	$ins->getSocio_id();
 			$var4	=	$ins->getServicio_id();
 			$var5	=	$ins->getPersonal_id();
+			$var6	=	$ins->getTipo_ins();
 					// );
 			// $sql = $this->adapter->query('CALL pa_insertaInscripcion(?,?,?,?,?)',$var);
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
-			$stmt->prepare('CALL pa_insertaInscripcion(?,?,?,?,?,@msje)');
+			$stmt->prepare('CALL pa_insertaInscripcion(?,?,?,?,?,?,@msje)');
 			$stmt->getResource()->bindParam(1, $var1);
 			$stmt->getResource()->bindParam(2, $var2);
 			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
 			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
 			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
 			$aux=$stmt->execute();
 			$stmt->getResource()->closeCursor();
 

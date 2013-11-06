@@ -231,4 +231,18 @@ class SocioTabla extends TableGateway
 		$dbAdapter	=	$this->getAdapter();
 		$sql =$dbAdapter->query('SELECT MAX( id_Soc +1 ) AS id FROM socio');
 	}
+	public function listaSocioReferir()
+	{
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_ListaSociosReferir()');
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info;
+			// var_dump($info);
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
 }
