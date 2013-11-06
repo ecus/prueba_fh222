@@ -31,4 +31,5 @@ table tr:nth-child(even){color:#04b5aa}
 .menu{padding:1em;text-align:center;text-shadow:2px 2px 3px rgba(0,0,0,0.5);color:#008080;}
 .menu:hover{color:#033;text-decoration:none}
 .oculto{visibility:hidden}
-.zf-green{color:#04b5aa;text-shadow:0 0 2px #752666}
+.zf-green{color:#008080}
+a.zf-green:hover{color:#004040}

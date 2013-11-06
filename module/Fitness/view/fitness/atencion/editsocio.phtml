@@ -12,15 +12,31 @@
 		echo $this->form()->openTag($form);
 	?>
 	<fieldset>
-		<legend>Registrar Socio&nbsp;
-			<sup>
-				<small>
-					<a href="<?php echo $this->url().'atencion/editsocio' ?>" class="zf-green">
-						<i class="fa fa-share"></i>Edicion
-					</a>
-				</small>
-			</sup>
-		</legend>
+		<legend>Editar Datos de Socio</legend>
+			<div class="row">
+				<div class="col-12">
+						<table class="table table-bordered table-striped table-condensed" id="example">
+							<caption id="tablaTitulo"></caption>
+						 	<thead>
+								<tr>
+									<th><i class="fa fa-check-square-o fa-lg"></i></th>
+									<th>DNI</th>
+									<th>Nombre de Socio</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<br>
+							<div id="barra" class="progress progress-info progress-striped active">
+								<div class="bar" style="width:100%"></div>
+							</div>
+						<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
+						</div>
+					</div>
+					<br />
+			</div>
+					<hr />
 			<div class="col-12 col-sm-6 col-lg-6">
 				<!-- cmbestado -->
 				<div class="form-group">
@@ -217,29 +233,7 @@
 				</div>
 				<br />
 				<div class="row">
-					<div class="col-12 col-sm-5 col-lg-5">
-						<fieldset>
-							<legend>Referido por: </legend>
-						</fieldset>
-						<table class="table table-bordered table-striped table-condensed" id="example">
-							<caption id="tablaTitulo"></caption>
-						 	<thead>
-								<tr>
-									<th><i class="fa fa-check-square-o fa-lg"></i></th>
-									<th>DNI</th>
-									<th>Nombre de Socio</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-						<br>
-							<div id="barra" class="progress progress-info progress-striped active">
-								<div class="bar" style="width:100%"></div>
-							</div>
-						<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
-						</div>
-					</div>
+					
 					<div class="boxNumero col-12 col-lg-4 accordion-group">
 						<legend>Informacion del Numero</legend>
 						<div class="form-group form-inline">

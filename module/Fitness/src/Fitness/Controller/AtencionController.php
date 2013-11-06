@@ -594,6 +594,41 @@ class AtencionController extends AbstractActionController
 		}
 	}
 
+//------------------------------------- E-SOCIO --------------------------------------
+	public function editsocioAction()
+	{
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
+			$tablaCat			=	new CatalogoTabla($this->dbAdapter);
+			$listaSuc			=	$tablaSuc->listaSucursal();
+			$listaCiu			=	$tablaCat->listaCiudad();
+			$pag				=	$this->getRequest()->getBaseUrl();
+			$frmsoc				=	new frmsocio('frmSocio');
+			$frmsoc->get("cmbCiudad")->setValueOptions($listaCiu);
+			$frmsoc->get("cmbDistrito")->setValueOptions(array('' =>'Debe Elegir Ciudad.'));
+			$var	=	array(
+					"titulo"	=>	"Registro de Socio",
+					"frmSocio"	=>	$frmsoc,
+					"listaSuc"	=>	$listaSuc,
+					"url"		=>	$pag,
+					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
+					'nombre'		=>	$container->nombre
+				);
+			$view	=	new ViewModel($var);
+			$this->layout('layout/atencion');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
+
 //------------------------------------- EMPRESA --------------------------------------
 	public function empresaAction()
 	{
