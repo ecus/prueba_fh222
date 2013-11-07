@@ -239,7 +239,7 @@ DELIMITER ;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaInscripcion`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaInscripcion`(IN ini DATE,IN fin DATE, IN socio SMALLINT,IN servicio SMALLINT,IN personal SMALLINT,OUT msje VARCHAR(80))
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaInscripcion`(IN ini DATE,IN fin DATE, IN socio SMALLINT,IN servicio SMALLINT,IN personal SMALLINT,IN tipo TINYINT ,OUT msje VARCHAR(80))
 BEGIN
   DECLARE id INT DEFAULT 0;
   DECLARE cantidad INT DEFAULT 0;
@@ -248,15 +248,15 @@ BEGIN
 
   CASE
     WHEN id=0 THEN
-      INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
-      VALUES (ini,fin,socio,servicio,personal);
+      INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per,tipo_Ins)
+      VALUES (ini,fin,socio,servicio,personal,tipo);
       SET  msje:= 'Socio Inscrito';
     WHEN id>0 THEN
       SELECT DATEDIFF(DATE(NOW()),fechaFin_Ins) INTO cantidad FROM inscripcion WHERE id_Ins=id;
       CASE
         WHEN cantidad=0 THEN
-          INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per)
-          VALUES (ini,fin,socio,servicio,personal);
+          INSERT INTO inscripcion (fechaInicio_Ins,fechaFin_Ins,Socio_id_Soc,Servicio_id_Serv,Personal_id_Per,tipo_Ins)
+          VALUES (ini,fin,socio,servicio,personal,tipo);
           SET  msje:= 'Socio Inscrito';
         WHEN cantidad<=5 THEN
           SELECT DATE_ADD( NOW(),INTERVAL cantidad DAY) INTO fecha;
@@ -478,7 +478,7 @@ DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_insertaPlanHorarioB`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_insertaPlanHorarioB`(
   IN nombre VARCHAR(45), IN mBase DECIMAL(6,2), IN tipo TINYINT(1), IN cupon TINYINT(4),
 	IN freezing TINYINT(4), IN mInicial DECIMAL(6,2), IN fecha DATETIME,IN promo TINYINT(1),
-	IN tipoDuracion TINYINT,IN duracion TINYINT, IN cuotas TINYINT, IN pagoMax TINYINT, IN personalReg SMALLINT,IN xmlServ TEXT, IN xmlSuc TEXT,IN xml TEXT,OUT msje VARCHAR(80))
+	IN tipoDuracion TINYINT,IN duracion TINYINT, IN cuotas TINYINT, IN pagoMax TINYINT, IN personalReg SMALLINT, IN planBase SMALLINT,IN xmlServ TEXT, IN xmlSuc TEXT,IN xml TEXT,OUT msje VARCHAR(80))
 BEGIN
   DECLARE m VARCHAR(80);
 --  para servicio
@@ -514,12 +514,12 @@ BEGIN
 		(	nombre_Serv,montoBase_Serv,tipo_Serv,diasCupon_Serv,
 			freezing_Serv,montoInicial_Serv,fechaRegistro_Serv,
 			promocion_Serv, tipoDuracion_Serv,duracion_Serv,
-      cuotasMaximo_Serv,pagoMaximo_Serv, Personal_id_Per)
+      cuotasMaximo_Serv,pagoMaximo_Serv, Personal_id_Per,Servicio_id_Serv)
 		VALUES
 		(	nombre,mBase,tipo,cupon,
 			freezing,mInicial,fecha,
 			promo,tipoDuracion,duracion,
-      cuotas,pagoMax,personalReg);
+      cuotas,pagoMax,personalReg,planBase);
 
 		SELECT MAX(LAST_INSERT_ID(id_Serv)) INTO serv FROM servicio;
 
@@ -787,7 +787,7 @@ BEGIN
 
 			SET mmax=0;
 
-      SET m= CONCAT(nom, ' ', pat, ' se Registró en el sistema.');
+      SET m= CONCAT(nom, ' ', pat, ' se Registró en el sistema con el id: ',soc );
 		  SELECT m INTO msje;
   	ELSE
 	  	SET m='La persona ya fue Registrada..!! (DNI Registrado)';
@@ -868,7 +868,7 @@ BEGIN
 				INSERT INTO usuariosocio
 				(	alias_user,clave_user,Socio_id_Soc	)	VALUES
 				(	alias,md5(pat),codigo	);
-      SET  msje:= CONCAT(nom, ' ', pat, ' se Registró en el sistema.');
+      SET  msje:= CONCAT(nom, ' ', pat, ' se Registró en el sistema con el id.', codigo);
 			COMMIT;
 		ELSE
 			SELECT CONCAT(apellidoPaterno_Soc,' ',apellidoMaterno_Soc,', ',nombres_Soc) INTO socios FROM socio WHERE documento_soc=dni;
@@ -1044,6 +1044,17 @@ select id_Soc,concat_ws(' ', apellidoPaterno_Soc, apellidoMaterno_Soc,nombres_So
 from socio soc
 INNER JOIN inscripcion inc on soc.id_Soc = inc.Socio_id_Soc
 where soc.estado_Soc=0 and inc.estado_Ins=1 and inc.tipo_Ins=0;
+end $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `bdpruebas`.`pa_ListaSociosReferir`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdpruebas`.`pa_ListaSociosReferir`()
+begin
+select id_Soc,concat(apellidoPaterno_Soc, ' ', apellidoMaterno_Soc,', ', nombres_Soc) as cliente,documento_soc
+from socio;
 end $$
 
 DELIMITER ;

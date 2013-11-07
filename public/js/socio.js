@@ -122,30 +122,37 @@ jQuery(function($){
                 }
             }, 'json');
         });
+
         $('#btnRegSocio').on('click',function(event){
             if($("#frmSocio").valid()){
                 console.log("paso");
-                if (usuario==0) {
-                	var op 	="regsocio";
+                var referido;
+                if ($('#optCliente').length>0) {
+                    referido=$("input[name='optCliente']:checked").val();
                 } else{
-                	var op 	="regusuariosocio";
+                    referido= null;
+                };
+                if (usuario==0) {
+                    var op  ="regsocio";
+                } else{
+                    var op  ="regusuariosocio";
                 };
                 $.post(op, {
-						cmbestado   : $(cmbestado).val(),
-						cmbDocumento: $(cmbDocumento).val(),
-						txtDni      : $(txtDni).val(),
-						txtNombre   : $(txtNombre).val(),
-						txtApPaterno: $(txtApPaterno).val(),
-						txtApMaterno: $(txtApMaterno).val(),
-						dtpFechanac : $(dtpFechanac).val(),
-						cmbSexo     : $(cmbSexo).val(),
-						cmbecivil   : $(cmbecivil).val(),
-						txtEmail    : $(txtEmail).val(),
-						txtDireccion: $(txtDireccion).val(),
-						cmbsocio    : $(optCliente).val(),
-						cmbempresa  : $(cmbempresa).val(),
-						txtPersonal : $(txtPersonal).val(),
-						cmbDistrito : $(cmbDistrito).val(),
+                        cmbestado   : $(cmbestado).val(),
+                        cmbDocumento: $(cmbDocumento).val(),
+                        txtDni      : $(txtDni).val(),
+                        txtNombre   : $(txtNombre).val(),
+                        txtApPaterno: $(txtApPaterno).val(),
+                        txtApMaterno: $(txtApMaterno).val(),
+                        dtpFechanac : $(dtpFechanac).val(),
+                        cmbSexo     : $(cmbSexo).val(),
+                        cmbecivil   : $(cmbecivil).val(),
+                        txtEmail    : $(txtEmail).val(),
+                        txtDireccion: $(txtDireccion).val(),
+                        cmbsocio    : referido,
+                        cmbempresa  : $(cmbempresa).val(),
+                        txtPersonal : $(txtPersonal).val(),
+                        cmbDistrito : $(cmbDistrito).val(),
                         telefonos   : listaNumeros,
                         txtUsuario  :$(txtUsuario).val(),
                     },function(data){
@@ -164,22 +171,33 @@ jQuery(function($){
         });
         $('#btnRegUsSocio').on('click',function(event){
             if($("#frmSocio").valid()){
+                var referido;
+                if ($('#optCliente').length>0) {
+                    referido=$("input[name='optCliente']:checked").val();
+                } else{
+                    referido= null;
+                };
+                if (usuario==0) {
+                    var op  ="regsocio";
+                } else{
+                    var op  ="regusuariosocio";
+                };
                 $.post("regusuariosocio", {
                         cmbestado   : $(cmbestado).val(),
-						cmbDocumento: $(cmbDocumento).val(),
-						txtDni      : $(txtDni).val(),
-						txtNombre   : $(txtNombre).val(),
-						txtApPaterno: $(txtApPaterno).val(),
-						txtApMaterno: $(txtApMaterno).val(),
-						dtpFechanac : $(dtpFechanac).val(),
-						cmbSexo     : $(cmbSexo).val(),
-						cmbecivil   : $(cmbecivil).val(),
-						txtEmail    : $(txtEmail).val(),
-						txtDireccion: $(txtDireccion).val(),
-						cmbsocio    : $(optCliente).val(),
-						cmbempresa  : $(cmbempresa).val(),
-						txtPersonal : $(txtPersonal).val(),
-						cmbDistrito : $(cmbDistrito).val(),
+                        cmbDocumento: $(cmbDocumento).val(),
+                        txtDni      : $(txtDni).val(),
+                        txtNombre   : $(txtNombre).val(),
+                        txtApPaterno: $(txtApPaterno).val(),
+                        txtApMaterno: $(txtApMaterno).val(),
+                        dtpFechanac : $(dtpFechanac).val(),
+                        cmbSexo     : $(cmbSexo).val(),
+                        cmbecivil   : $(cmbecivil).val(),
+                        txtEmail    : $(txtEmail).val(),
+                        txtDireccion: $(txtDireccion).val(),
+                        cmbsocio    : referido,
+                        cmbempresa  : $(cmbempresa).val(),
+                        txtPersonal : $(txtPersonal).val(),
+                        cmbDistrito : $(cmbDistrito).val(),
                         txtUsuario  : $(txtUsuario).val(),
                         telefonos   : listaNumeros
                     },function(data){
@@ -367,11 +385,11 @@ jQuery(function($){
                     $(optUsuario).val('1');
                     $(txtUsuario).attr('placeholder',user);
                     $(txtUsuario).val(user);
-                    usuario	=	1;
+                    usuario =   1;
                 }else{
                     $('#msjeModal').empty().html('Debe completar los campos de Nombre y Apellido Paterno');
                     $('#modalSocio').modal();
-                    usuario	=	0;
+                    usuario =   0;
                     // $("#boxAcceso").slideDown();
                 }
             }else{
