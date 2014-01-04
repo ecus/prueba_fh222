@@ -1,12 +1,9 @@
-ZendSkeletonApplication
+Fitness House Application
 =======================
 
-Introduction
+Introduccion
 ------------
-This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
-
+Aplicacion gimnasio "Fitness House"
 
 Installation
 ------------
@@ -23,8 +20,8 @@ Alternately, clone the repository and manually invoke `composer` using the shipp
 `composer.phar`:
 
     cd my/project/dir
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git
-    cd ZendSkeletonApplication
+    git clone git://github.com/ecus/prueba_fh222.git
+    cd prueba_fh222
     php composer.phar self-update
     php composer.phar install
 
@@ -45,6 +42,7 @@ Using Git submodules
 Alternatively, you can install using native git submodules:
 
     git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
+    git clone git://github.com/ecus/prueba_fh222.git
 
 Virtual Host
 ------------
