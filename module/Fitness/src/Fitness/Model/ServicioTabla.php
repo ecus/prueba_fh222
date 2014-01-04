@@ -230,7 +230,61 @@ class ServicioTabla extends TableGateway
 			// 			);
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
-			$stmt->prepare('CALL pa_insertaPlanHorarioB(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->prepare('CALL pa_insertaPlanHorarioC(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(14, $var14,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(15, $var15);
+			$stmt->getResource()->bindParam(16, $var16);
+			$stmt->getResource()->bindParam(17, $var17);
+			$aux=$stmt->execute();
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
+			return $output['mensaje'];
+		}catch(Zend_Db_Adapter_Exception $e){
+			throw $e;
+		}
+	}
+///////
+	public function insertarPromo(servicio $ser=NULL)
+	{
+		try
+		{
+
+			// print_r($var);
+			// var_dump($ser);
+
+			$var1=$ser->getNombre_ser();
+			$var2=$ser->getMontoBase_ser();
+			$var3=$ser->getTipo_ser();
+			$var4=$ser->getDiasCupon_ser();
+			$var5=$ser->getFreezing_ser();
+			$var6=$ser->getMontoInicial_ser();
+			$var7=$ser->getfechaReg_ser();
+			$var8=$ser->getPromocion_ser();
+			$var9=$ser->getTipoDuracion_ser();
+			$var10=$ser->getDuracion_ser();
+			$var11=$ser->getCuota_ser();
+			$var12=$ser->getPagoMaximo_ser();
+			$var13=$ser->getPersonal_id_per();
+			$var14=$ser->getServicioBase();
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaPromo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 			$stmt->getResource()->bindParam(1, $var1);
 			$stmt->getResource()->bindParam(2, $var2);
 			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
@@ -259,6 +313,51 @@ class ServicioTabla extends TableGateway
 		}
 	}
 
+	public function insertarPromoBase(servicio $ser=NULL)
+	{
+		try
+		{
+			// var_dump($ser);
+			// $var10	=	$ser->getHorario();
+
+			$var1	=	$ser->getServicioBase();
+			$var2	=	$ser->getTipoPromocion();
+			$var3	=	$ser->getFechaInicio();
+			$var4	=	$ser->getFechaFin();
+			$var5	=	$ser->getMontoPromocion();
+			$var6	=	$ser->getDias();
+			$var7	=	$ser->getPorcentaje();
+			$var8	=	$ser->getEmpresaMin();
+			$var9	=	$ser->getEmpresaMax();
+			$var10	=	1;
+			$var11	=	$ser->getPersonal_id_per();
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaPromoBase(?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(3, $var3);
+			$stmt->getResource()->bindParam(4, $var4);
+			$stmt->getResource()->bindParam(5, $var5);
+			$stmt->getResource()->bindParam(6, $var6,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+			$aux=$stmt->execute();
+
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
+			return $output['mensaje'];
+		}catch(Zend_Db_Adapter_Exception $e){
+			throw $e;
+		}
+	}
+///
 	public function listaServicioBase()
 	{
 		try{

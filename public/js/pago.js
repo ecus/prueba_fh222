@@ -52,7 +52,6 @@ jQuery(function($) {
         function limpiaControles(){
             $('#btnlimpiar').attr('title',"Actualizar");
             $('#btnlimpiar').attr('value',"Registrar");
-           
             $(txtDni).val("");
             $(txtCliente).val("");
             $(txtServicio).val("");
@@ -68,7 +67,6 @@ jQuery(function($) {
             $(txtIdSer).val("");
             $(txtIdSuc).val("");
             $(txtIdCta).val("");
-            
         };
 
         $('.nav-tabs').button();

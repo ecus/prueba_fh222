@@ -11,7 +11,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Form\Fieldset;
 
-class frmEmpresa extends Form
+class FrmEmpresa extends Form
 {
 	public function __construct($name = null)
 	{

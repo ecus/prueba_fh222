@@ -10,7 +10,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Form\Fieldset;
 
-class Frmsocio extends Form
+class FrmSocio extends Form
 {
 	public function __construct($name = null)
 	{

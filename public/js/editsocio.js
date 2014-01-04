@@ -1,5 +1,6 @@
 jQuery(function($){
 		var usuario			=	0;
+        var distrito        =   -1;
         var contadorNumero	=	0;
         var listaNumeros	=	[];
         $('.detalle').slideUp();
@@ -100,9 +101,8 @@ jQuery(function($){
                         }
                     }
         });
-        $('#cmbCiudad').change(function(){
+        $('#cmbCiudad').change(function (){
             var ciudad = $(this).val();
-            console.log(ciudad);
             $('#barraDistrito').slideDown();
             $.post("lisciudad", {
                 id  :   $(this).val()
@@ -114,23 +114,27 @@ jQuery(function($){
                     $('#cmbDistrito').find('option').remove().end();
                     var distritos = '<option value="">Seleccione...</option>';
                     $.each(data, function(index, val) {
-                        console.log(index+'=>'+val);
+                        // console.log(index+'=>'+val);
                         distritos += '<option value="'+index+'">'+val+'</option>';
                     });
                     $(cmbDistrito).html(distritos);
                     $('#barraDistrito').slideUp();
+                    if ( distrito > 0 ) {
+                        $('#cmbDistrito option[value="'+distrito+'"]').attr('selected', true);
+                        distrito = 0;
+                    };
                 }
             }, 'json');
         });
         $('#btnRegSocio').on('click',function(event){
             if($("#frmSocio").valid()){
-                console.log("paso");
                 if (usuario==0) {
-                	var op 	="regsocio";
+                	var op 	="actsocio";
                 } else{
-                	var op 	="regusuariosocio";
+                	var op 	="actusuariosocio";
                 };
                 $.post(op, {
+                        txtId       : $(txtId).val(),
 						cmbestado   : $(cmbestado).val(),
 						cmbDocumento: $(cmbDocumento).val(),
 						txtDni      : $(txtDni).val(),
@@ -142,12 +146,15 @@ jQuery(function($){
 						cmbecivil   : $(cmbecivil).val(),
 						txtEmail    : $(txtEmail).val(),
 						txtDireccion: $(txtDireccion).val(),
-						cmbsocio    : $(optCliente).val(),
+						// cmbsocio    : (optCliente.length>0)?$(optCliente).val():null,
 						cmbempresa  : $(cmbempresa).val(),
 						txtPersonal : $(txtPersonal).val(),
 						cmbDistrito : $(cmbDistrito).val(),
                         telefonos   : listaNumeros,
-                        txtUsuario  :$(txtUsuario).val(),
+                        txtUsuario  : $(txtUsuario).val(),
+                        dtpFechaVisita      : $(dtpFechaVisita).val(),
+                        dtpFechareg         : $(dtpFechareg).val(),
+                        dtpFechaInvitacion  : $(dtpFechaInvitacion).val()
                     },function(data){
                         if(data.response == false){
                             console.log('no se puede registrar');
@@ -189,6 +196,7 @@ jQuery(function($){
                 if ($('#txtEmergencia').val()==0){
                     if (listaNumeros.length==0){
                         listaNumeros.push({
+                                idnum      : 0,
                                 numeroTel  : numero,
                                 tipoTel    : tipo,
                                 emergenciaTel:0,
@@ -214,11 +222,12 @@ jQuery(function($){
                             }else{
                                 contadorNumero  +=  1;
                                 listaNumeros.push({
-                                numeroTel  : numero,
-                                tipoTel    : tipo,
-                                emergenciaTel:0,
-                                nombreTel  :   null,
-                                parentescoTel : null
+                                    idnum      : 0,
+                                    numeroTel  : numero,
+                                    tipoTel    : tipo,
+                                    emergenciaTel:0,
+                                    nombreTel  :   null,
+                                    parentescoTel : null
                                 });
                                 if (tipo<=1){
                                     // Fijo
@@ -243,6 +252,7 @@ jQuery(function($){
                         contadorNumero  +=  1;
                         etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
                         listaNumeros.push({
+                            idnum      : 0,
                             numeroTel  : numero,
                             tipoTel    : tipo,
                             emergenciaTel : emergencia,
@@ -260,6 +270,7 @@ jQuery(function($){
                                 }else{
                                     etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
                                     listaNumeros.push({
+                                        idnum      : 0,
                                         numeroTel  : numero,
                                         tipoTel    : tipo,
                                         emergenciaTel : emergencia,
@@ -285,7 +296,7 @@ jQuery(function($){
                     // $(this).parent('span').attr('class', id).detach();
                     $(this).parent('span').detach();
                     listaNumeros[id-1]=null;
-                    console.debug(listaNumeros);
+                    // console.debug(listaNumeros);
                 });
             };
         });
@@ -293,12 +304,12 @@ jQuery(function($){
             if (e.which == 13 && $(this).val().length>=6 && $(this).val().length<=10 ) {
                 $("#btnAgregaTel").click();
             }
-        })
+        });
         $('#txtNombreTel').keypress(function(e) {
             if (e.which == 13 && $(this).val().length>=6 && $('#txtNumero').val().length<=10 ) {
                 $("#btnAgregaTel").click();
             }
-        })
+        });
         $('.btnEmergencia').on('click',function(event){
             var opcion  =   $.trim($(this).text());
             if (opcion=='Si'){
@@ -310,7 +321,6 @@ jQuery(function($){
             };
         });
         $('.btnUper').on('click',function(event){
-            // $(txtEstadoUPer).val($(this).attr('id').charAt($(this).attr('id').length-1));
             var x=$(this).find('input').attr('id');
             $(txtEstadoUPer).val(x.charAt(x.length-1));
             });
@@ -324,9 +334,7 @@ jQuery(function($){
             var nombre   =  $(txtNombre).val();
             var apellido =  $(txtApPaterno).val().replace(" ","");
             var user     =  crearNombre();
-            console.log(rpta);
             if(rpta=='Si'){
-                // if(nombre!='' && apellido!=''){
                 if(nombre.length>0 && apellido.length>0){
                     $("#boxAcceso").slideDown();
                     $(optUsuario).val('1');
@@ -352,6 +360,128 @@ jQuery(function($){
             $(txtUsuario).val(user.toLowerCase());
             return user.toLowerCase();
         };
+        function agregaTelefono (num) {
+            // Socio_id_Soc: "2"
+            // emergencia_Tel: "0"
+            // id_Tel: "3"
+            // nombreEmergencia_Tel: ""
+            // numero_Tel: "227860"
+            // parentesco_Tel: ""
+            // tipo_tel: "1"
+            if (num.numero_Tel.length<=10){
+                var cantidad    =   $('#boxNumeros span').length;
+                var idnum       =   num.id_Tel;
+                var numero      =   num.numero_Tel;
+                var tipo        =   num.tipo_tel;
+                var infoTipo    =   $('#cmbTipoCel option[value="'+tipo+'"]').text();
+                var etiqueta    =   '';
+                if (num.emergencia_Tel==0){
+                    if (listaNumeros.length==0){
+                        listaNumeros.push({
+                                idnum      : idnum,
+                                numeroTel  : numero,
+                                tipoTel    : tipo,
+                                emergenciaTel:0,
+                                nombreTel  :   null,
+                                parentescoTel : null
+                                });
+                                contadorNumero  +=  1;
+                                if (tipo<=1){
+                                    // Fijo
+                                    etiqueta=   '<span class="label label-default lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                }else{
+                                    if (tipo<=6){
+                                        // Movil
+                                        etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    };
+                                };
+                                // limpiaTelefono();
+                    }else{
+                        $.each(listaNumeros, function(index,val){
+                            if(JSON.stringify(val)==JSON.stringify({numeroTel : numero,tipoTel : tipo,emergenciaTel:0})) {
+                                $('#msjeModal').empty().html('Número ya esta en lista.');
+                                $('#modalSocio').modal('show');
+                            }else{
+                                contadorNumero  +=  1;
+                                listaNumeros.push({
+                                    idnum      : idnum,
+                                    numeroTel  : numero,
+                                    tipoTel    : tipo,
+                                    emergenciaTel:0,
+                                    nombreTel  :   null,
+                                    parentescoTel : null
+                                });
+                                if (tipo<=1){
+                                    // Fijo
+                                    etiqueta=   '<span class="label label-default lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                }else{
+                                    if (tipo<=6){
+                                        // Movil
+                                        etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    };
+                                };
+                                // limpiaTelefono();
+                                return false;
+                            };
+                        });
+                    };
+                }else{
+                    var nombreTele   =   num.nombreEmergencia_Tel;
+                    var parentesco   =   num.parentesco_Tel;
+                    // emergencia
+                    emergencia=$('#txtEmergencia').val();
+                    if (listaNumeros.length==0){
+                        contadorNumero  +=  1;
+                        etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                        listaNumeros.push({
+                            idnum      : idnum,
+                            numeroTel  : numero,
+                            tipoTel    : tipo,
+                            emergenciaTel : emergencia,
+                            nombreTel  :   nombreTele,
+                            parentescoTel : parentesco
+                        });
+                        limpiaTelefono();
+                    }else{
+                        contadorNumero  +=  1;
+                        if (nombreTele.length>0 && parentesco.length>0){
+                            $.each(listaNumeros, function(index,val){
+                                if(JSON.stringify(val)==JSON.stringify({numeroTel  : numero,tipoTel : tipo,emergenciaTel : emergencia, nombreTel  :   nombreTele,parentescoTel : parentesco })) {
+                                    $('#msjeModal').empty().html('Número ya esta en lista.');
+                                    $('#modalSocio').modal('show');
+                                }else{
+                                    etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    listaNumeros.push({
+                                        idnum      : idnum,
+                                        numeroTel  : numero,
+                                        tipoTel    : tipo,
+                                        emergenciaTel : emergencia,
+                                        nombreTel  :   nombreTele,
+                                        parentescoTel : parentesco
+                                    });
+                                    limpiaTelefono();
+                                };
+                                return false;
+                            });
+                        }else{
+                            $('#msjeModal').empty().html('Debe completar los campos de Nombre y parentesco');
+                            $('#modalSocio').modal();
+                        };
+                    };
+                };
+                $('#boxNumeros').append(etiqueta);
+                // console.debug(listaNumeros);
+                //////
+                $('.btnClose').on('click',function(event){
+                    event.preventDefault();
+                    var id  =   $(this).attr('id');
+                    // $(this).parent('span').attr('class', id).detach();
+                    $(this).parent('span').detach();
+                    listaNumeros[id-1]=null;
+                    // console.debug(listaNumeros);
+                });
+            };
+        };
         function limpiaTelefono () {
             $("cmbTipoCel option:nth(0)").attr('selected', true);
             $(txtNumero).val('');
@@ -363,7 +493,7 @@ jQuery(function($){
                     $(this).click();
                 };
             });
-        }
+        };
         function limpiaControles(){
             $(txtDni).removeAttr('disabled');
             $(txtId).val('');
@@ -397,9 +527,6 @@ jQuery(function($){
             $.each($('#btnClose'), function() {
                 $(this).click();
             });
-            $.each($(optCliente), function(event) {
-                 $(this).prop('checked', false);
-            });
             limpiaTelefono();
         };
         function listacliente(){
@@ -408,11 +535,9 @@ jQuery(function($){
             $("#barra").slideDown();
             $.post(control, {
                 },function(data){
-                     console.debug(data);
                         oTable =$('#example').dataTable({
                                 "bDestroy": true,
                                 "aaData":data,
-                                // "bScrollCollapse": true,
                                 "bAutoWidth": false,
                                 "oLanguage": {
                                     "sLengthMenu": "Mostrar _MENU_ elementos",
@@ -428,12 +553,9 @@ jQuery(function($){
                                                 { "mData": "cliente" }
                                             ],
                                 "aoColumnDefs": [
-                                              { "sWidth": "1%", "aTargets": [ 0 ] }
+                                              { "bSortable": false,"sWidth": "1%", "aTargets": [ 0 ] }
                                             ],
                                 "bPaginate": false,
-                                // "sPaginationType": "full_numbers",
-                                // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-                                // "iDisplayLength": 5,
                             });
 
                             $('#example tbody tr').each( function() {
@@ -441,14 +563,56 @@ jQuery(function($){
                                 var nTds = $('td', this);
                                 var id = $(nTds[0]).text();
                                 $(nTds[0]).text("");
-                                var botones='<div class="btn-group">';
-                                botones += '<a value="'+id+'"><i class="fa fa-pencil-square-o zf-green"></i></>';
+                                var botones='';
+                                botones += '<a class="btnVerSocio" id="'+id+'"><i class="btn fa fa-pencil-square-o zf-green"></i></a>';
                                 $(nTds[0]).append(botones);
+                            });
+                            $('.btnVerSocio').on('click', function(event) {
+                                event.preventDefault();
+                                listaNumeros = [];
+                                $('#boxNumeros').html("");
+                                var id =    $(this).attr('id');
+                                $.post("versocio", {
+                                            cmbsocio : id
+                                        },
+                                        function(data){
+                                            if(data.response == false){
+                                                console.log('no se puede registrar');
+                                            }else{
+                                                var soc     =   data['info'];
+                                                var tel     =   data['numeros'];
+                                                $(txtId).val(soc.id_Soc);
+                                                $(txtDni).val(soc.documento_soc);
+                                                $(txtNombre).val(soc.nombres_Soc);
+                                                $(txtApPaterno).val(soc.apellidoMaterno_Soc);
+                                                $(txtApMaterno).val(soc.apellidoPaterno_Soc);
+                                                $(txtDireccion).val(soc.direccion_Soc);
+                                                $(txtEmail).val(soc.email_Soc);
+                                                $(lblPersonal).val(soc.Personal_id_Per);
+                                                $(dtpFechanac).val(soc.fechaNacimiento_Soc);
+                                                $('#cmbSexo option[value="'+soc.sexo_Soc+'"]').attr('selected', true);
+                                                $('#cmbecivil option[value="'+soc.estadoCivil_Soc+'"]').attr('selected', true);
+                                                $('#cmbCiudad option[value="'+soc.ciudad_Soc+'"]').attr('selected', true);
+                                                distrito=soc.Distrito_id_Dis;
+                                                $('#cmbCiudad').change();
+                                                // $('#cmbDistrito option[value="'+soc.Distrito_id_Dis+'"]').attr('selected', true);
+                                                $('#cmbDocumento option[value="'+soc.tipoDocumento_soc+'"]').attr('selected', true);
+                                                $('#cmbestado option[value="'+soc.estado_Soc+'"]').attr('selected', true);
+                                                $('#cmbempresa option[value="'+soc.empresa_id_emp+'"]').attr('selected', true);
+                                                $(dtpFechaVisita).val(soc.fechaInvitacion_Soc);
+                                                $(dtpFechareg).val(soc.fechaRegistro_Soc);
+                                                $(dtpFechaInvitacion).val(soc.fechaVisita_Soc);
+                                                $.each(tel, function () {
+                                                    agregaTelefono( $(this)[0] );
+                                                });
+                                                console.debug(listaNumeros);
+                                            }
+                                            $("#barra").slideUp();
+                                        }, 'json');
                             });
                         oTable =$('#example').dataTable({
                             "bDestroy": true,
                             "sPaginationType": "full_numbers",
-                            // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
                             "aLengthMenu": [[3], [3]],
                             "iDisplayLength": 3,
                             });

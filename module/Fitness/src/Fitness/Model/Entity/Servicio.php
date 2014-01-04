@@ -20,6 +20,16 @@ class Servicio
 	private $personal_id_per;
 	private $servicioBase;
 
+    private $tipoPromocion_DPromo;
+    private $fechaInicio_DPromo;
+    private $fechaFin_DPromo;
+    private $montoPromocion_DPromo;
+    private $dias_DPromo;
+    private $porcentaje_DPromo;
+    private $empresaMin_DPromo;
+    private $empresaMax_DPromo;
+    private $horario_DPromo;
+
 	public function __construct($datos=array())
 	{
 		$this->id_ser		 		=	NULL;
@@ -33,6 +43,17 @@ class Servicio
 		$this->promocion_ser 		=	NULL;
 		$this->personal_id_per 		=	NULL;
 		$this->servicioBase 		=	NULL;
+
+		$this->tipoPromocion_DPromo =	NULL;
+		$this->fechaInicio_DPromo 	=	NULL;
+		$this->fechaFin_DPromo 		=	NULL;
+		$this->montoPromocion_DPromo=	NULL;
+		$this->dias_DPromo 			=	NULL;
+		$this->porcentaje_DPromo 	=	NULL;
+		$this->empresaMin_DPromo 	=	NULL;
+		$this->empresaMax_DPromo 	=	NULL;
+		$this->horario_DPromo	   	=	NULL;
+
 	}
 	public function getData()
 	{
@@ -185,6 +206,70 @@ class Servicio
 	public function getServicioBase()
 	{
 		return $this->servicioBase;
+	}
+
+	public function setTipoPromocion($tipo){
+		$this->tipoPromocion_DPromo =$tipo;
+		return $this;
+	}
+	public function getTipoPromocion(){
+		return $this->tipoPromocion_DPromo;
+	}
+	public function setFechaInicio($fechaini){
+		$this->fechaInicio_DPromo =$fechaini;
+		return $this;
+	}
+	public function getFechaInicio(){
+		return $this->fechaInicio_DPromo;
+	}
+	public function setFechaFin($fechafin){
+		$this->fechaFin_DPromo =$fechafin;
+		return $this;
+	}
+	public function getFechaFin(){
+		return $this->fechaFin_DPromo;
+	}
+	public function setMontoPromocion($monto){
+    	$this->montoPromocion_DPromo=$monto;
+    	return $this;
+	}
+	public function getMontoPromocion(){
+    	return $this->montoPromocion_DPromo;
+	}
+	public function setDias($dias){
+    	$this->dias_DPromo=$dias;
+    	return $this;
+	}
+	public function getDias(){
+    	return $this->dias_DPromo;
+	}
+	public function setPorcentaje($porcentaje){
+    	$this->porcentaje_DPromo=$porcentaje;
+    	return $this;
+	}
+	public function getPorcentaje(){
+    	return $this->porcentaje_DPromo;
+	}
+	public function setEmpresaMin($min){
+    	$this->empresaMin_DPromo=$min;
+    	return $this;
+	}
+	public function getEmpresaMin(){
+    	return $this->empresaMin_DPromo;
+	}
+	public function setEmpresaMax($max){
+    	$this->empresaMax_DPromo=$max;
+    	return $this;
+	}
+	public function getEmpresaMax(){
+    	return $this->empresaMax_DPromo;
+	}
+	public function setHorario($hora){
+    	$this->horario_DPromo=$hora;
+    	return $this;
+	}
+	public function getHorario(){
+    	return $this->horario_DPromo;
 	}
 }
 ?>

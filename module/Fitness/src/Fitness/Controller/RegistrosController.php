@@ -15,12 +15,9 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Session\SessionManager;
 use Zend\Crypt\Password\Bcrypt;
 
-use Fitness\Form\Frmsucursal;
-use Fitness\Form\Frmpersonal;
-use Fitness\Form\frmCuenta;
-use Fitness\Form\FrmBuscar;
-use Fitness\Form\Frmfreezing;
-use Fitness\Form\frmEmpresa;
+use Fitness\Form\FrmSucursal;
+use Fitness\Form\FrmPersonal;
+use Fitness\Form\FrmEmpresa;
 use Fitness\Form\FrmServicio;
 use Fitness\Form\FrmPlan;
 
@@ -56,7 +53,7 @@ class RegistrosController extends AbstractActionController
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$pag		=	$this->getRequest()->getBaseUrl();
 			$frmSuc 	=	new Frmsucursal('frmSucursal');
-			$frmPer		=	new Frmpersonal('frmPersonal');
+			$frmPer		=	new FrmPersonal('frmPersonal');
 			// $frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$var		=	array(
 					"titulo"		=>	"Registro de Sucursal",
@@ -89,7 +86,7 @@ class RegistrosController extends AbstractActionController
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$verSucursal=	$tablaSuc->verSucursal();
 			$pag		=	$this->getRequest()->getBaseUrl();
-			$frmSuc 	=	new Frmsucursal('frmSucursal');
+			$frmSuc 	=	new FrmSucursal('frmSucursal');
 			$var		=	array(
 					"titulo"		=>	"Registro de Sucursal",
 					"frmSucursal"	=>	$frmSuc,
@@ -270,7 +267,7 @@ class RegistrosController extends AbstractActionController
 			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$pag		=	$this->getRequest()->getBaseUrl();
-			$frmPer		=	new Frmpersonal('frmPersonal');
+			$frmPer		=	new FrmPersonal('frmPersonal');
 			// $frmPer->get("cmbSucursal");->setValueOptions($listaSuc)
 			$var		=	array(
 					"titulo"		=>	"Registro de Sucursal",
@@ -799,7 +796,7 @@ class RegistrosController extends AbstractActionController
 				else {
 					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
 				}
-	        }
+			}
 			return $response;
 		}else{
 			return 0;
@@ -819,12 +816,13 @@ class RegistrosController extends AbstractActionController
 		$response->setContent(\Zend\Json\Json::prettyPrint($repServ,array("indent" => " ")));
 		return $response;
 	}
+
 //------------------------------------- PROMOCION ------------------------------------
 	public function promocionAction()
 	{
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
-			$frmPlan		=	new frmPlan('frmPlan');
+			$frmPlan		=	new FrmPlan('frmPlan');
 			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
 			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
@@ -833,10 +831,12 @@ class RegistrosController extends AbstractActionController
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$listaEmp	=	$tablaEmp->listaEmpresa();
 			$listaPer	=	$tablaPer->listaPersonal();
+			$listaPlan	=	$tablaServ->listaPlan();
 			$listaServ	=	$tablaServ->listaServicioBase();
 			$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
 			$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
 			$frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmPlan->get("cmbPlanBase")->setValueOptions($listaPlan);
 			$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
 			$frmPlan->get("lstServicios")->setValueOptions($listaServ);
 			$var		=	array(
@@ -858,10 +858,101 @@ class RegistrosController extends AbstractActionController
 		}
 	}
 
+	public function regpromobaseAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$ser		=	new Servicio();
+				$serTabla	=	new ServicioTabla($this->dbAdapter);
+				$frm 		= 	$request->getPost();
+
+				$ser->setservicioBase(($frm['cmbPlanBase']=='')?null:$frm['cmbPlanBase']);
+				$ser->setPersonal_id_per($frm['txtPersonal']);
+
+				$ser->setTipoPromocion($frm['cmbTipoPro']);
+				$ser->setFechaInicio($frm['dtpFechaIni']);
+				$ser->setFechaFin($frm['dtpFechaFin']);
+				$ser->setMontoPromocion($frm['txtMontoPro']);
+				$ser->setDias($frm['txtdiasPro']);
+				$ser->setPorcentaje($frm['txtPorcentaje']);
+				$ser->setEmpresaMin($frm['txtEmpresaMin']);
+				$ser->setEmpresaMax($frm['txtEmpresaMax']);
+
+				$sucursales    =	$frm['lstSucursal'];
+				$servicios	=	$frm['lstServicios'];
+				$horario	=	$frm['horario'];
+				$msje		=	$serTabla->insertarPromoBase($ser);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		}else{
+			return 0;
+		}
+	}
+
+	public function regpromoAction()
+	{
+		// $container = new Container('personal');
+		// if (isset($container->iduser)) {
+		// 	$request = $this->getRequest();
+		// 	$response = $this->getResponse();
+		// 	if ($request->isPost()) {
+		// 		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+		// 		$ser		=	new Servicio();
+		// 		$serTabla	=	new ServicioTabla($this->dbAdapter);
+		// 		$frm 		= 	$request->getPost();
+
+		// 		$ser->setNombre_ser($frm['txtNombre']);
+		// 		$ser->setMontoBase_ser($frm['txtMonto']);
+		// 		$ser->setTipo_ser($frm['txtTipo']);
+		// 		$ser->setDiasCupon_ser(($frm['txtdiasCupon']=='')?null:$frm['txtdiasCupon']);
+		// 		$ser->setFreezing_ser(($frm['txtfreezing']=='')?null:$frm['txtfreezing']);
+		// 		$ser->setMontoInicial_ser(($frm['txtMontoIni']=='')?null:$frm['txtMontoIni']);
+		// 		$ser->setCuota_ser($frm['txtCuotaMax']);
+		// 		$ser->setTipoDuracion_ser($frm['txtTipoDuracion']);
+		// 		$ser->setPagoMaximo_ser($frm['chkLimite']);
+		// 		$ser->setDuracion_ser($frm['txtDuracion']);
+		// 		$ser->setfechaReg_ser($frm['dtpFecha']);
+		// 		$ser->setPromocion_ser(1);
+		// 		$ser->setservicioBase(($frm['cmbPlanBase']=='')?null:$frm['cmbPlanBase']);
+		// 		$ser->setPersonal_id_per($frm['txtPersonal']);
+
+		// 		$ser->setTipoPromocion($frm['cmbTipoPro']);
+		// 		$ser->setFechaInicio($frm['dtpFechaIni']);
+		// 		$ser->setFechaFin($frm['dtpFechaFin']);
+		// 		$ser->setMontoPromocion($frm['txtMontoPro']);
+		// 		$ser->setDias($frm['txtdiasPro']);
+		// 		$ser->setPorcentaje($frm['txtPorcentaje']);
+		// 		$ser->setEmpresaMin($frm['txtEmpresaMin']);
+		// 		$ser->setEmpresaMax($frm['txtEmpresaMax']);
+
+		// 		$sucursales    =	$frm['lstSucursal'];
+		// 		$servicios	=	$frm['lstServicios'];
+		// 		$horario	=	$frm['horario'];
+		// 		$msje		=	$serTabla->insertarPromo($ser,$horario,$sucursales,$servicios);
+		// 		if (!$msje)
+		// 			$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+		// 		else {
+		// 			$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+		// 		}
+		// 	}
+		// 	return $response;
+		// }else{
+		// 	return 0;
+		// }
+	}
 //------------------------------------- EMPRESA --------------------------------------
 	public function empresaAction()
 	{
-		$container	=	new Container('personal');
+		$container    =	new Container('personal');
 		if (isset($container->iduser)) {
 			$frmEmp	=	new FrmEmpresa('frmEmpresa');
 			$var	=	array(

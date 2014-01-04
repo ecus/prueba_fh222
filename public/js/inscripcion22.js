@@ -42,38 +42,14 @@ jQuery(function($) {
         });
 
 
-    $('#btnConsultar').on('click',function(event){
-        var boton = $(this).children('i');
-        boton.removeClass('fa-search');
-        boton.addClass('fa-spinner fa-spin');
-        $.post("buscacliente", {
-            txtDni:$(txtDni).val()
-        },function(data){
-            if(data.response == false){
-                console.log('no se puede registrar');
-            }else{
-                var suc     =    data[0];
-                console.debug(suc);
-                // $(txtIdCli).val(suc.id_Soc);
-                // $(txtDni).val(suc.documento_Soc);
-                // $(txtCliente).val(suc.cliente);
-                // $(txtIdSer).val(suc.id_Serv );
-                // $(txtServicio).val(suc.nombre_Serv);
-                // $(txtPago).val(suc.montoBase_Serv);
-                // boton.removeClass('fa-spinner fa-spin');
-                // boton.addClass('fa-search');
 
-            }
-            $("#barra").slideUp();
-        }, 'json');
-    });
     function listacliente(){
         var control     =   "listasocios";
                     $('#tablaTitulo').empty().html("Listado de Clientes");
                     $("#barra").slideDown();
           $.post(control, {
                 },function(data){
-                     // console.debug(data);
+                     console.debug(data);
                         oTable =$('#example').dataTable({
                             "bDestroy": true,
                             "aaData":data,

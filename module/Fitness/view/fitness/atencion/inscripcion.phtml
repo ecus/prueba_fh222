@@ -1,5 +1,18 @@
 <div class="row">
-	<div class="col-12 col-sm-6 col-lg-6">
+	<?php
+		$form 	=	$this->frmInscripcion;
+		$form->prepare();
+		$form->setAttributes(array(
+			// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+			'method'	=>	'post',
+			'id'		=>	'frmInscripcion'
+			));
+
+		$formLabel	=	$this->plugin('formLabel');
+
+		echo $this->form()->openTag($form);
+	?>
+<!-- 	<div class="col-12 col-sm-6 col-lg-6">
 			<fieldset>
 				<legend>Lista de Cliente</legend>
 			</fieldset>
@@ -20,93 +33,196 @@
 				</div>
 			<div class="form-group form-inline" data-toggle="buttons-radio" id="boxEstados">
 			</div>
-	</div>
+	</div> -->
 	<div class="col-12 col-sm-6 col-lg-6">
-			<?php
-				$form 	=	$this->frmInscripcion;
-				$form->prepare();
-				$form->setAttributes(array(
-					// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
-					'method'	=>	'post',
-					'id'		=>	'frmInscripcion'
-					));
-
-				$formLabel	=	$this->plugin('formLabel');
-
-				echo $this->form()->openTag($form);
-			?>
-			<fieldset>
-				<legend><?php echo $this->titulo ?></legend>
-				<div class="form-group">
-					<?php
-						$linea = $form->get('cmbServicio');
-						echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
-						echo $formLabel->closeTag();
-					?>
-					<!-- <div class="controls"> -->
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-tags icono"></i></span>
-						<?php
-							echo $this->formSelect($linea);
-							echo $this->formElementErrors($linea);
-						?>
+		<fieldset style="background:green; padding:1em;">
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtDni');
+				    echo $formLabel->openTag($name->getOption('label_attributes'));
+				    echo $name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<!-- <span class="input-group-addon"><i class="fa fa-barcode icono"></i></span> -->
+					<?php echo $this->formInput($name); ?>
+					<div class="input-group-btn">
+						<a class="btn btn-default" data-toogle="button" buttonType="primary" id="btnConsultar"><i class="fa fa-search icon"></i></a>
 					</div>
+					<?php //echo $this->formElement($form->get('btnConsultar')) ?>
 				</div>
-				<div class="form-group">
-					<?php
-					    $name = $form->get('dtpFechaIni');
-					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-					    echo $this->formElementErrors($name);
-					    echo $formLabel->closeTag();
-					?>
-					<!--  <div class="controls"> -->
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
-							<?php
-								$name->setAttribute('value', date("Y-m-d"));
-								echo $this->formInput($name);
-							?>
-						</div>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('txtCliente');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+					<?php echo $this->formInput($name); ?>
 				</div>
-				<div class="form-group">
-					<?php
-					    $name = $form->get('dtpFechaFin');
-					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-					    echo $this->formElementErrors($name);
-					    echo $formLabel->closeTag();
-					?>
-					 <!-- <div class="controls"> -->
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
-							<?php echo $this->formInput($name); ?>
-						</div>
-				</div>
-				<div class="form-group">
-					<?php
-						$linea = $form->get('cmbTipoInscripcion');
-					    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
-					    echo $formLabel->closeTag();
-					?>
-					<!-- <div class="controls"> -->
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-check icono"></i></span>
+			</div>
+			<div class="form-group">
+				<?php
+					$linea = $form->get('cmbServicio');
+					echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+					echo $formLabel->closeTag();
+				?>
+				<!-- <div class="controls"> -->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-tags icono"></i></span>
 					<?php
 						echo $this->formSelect($linea);
 						echo $this->formElementErrors($linea);
 					?>
-					    </div>
 				</div>
+			</div>
+			<div class="form-group">
 				<?php
-					$name = $form->get('txtPersonal');
-					$name->setAttribute('value', $this->per);
+				    $name = $form->get('txtPago');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-home icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$moneda = $form->get('cmbMoneda');
+				    echo $formLabel->openTag($moneda->getLabelAttributes() ) . $moneda->getLabel();
+				    echo $formLabel->closeTag();
+				    echo $this->formSelect($moneda);
+				    echo $this->formElementErrors($moneda);
+				?>
+			</div>
+			<div class="form-group">
+				<?php
+					$moneda = $form->get('cmbPago');
+				    echo $formLabel->openTag($moneda->getLabelAttributes() ) . $moneda->getLabel();
+				    echo $formLabel->closeTag();
+				    echo $this->formSelect($moneda);
+				    echo $this->formElementErrors($moneda);
+					?>
+			</div>
+			<div class="form-group">
+				<?php
+					$moneda = $form->get('cmbConcepto');
+				    echo $formLabel->openTag($moneda->getLabelAttributes() ) . $moneda->getLabel();
+				    echo $formLabel->closeTag();
+				    echo $this->formSelect($moneda);
+				    echo $this->formElementErrors($moneda);
+				?>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('dtpFechaPago');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$moneda = $form->get('cmbEstado');
+				    echo $formLabel->openTag($moneda->getLabelAttributes() ) . $moneda->getLabel();
+				    echo $formLabel->closeTag();
+				    echo $this->formSelect($moneda);
+				    echo $this->formElementErrors($moneda);
+				?>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('dtpFechaReg');
+					echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					echo $this->formElementErrors($name);
+					echo $formLabel->closeTag();
+				?>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
+					<?php echo $this->formInput($name); ?>
+				</div>
+			</div>
+
+			<!-- <div class="form-group"> -->
+				<?php
+					$name = $form->get('txtIdPer');
+					echo $this->formInput($name);
+				    $name = $form->get('txtIdCli');
+					echo $this->formInput($name);
+					$name = $form->get('txtIdSer');
+					echo $this->formInput($name);
+					$name = $form->get('txtIdSuc');
+					echo $this->formInput($name);
+					$name = $form->get('txtIdCta');
 					echo $this->formInput($name);
 				?>
-				<!-- <input type="hidden" name="txtId" id="txtId" value="" />
-				<input type="hidden" name="txtEstado" id="txtEstado" value="" /> -->
-				<?php echo $this->formElement($form->get('btnRegInscripcion')) ?>
-				<?php echo $this->form()->closeTag() ?>
-				<button class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</button>
-			</fieldset>
+		</fieldset>
+		<fieldset>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('dtpFechaIni');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				<!--  <div class="controls"> -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
+						<?php
+							$name->setAttribute('value', date("Y-m-d"));
+							echo $this->formInput($name);
+						?>
+					</div>
+			</div>
+			<div class="form-group">
+				<?php
+				    $name = $form->get('dtpFechaFin');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+				 <!-- <div class="controls"> -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+			</div>
+			<div class="form-group">
+				<?php
+					$linea = $form->get('cmbTipoInscripcion');
+				    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+				    echo $formLabel->closeTag();
+				?>
+				<!-- <div class="controls"> -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-check icono"></i></span>
+				<?php
+					echo $this->formSelect($linea);
+					echo $this->formElementErrors($linea);
+				?>
+				    </div>
+			</div>
+			<?php
+				$name = $form->get('txtPersonal');
+				$name->setAttribute('value', $this->per);
+				echo $this->formInput($name);
+			?>
+			<!-- <input type="hidden" name="txtId" id="txtId" value="" />
+			<input type="hidden" name="txtEstado" id="txtEstado" value="" /> -->
+			<?php echo $this->formElement($form->get('btnRegInscripcion')) ?>
+			<?php echo $this->form()->closeTag() ?>
+			<button class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</button>
+		</fieldset>
 	</div>
 </div>
 <div id="modalIns" class="modal fade">

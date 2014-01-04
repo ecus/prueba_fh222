@@ -20,7 +20,9 @@ use Zend\Crypt\Password\Bcrypt;
 
 
 use Fitness\Form\FrmLogin;
+use Fitness\Form\FrmSettingsPer;
 use Fitness\Model\PersonalTabla;
+use Fitness\Model\Entity\Personal;
 use Fitness\Model\Entity\Sucursal;
 
 class PersonalController extends AbstractActionController
@@ -108,9 +110,116 @@ class PersonalController extends AbstractActionController
 										));
 		}
 	}
+	public function verpersonalAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request	=	$this->getRequest();
+			$response	=	$this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$per				=	new Personal();
+				$perTabla			=	new PersonalTabla($this->dbAdapter);
+				$frm				=	$request->getPost();
+				$msje				=	$perTabla->verPersonal($frm['txtId']);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
+	}
+	public function settingsperAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$pag	=	$this->getRequest()->getBaseUrl();
+			$msje	=	$this->params()->fromRoute('msje');
+			$form 	=	new FrmSettingsPer('form');
+			$var	=	array(
+					'id'			=>	$container->iduser,
+					'per'		=>	$container->idper,
+					'nombre'		=>	$container->nombre,
+					"titulo"	=>	"Debe ir un formulario de Inicio de Sesion",
+					"url"		=>	$pag,
+					"frmSettingsPer"=>	$form,
+					"msje"		=>	$msje
+				);
+			$view = new ViewModel($var);
+			$this->layout('layout/configuracion');
+			// 'variable'
+			return $view;
+		} else {
+			// return $this->redirect()->toRoute('login-personal-error');
+			return $this->forward()->dispatch("Fitness\Controller\Personal",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
+	public function actualizaperAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+					$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+					$per		=	new Personal();
+					$perTabla	=	new PersonalTabla($this->dbAdapter);
+					$frm 		= 	$request->getPost();
+					$per->setId($frm['txtId']);
+					$per->setDni($frm['txtDni']);
+					$per->setFechaNac(date("Y-m-d", strtotime($frm['dtpFechaNac'])));
+					$per->setDireccion_per($frm['txtDireccion']);
+					$per->setTelfCasa_per($frm['txtTelCasa']);
+					$per->setTelfMovil_per($frm['txtTelMovil']);
+					$per->setEmail_per($frm['txtEmail']);
+					$per->setClave($frm['txtClave']);
+					$msje		=	$perTabla->actualizaDatosPersonal($per);
+					if (!$msje)
+						$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+					else {
+						$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+					}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
+	}
+	public function verificaclaveperAction()
+	{
+		$container = new Container('personal');
+		if (isset($container->iduser)) {
+			$request = $this->getRequest();
+			$response = $this->getResponse();
+			if ($request->isPost()) {
+					$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+					$per		=	new Personal();
+					$perTabla	=	new PersonalTabla($this->dbAdapter);
+					$frm 		= 	$request->getPost();
+					$per->setId($frm['txtId']);
+					$per->setClave($frm['txtClave']);
+					$msje		=	$perTabla->verificaClave($per);
+					if (!$msje)
+						$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+					else {
+						$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+					}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
+	}
 	public function logoutperAction()
 	{
-		// echo "<br><br><br><br>";
 		$container	=	new Container('personal');
 		if (isset($container->iduser)) {
 			$container->getManager()->getStorage()->clear('personal');

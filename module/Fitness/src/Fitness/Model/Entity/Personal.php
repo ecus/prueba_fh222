@@ -19,6 +19,7 @@ class Personal
 	private $email;
 	private $estado;
 	private $suc;
+	private $clave;
 
 	public function __construct()
 	{
@@ -34,6 +35,7 @@ class Personal
 		$this->email	=	NULL;
 		$this->estado	=	NULL;
 		$this->suc		=	NULL;
+		$this->clave	=	NULL;
 	}
 	public function getData()
 	{
@@ -54,6 +56,15 @@ class Personal
 	public function getId()
 	{
 		return $this->id;
+	}
+	public function setClave($clave)
+	{
+		$this->clave=$clave;
+		return $this;
+	}
+	public function getClave()
+	{
+		return $this->clave;
 	}
 	public function setDni($dni)
 	{

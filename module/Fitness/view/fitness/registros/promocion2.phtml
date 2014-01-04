@@ -164,17 +164,13 @@
 							</div>
 						</div>
 						<?php echo $this->formElement($form->get('btnRegPlan')) ?>
-						<?php echo $this->formElement($form->get('btnCancelar')) ?>
+						<a class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</a>
 					</fieldset>
 			<br /><br />
 			</div>
-			<div class="col-12">
-				<fieldset id="datosPlan">
-					<legend>Datos del Plan</legend>
-					<div class="row">
-					</div>
-					<div class="col-12 col-sm-4 col-lg-4">
-						<!-- 1 -->
+			<div class="col-12 col-sm-4 col-lg-4">
+				<fieldset>
+					<legend>&nbsp;<?php echo $this->titulo ?></legend>
 						<div class="form-group">
 							<?php
 							    $name = $form->get('txtNombre');
@@ -187,7 +183,6 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
-						<!-- 2 -->
 						<div class="form-group">
 							<?php
 							    $name = $form->get('txtMonto');
@@ -200,40 +195,6 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
-						<!-- 3 -->
-						<div class="form-group" id="boxVigencia">
-							<label class="control-label" for="Vigencia">Tipo Vigencia : </label>
-							<div class="btn-group btn-group-justified" data-toggle="buttons" id="Vigencia">
-								<label class="btn btn-gym btnVigencia">
-									<input type="radio" class="btn btn-gym btnVigencia btn-medium active" id="btnVigencia0" >Dias
-								</label>
-								<label class="btn btn-gym btnVigencia">
-									<input type="radio" class="btn btn-gym btnVigencia btn-medium" id="btnVigencia1">Semanas
-								</label>
-								<label class="btn btn-gym btnVigencia">
-									<input type="radio" class="btn btn-gym btnVigencia btn-medium" id="btnVigencia2">Quincenal
-								</label>
-								<label class="btn btn-gym btnVigencia">
-									<input type="radio" class="btn btn-gym btnVigencia btn-medium" id="btnVigencia3">Mensual
-								</label>
-							</div>
-						</div>
-						<!-- 4 -->
-						<div class="form-group">
-							<?php
-							    $name = $form->get('txtDuracion');
-							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-							    echo $this->formElementErrors($name);
-							    echo $formLabel->closeTag();
-							?>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-calendar-o icono"></i></span>
-								<?php echo $this->formInput($name); ?>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-sm-4 col-lg-4">
-						<!-- 5 -->
 						<div class="form-group">
 							<?php
 							    $name = $form->get('txtdiasCupon');
@@ -246,7 +207,6 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
-						<!-- 6 -->
 						<div class="form-group">
 							<?php
 							    $name = $form->get('txtfreezing');
@@ -259,7 +219,6 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
-						<!-- 7 -->
 						<div class="form-group">
 							<?php
 							    $name = $form->get('txtMontoIni');
@@ -272,52 +231,7 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
-						<!-- 8 -->
 						<div class="form-group">
-							<?php
-							    $name = $form->get('txtCuotaMax');
-							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
-							    echo $this->formElementErrors($name);
-							    echo $formLabel->closeTag();
-							?>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-sort-numeric-asc icono"></i></span>
-								<?php echo $this->formInput($name); ?>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-sm-4 col-lg-4">
-						<!-- 9 -->
-						<div class="form-group checkbox">
-							<?php
-								$condiciones = $form->get('chkLimite');
-								echo $formLabel->openTag($condiciones->getLabelAttributes()) . $condiciones->getLabel();
-								echo $this->formCheckbox($condiciones);
-								echo $this->formElementErrors($condiciones);
-								echo $formLabel->closeTag();
-							?>
-						</div>
-
-						<!-- 10 -->
-						<?php
-							$lstSucursal = $form->get('lstSucursal');
-							echo $formLabel->openTag() . $lstSucursal->getLabel();
-							echo $formLabel->closeTag();
-							echo $this->formSelect($lstSucursal);
-							echo $this->formElementErrors($lstSucursal);
-						?>
-						<!-- 11 -->
-						<?php
-							$lstServicios = $form->get('lstServicios');
-							echo $formLabel->openTag() . $lstServicios->getLabel();
-							echo $formLabel->closeTag();
-							echo $this->formSelect($lstServicios);
-							echo $this->formElementErrors($lstServicios);
-						?>
-					</div>
-					<div class="detalle">
-						<!-- 12 -->
-						<div class="form-group col-6">
 							<?php
 							    $name = $form->get('dtpFecha');
 							    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
@@ -329,17 +243,162 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
+						<?php echo $this->formInput($form->get('txtPromocion')); ?>
+						<?php echo $this->formInput($form->get('txtTipo')); ?>
+
+						<div class="form-group">
+							<?php
+								$linea = $form->get('cmbEmpresa');
+							    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+							    echo $formLabel->closeTag();
+							?>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building icono"></i></span>
+							<?php
+								echo $this->formSelect($linea);
+								echo $this->formElementErrors($linea);
+							?>
+						    </div>
+						</div>
+						<?php //echo $this->formInput($form->get('txtEstado')); ?>
+						<!-- <div class="form-group"> -->
+							<?php
+							    // $name = $form->get('txtPersonal');
+							    // echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+							    // echo $this->formElementErrors($name);
+							    // echo $formLabel->closeTag();
+							?>
+							 <!-- <div class="controls">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-eye-open icono"></i></span> -->
+									<?php //echo $this->formInput($name); ?>
+						<!--</div>
+							</div>
+						</div> -->
 						<?php
-							$name = $form->get('txtPersonal');
+							$lstSucursal = $form->get('lstSucursal');
+							echo $formLabel->openTag() . $lstSucursal->getLabel();
+							echo $formLabel->closeTag();
+							echo $this->formSelect($lstSucursal);
+							echo $this->formElementErrors($lstSucursal);
+						?>
+						<?php
+							$lstServicios = $form->get('lstServicios');
+							echo $formLabel->openTag() . $lstServicios->getLabel();
+							echo $formLabel->closeTag();
+							echo $this->formSelect($lstServicios);
+							echo $this->formElementErrors($lstServicios);
+
+						    $name = $form->get('txtPersonal');
 							$name->setAttribute('value', $this->per);
 							echo $this->formInput($name);
+							echo "<br />";
 						?>
-					</div>
-						<?php echo $this->formInput($form->get('txtPromocion')); ?>
-						<?php echo $this->formInput($form->get('txtTipoDuracion')); ?>
-						<?php echo $this->formInput($form->get('txtTipo')); ?>
+		    			<?php echo $this->formElement($form->get('btnRegPlan')) ?>
 						<?php echo $this->form()->closeTag() ?>
-				</fieldset>
+						<a class="btn btn-default btn-block btn-large" id="btnCancelar">Nuevo</a>
+					</fieldset>
+			</div>
+			<div class='col-12 col-sm-8 col-lg-8'>
+				<fieldset class="Horario1">
+				 	<legend>Programacion</legend>
+						<div id='boxDia1'>
+							<div class="row col-12">
+								<div class="form-group col-5">
+									<?php
+										$linea = $form->get('cmbEncargado');
+									    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+									    echo $formLabel->closeTag();
+									?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+										<?php
+											echo $this->formSelect($linea);
+											echo $this->formElementErrors($linea);
+										?>
+									</div>
+								</div>
+								<div class="col-1"></div>
+								<div class="form-group col-5">
+									<?php
+										$linea = $form->get('cmbSucursal');
+									    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+									    echo $formLabel->closeTag();
+									?>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-building icono"></i></span>
+										<?php
+											echo $this->formSelect($linea);
+											echo $this->formElementErrors($linea);
+										?>
+								    </div>
+								</div>
+							</div>
+						</div>
+						<table class='table table-condensed table-striped table-bordered table-hover'>
+							<thead>
+								<td></td>
+								<td>Dia</td>
+								<td>Incio</td>
+								<td>Fin</td>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Lunes' value="L" /></td>
+									<td>Lunes</td>
+									<td><input type="time" name="LunesIni" id="LunesIni" class='Lunes form-control input-sm' /></td>
+									<td><input type="time" name="LunesFin" id="LunesFin" class='Lunes form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Martes' value="M" /></td>
+									<td>Martes</td>
+									<td><input type="time" name="MartesIni" id="MartesIni" class='Martes form-control input-sm' /></td>
+									<td><input type="time" name="MartesFin" id="MartesFin" class='Martes form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Miercoles' value="W" /></td>
+									<td>Miercoles</td>
+									<td><input type="time" name="MiercolesIni" id="MiercolesIni" class='Miercoles form-control input-sm' /></td>
+									<td><input type="time" name="MiercolesFin" id="MiercolesFin" class='Miercoles form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Jueves' value="J" /></td>
+									<td>Jueves</td>
+									<td><input type="time" name="JuevesIni" id="JuevesIni" class='Jueves form-control input-sm' /></td>
+									<td><input type="time" name="JuevesFin" id="JuevesFin" class='Jueves form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Viernes' value="V" /></td>
+									<td>Viernes</td>
+									<td><input type="time" name="ViernesIni" id="ViernesIni" class='Viernes form-control input-sm' /></td>
+									<td><input type="time" name="ViernesFin" id="ViernesFin" class='Viernes form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Sabado' value="S" /></td>
+									<td>Sabado</td>
+									<td><input type="time" name="SabadoIni" id="SabadoIni" class='Sabado form-control input-sm' /></td>
+									<td><input type="time" name="SabadoFin" id="SabadoFin" class='Sabado form-control input-sm' /></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" name="dias[]" class='Domingo' value="D" /></td>
+									<td>Domingo</td>
+									<td><input type="time" name="DomingoIni" id="DomingoIni" class='Domingo form-control input-sm' /></td>
+									<td><input type="time" name="DomingoFin" id="DomingoFin" class='Domingo form-control input-sm' /></td>
+								</tr>
+							</tbody>
+						</table>
+		    	</fieldset>
+				<a class="btn btn-block btn-gym btn-large" id="btnConfirmar">Confirmar</a>
+				<br />
+				<div class='col-12 accordion-group'>
+					<br />
+					<fieldset>
+					<legend>&nbsp;Horarios Agregados</legend>
+					<div id="boxContenido">
+					</div>
+					</fieldset>
+					<br />
+				</div>
 			</div>
 			<?php echo $this->form()->closeTag() ?>
 		</div>
@@ -347,36 +406,3 @@
     </div>
   </div>
 </div>
-<div id="modalServicio" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p id="msjeModal"></p>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div id="modalAccion" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <p id="msjeModal">No se a especificado ningun horario! <br/> ¿Desea Continuar con el Resgistro del Servicio?</p>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-danger" id="btnRegistrar" aria-hidden="true">Si</a>
-		<a class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">No</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

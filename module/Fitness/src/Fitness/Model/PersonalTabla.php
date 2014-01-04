@@ -179,6 +179,44 @@ class PersonalTabla extends TableGateway
 			throw $e;
 		}
 	}
+	public function verPersonal($dni)
+	{
+		try {
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_verPersonal(?)');
+			$stmt->getResource()->bindParam(1, $dni);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			return $info[0];
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
+	public function verificaClave($per)
+	{
+		try {
+			$var1		=	$per->getId();
+			$var2		=	$per->getClave();
+
+			$dbAdapter	=	$this->getAdapter();
+			$stmt		=	$dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_verificaClavePersonal(?)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->execute();
+			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+
+			$bcrypt			= 	new Bcrypt();
+
+			if($bcrypt->verify($var2,$info[0]->clave_UPer)) {
+				return true;
+			}else{
+				return false;
+			}
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
 	/*
 	public function generaUsuario(Personal $p)
 	{
@@ -200,7 +238,7 @@ class PersonalTabla extends TableGateway
 	{
 		try {
 			$dbAdapter	=	$this->getAdapter();
-			$stmt 		=	$dbAdapter->createStatement();
+			$stmt		=	$dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_loginPersonal(?)');
 			$stmt->getResource()->bindParam(1, $nombre);
 			$stmt->execute();
@@ -234,5 +272,42 @@ class PersonalTabla extends TableGateway
 			throw $e;
 		}
 	}
+	public function actualizaDatosPersonal($per)
+	{
+		try {
+			$dbAdapter	=	$this->getAdapter();
+
+			$bcrypt			= 	new Bcrypt();
+
+			$var1	=	$per->getId();
+			$var2	=	$per->getDni();
+			$var3	=	$per->getFechaNac();
+			$var4	=	$per->getDireccion_per();
+			$var5	=	$per->getTelfCasa_per();
+			$var6	=	$per->getTelfMovil_per();
+			$var7	=	$per->getEmail_per();
+			$var8	=	$bcrypt->create($per->getClave());
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_actualizaDatosPersonal(?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3);
+			$stmt->getResource()->bindParam(4, $var4);
+			$stmt->getResource()->bindParam(5, $var5);
+			$stmt->getResource()->bindParam(6, $var6);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8);
+			$stmt->execute();
+
+			$stmt2	=	$dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result =	$stmt2->execute();
+			$output =	$result->current();
+			return $output['mensaje'];
+		} catch (Exception $e) {
+			throw $e;
+		}
+	}
 }
-?>

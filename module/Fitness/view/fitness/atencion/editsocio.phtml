@@ -233,7 +233,6 @@
 				</div>
 				<br />
 				<div class="row">
-					
 					<div class="boxNumero col-12 col-lg-4 accordion-group">
 						<legend>Informacion del Numero</legend>
 						<div class="form-group form-inline">
@@ -327,15 +326,23 @@
 					</div>
 				</div>
 	           	<!-- cmbempresa -->
-	       		<div class="form-group col-12 col-sm-6 col-lg-6">
-			        <?php
-			           $suc = $form->get('cmbempresa');
-			            echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
-			            echo $formLabel->closeTag();
-			            echo $this->formSelect($suc);
-			            echo $this->formElementErrors($suc);
-			        ?>
-			    </div>
+				<div class ="form-group col-12 col-sm-6 col-lg-6">
+					<?php
+						$suc = $form->get('cmbempresa');
+						echo $formLabel->openTag($suc->getLabelAttributes() ) . $suc->getLabel();
+						echo $formLabel->closeTag();
+						echo $this->formSelect($suc);
+						echo $this->formElementErrors($suc);
+					?>
+				</div>
+				<div class="form-group col-12 col-sm-6 col-lg-6">
+					<label class="control-label" for="lblPersonal">Registrado por: </label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+							<input name="lblPersonal" id="lblPersonal" type="text" placeholder="Paterno Materno, Nombre" class="form-control" value="" />
+					</div>
+				</div>
+
 		        <!-- txtPersonal -->
 					<?php
 						$name = $form->get('txtPersonal');

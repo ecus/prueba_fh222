@@ -20,6 +20,7 @@ use Zend\Crypt\Password\Bcrypt;
 
 
 use Fitness\Form\FrmLogin;
+use Fitness\Form\FrmSettingsPer;
 use Fitness\Model\PersonalTabla;
 use Fitness\Model\Entity\Sucursal;
 
@@ -97,6 +98,21 @@ class IndexController extends AbstractActionController
 										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
 										));
 		}
+	}
+	public function settingsperAction()
+	{
+		$pag	=	$this->getRequest()->getBaseUrl();
+		$msje	=	$this->params()->fromRoute('msje');
+		$form 	=	new FrmSettingsPer('form');
+		$var	=	array(
+				"titulo"		=>	"Debe ir un formulario de Inicio de Sesion",
+				"url"			=>	$pag,
+				"frmSettingsPer"=>	$form,
+				"msje"			=>	$msje
+			);
+		$view = new ViewModel($var);
+		//$this->layout('layout/prueba');'variable'
+		return $view;
 	}
 	public function logoutperAction()
 	{

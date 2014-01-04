@@ -144,6 +144,7 @@ class SucursalTabla extends TableGateway
 	public function desactivaSucursal($id)
 	{
 		try{
+			$var1 = $id;
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_desactivarSucursal(?,@msje)');

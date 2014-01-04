@@ -7,12 +7,12 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 
-use Fitness\Form\Frmasistencia;
-use Fitness\Form\frmEmpresa;
-use Fitness\Form\Frmfreezing;
-use Fitness\Form\frmInscripcion;
-use Fitness\Form\Frmpago;
-use Fitness\Form\frmsocio;
+use Fitness\Form\FrmAsistencia;
+use Fitness\Form\FrmEmpresa;
+use Fitness\Form\FrmFreezing;
+use Fitness\Form\FrmInscripcion;
+use Fitness\Form\FrmPago;
+use Fitness\Form\FrmSocio;
 
 use Fitness\Model\Entity\Asistencia;
 use Fitness\Model\Entity\Empresa;
@@ -70,7 +70,7 @@ class AtencionController extends AbstractActionController
 			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
 			$listaSuc			=	$tablaSuc->listaSucursal();
 			$pag				=	$this->getRequest()->getBaseUrl();
-			$frmfree			=	new Frmfreezing('frmFreezing');
+			$frmfree			=	new FrmFreezing('frmFreezing');
 			//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$var 	=	array(
 					"titulo"		=>	"Registro de Sucursal",
@@ -151,7 +151,7 @@ class AtencionController extends AbstractActionController
 			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
 			$listaSuc			=	$tablaSuc->listaSucursal();
 			$pag				=	$this->getRequest()->getBaseUrl();
-			$frmfree			=	new Frmasistencia('frmAsistencia');
+			$frmfree			=	new FrmAsistencia('frmAsistencia');
 			//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$var =   array(
 						"titulo"        =>  "Registro de Asistencia",
@@ -251,7 +251,7 @@ class AtencionController extends AbstractActionController
 			$tablaSuc			=	new SucursalTabla($this->dbAdapter);
 			$listaSuc			=	$tablaSuc->listaSucursal();
 			$pag				=	$this->getRequest()->getBaseUrl();
-			$frmpago			=	new Frmpago('frmPago');
+			$frmpago			=	new FrmPago('frmPago');
 			//$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$var	=	array(
 					"titulo"	=>	"Registro de Pagos",
@@ -284,7 +284,6 @@ class AtencionController extends AbstractActionController
 			$tablapago			=	new PagoTabla($this->dbAdapter);
 			$frm				=	$request->getpost();
 			$dni				=	$frm['txtDni'];
-
 			$listapago			=	$tablapago->verCliente($dni);
 			$listapago			=	\Zend\Json\Json::encode($listapago);
 			$response->setContent(\Zend\Json\Json::prettyPrint($listapago,array("indent" => " ")));
@@ -465,6 +464,7 @@ class AtencionController extends AbstractActionController
 			return 0;
 		}
 	}
+
 	public function regusuariosocioAction()
 	{
         $container    =	new Container('personal');
@@ -549,6 +549,58 @@ class AtencionController extends AbstractActionController
 			return 0;
 		}
 	}
+
+	public function actsocioAction()
+	{
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$request	=	$this->getRequest();
+			$response	=	$this->getResponse();
+			if ($request->isPost()) {
+				$this->dbAdapter=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+				$soc			=	new Socio;
+				$socTabla		=	new SocioTabla($this->dbAdapter);
+				$frm			=	$request->getPost();
+
+				$soc->setId($frm['txtId']);
+				$soc->setnumerodoc($frm['txtDni']);
+				$soc->setdocumento($frm['cmbDocumento']);
+				$soc->setpaterno($frm['txtApPaterno']);
+				$soc->setmaterno($frm['txtApMaterno']);
+
+				$soc->setnombres($frm['txtNombre']);
+				$soc->setsexo($frm['cmbSexo']);
+				$soc->setfechanac($frm['dtpFechanac']);
+				$soc->setemail($frm['txtEmail']);
+
+				$soc->setecivil($frm['cmbecivil']);
+				$soc->setDistrito($frm['cmbDistrito']);
+				$soc->setDireccion($frm['txtDireccion']);
+
+				$soc->setfechavisita($frm['dtpFechaVisita']);
+				$soc->setfecharegistro($frm['dtpFechareg']);
+				$soc->setfechainv($frm['dtpFechaInvitacion']);
+
+				$soc->setestado($frm['cmbestado']);
+				$soc->setreferido(($frm['cmbsocio']  =='')?null:$frm['cmbsocio']);
+				$soc->setempresa(($frm['cmbempresa'] =='')?null:$frm['cmbempresa']);
+
+				$soc->setpersonal(($frm['txtPersonal'] =='')?null:$frm['txtPersonal']);
+				$xmltel	=	$frm['telefonos'];
+
+				$msje	=	$socTabla->actualizaSocio($soc,$xmltel);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
+			return $response;
+		} else {
+			return 0;
+		}
+	}
+
 	public function buscasocioAction()
 	{
 		$container	=	new Container('personal');
@@ -560,7 +612,7 @@ class AtencionController extends AbstractActionController
 			$frm				=	$request->getpost();
 			$dni				=	$frm['cmbsocio'];
 
-			$listasocio			=	$tablasocio->versocio($dni);
+			$listasocio			=	$tablasocio->buscasocio($dni);
 			$listasocio			=	\Zend\Json\Json::encode($listasocio);
 			$response->setContent(\Zend\Json\Json::prettyPrint($listasocio,array("indent" => " ")));
 			return $response;
@@ -568,6 +620,27 @@ class AtencionController extends AbstractActionController
 			return 0;
 		}
 	}
+
+	public function versocioAction()
+	{
+		$container	=	new Container('personal');
+		if (isset($container->iduser)) {
+			$request			=	$this->getRequest();
+			$response			=	$this->getResponse();
+			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablasocio			=	new SocioTabla($this->dbAdapter);
+			$frm				=	$request->getpost();
+			$id				=	$frm['cmbsocio'];
+
+			$socio			=	$tablasocio->versocio($id);
+			$socio			=	\Zend\Json\Json::encode($socio);
+			$response->setContent(\Zend\Json\Json::prettyPrint($socio,array("indent" => " ")));
+			return $response;
+		} else {
+			return 0;
+		}
+	}
+
 	public function buscaidAction()
 	{
 		$container	=	new Container('personal');
@@ -605,7 +678,7 @@ class AtencionController extends AbstractActionController
 			$listaSuc			=	$tablaSuc->listaSucursal();
 			$listaCiu			=	$tablaCat->listaCiudad();
 			$pag				=	$this->getRequest()->getBaseUrl();
-			$frmsoc				=	new frmsocio('frmSocio');
+			$frmsoc				=	new FrmSocio('frmSocio');
 			$frmsoc->get("cmbCiudad")->setValueOptions($listaCiu);
 			$frmsoc->get("cmbDistrito")->setValueOptions(array('' =>'Debe Elegir Ciudad.'));
 			$var	=	array(
@@ -685,7 +758,7 @@ class AtencionController extends AbstractActionController
 		if (isset($container->iduser)) {
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tablaServ			=	new ServicioTabla($this->dbAdapter);
-			$frmins				=	new frmInscripcion('frmInscripcion');
+			$frmins				=	new FrmInscripcion('frmInscripcion');
 			$listaServ			=	$tablaServ->listaPlan();
 			$frmins->get("cmbServicio")->setValueOptions($listaServ);
 			$var 	=	array(
@@ -743,8 +816,6 @@ class AtencionController extends AbstractActionController
 			$request            =	$this->getRequest();
 			$response			=	$this->getResponse();
 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
-			// $tablaAsis			=	new AsistenciaTabla($this->dbAdapter);
-			// $listaAsis			=	$tablaAsis->listaClienteActivo();
 			$tablaSoc			=	new SocioTabla($this->dbAdapter);
 			$listaSoc			=	$tablaSoc->listaSocio();
 			$listaSoc			=	\Zend\Json\Json::encode($listaSoc);

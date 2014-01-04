@@ -1,0 +1,198 @@
+<div class="row">
+	<?php
+		$form 	=	$this->frmSettingsPer;
+		$form->prepare();
+		$form->setAttributes(array(
+			// 'action'	=>	$this->url.'/fitness/registros/resultadoper',
+			'method'	=>	'post',
+			'id'		=>	'frmSettingsPer',
+			'class'    =>  'controls'
+			));
+		$formLabel	=	$this->plugin('formLabel');
+		echo $this->form()->openTag($form);
+	?>
+	<fieldset>
+		<legend>&nbsp;Editar Datos de Cuenta&nbsp;
+		</legend>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<!--txtDni-->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtDni');
+						echo $formLabel->openTag($name->getOption('label_attributes'));
+						echo $name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-barcode icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtNombres -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtNombres');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtApellidos -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtApellidos');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- dtpFechanac -->
+				<div class="form-group">
+					<?php
+					    $name = $form->get('dtpFechaNac');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6 col-lg-6">
+				<!-- txtDireccion -->
+				<div class="form-group">
+					<?php
+					    $name = $form->get('txtDireccion');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtEmail -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtEmail');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<!-- txtTelCasa -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtTelCasa');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+				<!-- txtTelMovil -->
+				<div class="form-group">
+					<?php
+						$name = $form->get('txtTelMovil');
+						echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+						echo $this->formElementErrors($name);
+						echo $formLabel->closeTag();
+					?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+				</div>
+			</div>
+			<div class="col-12">
+				<legend>&nbsp;&nbsp;Cambiar Clave&nbsp;</legend>
+				<!-- txtClaveNueva -->
+				<div class="form-group col-sm-6 col-lg-6">
+					<?php
+					    $name = $form->get('txtClaveNueva');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+				<!-- txtClaveConfirma -->
+				<div class="form-group col-sm-6 col-lg-6">
+					<?php
+					    $name = $form->get('txtClaveConfirma');
+					    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+					    echo $this->formElementErrors($name);
+					    echo $formLabel->closeTag();
+					?>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-home icono"></i></span>
+							<?php echo $this->formInput($name); ?>
+						</div>
+				</div>
+			</div>
+			<!-- txtClave -->
+			<div class="form-group col-12">
+				<?php
+				    $name = $form->get('txtClave');
+				    echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+				    echo $this->formElementErrors($name);
+				    echo $formLabel->closeTag();
+				?>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-home icono"></i></span>
+						<?php echo $this->formInput($name); ?>
+					</div>
+			</div>
+			<div class="col-12">
+				<!-- barra de carga -->
+				<div id="barra" class="progress progress-striped active">
+					<div class="progress-bar" style="width: 100%;"></div>
+				</div>
+			</div>
+	</fieldset>
+	<?php
+		$name = $form->get('txtId');
+		$name->setValue($this->per);
+		echo $this->formInput($name);
+	?>
+	<?php echo $this->formElement($form->get('btnRegSettingsPer')) ?>
+	<?php echo $this->form()->closeTag() ?>
+</div>
+<div id="modalSettingsPer" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal"></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

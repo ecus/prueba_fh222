@@ -11462,9 +11462,9 @@
 		"sProcessing": "dataTables_processing",
 		
 		/* Sorting */
-		"sSortAsc": "sorting_asc",
-		"sSortDesc": "sorting_desc",
-		"sSortable": "sorting", /* Sortable in both directions */
+		"sSortAsc": "fa-ecus fa-sort-asc",
+		"sSortDesc": "fa-ecus fa-sort-desc",
+		"sSortable": "fa-ecus fa-sort", /* Sortable in both directions */
 		"sSortableAsc": "sorting_asc_disabled",
 		"sSortableDesc": "sorting_desc_disabled",
 		"sSortableNone": "sorting_disabled",

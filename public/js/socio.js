@@ -465,7 +465,6 @@ jQuery(function($){
                         oTable =$('#example').dataTable({
                                 "bDestroy": true,
                                 "aaData":data,
-                                // "bScrollCollapse": true,
                                 "bAutoWidth": false,
                                 "oLanguage": {
                                     "sLengthMenu": "Mostrar _MENU_ elementos",

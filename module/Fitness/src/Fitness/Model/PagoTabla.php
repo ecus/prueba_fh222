@@ -60,6 +60,7 @@ class PagoTabla extends TableGateway
 			$stmt->getResource()->bindParam(1, $dni);
 			$stmt->execute();
 			$info		=	$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			print_r($info);
 			return $info;
 		}catch(Zend_Exception $e){
 			return $e->getMessage();

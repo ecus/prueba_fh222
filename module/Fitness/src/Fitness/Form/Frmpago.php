@@ -10,7 +10,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Form\Fieldset;
 
-class frmPago extends Form
+class FrmPago extends Form
 {
 	public function __construct($name = null)
 	{

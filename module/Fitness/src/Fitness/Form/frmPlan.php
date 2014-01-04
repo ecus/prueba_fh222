@@ -367,7 +367,11 @@ class FrmPlan extends Form
                     ));
         $select->setEmptyOption('Seleccione...');
         $select->setValueOptions(array(
-            0=>'dsalj'));
+                1 => "Precio",
+                2 => "Empresa",
+                3 => "Porcentual",
+                4 => "Dias"
+            ));
         $this->add($select);
 
         $this->add(array(
@@ -531,12 +535,12 @@ class FrmPlan extends Form
 						),
 			));
         $this->add(array(
-                'name'      =>  'cancelar',
+                'name'      =>  'btnCancelar',
                 'attributes'=>  array(
                             'type'  =>  'reset',
-                            'value' =>  'Cancelar',
+                            'value' =>  'Nuevo',
                             'title' =>  'Poner campos del formulario en blanco',
-                            'class' =>  'btn btn-large btn-inverse',
+                            'class' =>  'btn btn-large btn-default btn-block',
                             'data-toogle'   =>  'button',
                         ),
             ));

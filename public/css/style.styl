@@ -1,4 +1,5 @@
 verde_gym = #008080
+gristabla = rgba(4,181,170,0.3)
 body,html
 	font-family 'Open Sans', sans-serif
 
@@ -17,19 +18,18 @@ table th,td
 
 	/*padding 3px*/
 thead
-
 	background #008080
 	color #FFF
 thead th
-
 	color #fff
-table td:nth-child(odd)
 
-	/*backgroundrgba(0,128,255,0.3)*/
 table tr:nth-child(even)
-
-	backgroundrgba(4,181,170,0.3)
+	background  gristabla
 	color #04b5aa
+
+table tr:hover
+	text-decoration underline
+
 /******  ID  ******/
 #avatarPer
 	border-top 1px solid #ECECEA
@@ -146,7 +146,7 @@ table tr:nth-child(even)
 	border-color #009D9D
 
 .breadcrumb li a
-	color#008080
+	color #008080
 
 .filtro
 	-webkit-filter drop-shadow(2px 2px 0 #ccc)
