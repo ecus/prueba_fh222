@@ -247,38 +247,10 @@ class FrmServicio extends Form
         $dia->setLabel('Programación');
         $this->add($dia);
 
-        // $this->add(array(
-        //         'name'      =>  'txthoraIn',
-        //         'options'   =>  array(
-        //                     'label' =>  'Hora Inicio: ',
-        //                     'label_attributes'  => array(
-        //                             'class'     =>  'control-label',
-        //                             'for'       =>  'txthoraIn'
-        //                               ),
-        //                     ),
-        //         'attributes'=>  array(
-        //                     'type'           => 'text',
-        //                     'placeholder'    => 'Ejm.: 250.00',
-        //                     'class'          => '',
-        //                     'id'             => 'txthoraIn'
-        //                 ),
-        //     ));
-        // $this->add(array(
-        //         'name'      =>  'txthoraFin',
-        //         'options'   =>  array(
-        //                     'label' =>  'Hora Fin: ',
-        //                     'label_attributes'  => array(
-        //                             'class'     =>  'control-label',
-        //                             'for'       =>  'txthoraFin'
-        //                               ),
-        //                     ),
-        //         'attributes'=>  array(
-        //                     'type'           => 'text',
-        //                     'placeholder'    => 'Ejm.: 250.00',
-        //                     'class'          => '',
-        //                     'id'             => 'txthoraFin'
-        //                 ),
-        //     ));
+        $sobreescribe = new Element\Checkbox('chkSobreescribe');
+        $sobreescribe->setLabel('Desactiva Plan Base');
+        $this->add($sobreescribe);
+
         //Botones Enviar - Cancelar
 		$this->add(array(
 				'name'		=>	'btnRegServicio',

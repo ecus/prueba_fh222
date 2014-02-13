@@ -12,26 +12,10 @@ jQuery(function($) {
                             minlength:3,
                             maxlength:45,
                         },
-                        dtpFecha: {
-                            required: true,
+                        txtTipo: {
+                            digits: true,
+                            minlength:3
                         },
-                        // txtMonto: {
-                        //     required: true,
-                        //     maxlength:6,
-                        // },
-                        // txtTipo: {
-                        //     digits: true,
-                        //     minlength:3
-                        // },
-                        // txtdiasCupon: {
-                        //     digits: true
-                        // },
-                        // txtfreezing: {
-                        //     digits: true
-                        // },
-                        // txtMontoIni: {
-                        //     digits:true,
-                        // },
                         lstSucursal: {
                             required: true
                         },
@@ -40,30 +24,17 @@ jQuery(function($) {
                         txtNombre:{
                             required: '<span class="label label-warning">Campo Obligatorio</span>'
                         },
-                        dtpFecha: {
-                            required: '<span class="label label-warning">Campo Obligatorio</span>'
+                        txtTipo :{
+                            digits: '<span class="label label-warning">Solo numeros</span>',
+                            minlength: '<span class="label label-warning">minimo 3 caracteres</span>'
                         },
-
-                        // txtMonto:{
-                        //     required: '<span class="label label-warning">Campo Obligatorio</span>'
-                        // },
-                        // txtTipo :{
-                        //     digits: '<span class="label label-warning">Solo numeros</span>',
-                        //     minlength: '<span class="label label-warning">minimo 3 caracteres</span>'
-                        // },
-                        // txtdiasCupon :{
-                        //     digits: '<span class="label label-warning">Solo numeros</span>',
-                        // },
-                        // txtfreezing :{
-                        //     digits: '<span class="label label-warning">Solo numeros</span>',
-                        // },
                         lstSucursal:{
                             required: '<span class="label label-warning">Debe Elegir al Menos Una sucursal.</span>'
                         },
                     },
         });
 
-/*        $('#btnRegServicio').on('click',function(event){
+        $('#btnRegServicio').on('click',function(event){
             if ($(frmServicio).valid()){
                 if (horarios.length==0)
                 {
@@ -72,7 +43,7 @@ jQuery(function($) {
                     $('#btnRegistrar').click();
                 }
             }
-        });*/
+        });
 
         $('#cmbSucursal').on('change',function(event){
             if ($(lstSucursal).val()==null) {
@@ -88,38 +59,32 @@ jQuery(function($) {
             };
         });
         $('#btnCancelar').on('click',function(event){
-            // console.log($(lstSucursal).val());
-            limpiaControlesBasico();
-            /*var fecha = new Date;
-            $(dtpFecha).val(fecha.getDate());*/
+            console.log($(lstSucursal).val());
         });
-        $('#btnRegServicio').on('click',function(event){
+        $('#btnRegistrar').on('click',function(event){
             var accion = $('#btnRegServicio').attr('value');
             $('#modalAccion').modal('hide');
             if (accion=='Registrar'){
                 if ($("#frmServicio").valid()) {
                     $.post("regservicio",{
-                        /*
-                        $.post("pruebas",{
-                        txtMonto        :$(txtMonto).val(),
-                        txtdiasCupon    :$(txtdiasCupon).val(),
-                        txtfreezing     :$(txtfreezing).val(),
-                        txtMontoIni     :$(txtMontoIni).val(),
-                        horario         :horarios*/
-                        txtNombre       :$(txtNombre).val(),
-                        dtpFecha        :$(dtpFecha).val(),
-                        cmbEmpresa      :($(cmbEmpresa).val())?$(cmbEmpresa).val():null,
-                        lstSucursal     :$(lstSucursal).val(),
+                    // $.post("pruebas",{
+                        // txtMonto        :$(txtMonto).val(),
                         txtTipo         :$(txtTipo).val(),
-                        txtPersonal     :$(txtPersonal).val()
+                        txtNombre       :$(txtNombre).val(),
+                        // txtdiasCupon    :$(txtdiasCupon).val(),
+                        // txtfreezing     :$(txtfreezing).val(),
+                        // txtMontoIni     :$(txtMontoIni).val(),
+                        dtpFecha        :$(dtpFecha).val(),
+                        cmbEmpresa      :$(cmbEmpresa).val(),
+                        lstSucursal     :$(lstSucursal).val(),
+                        txtPersonal     :$(txtPersonal).val(),
+                        // horario         :horarios
                     }, function(data) {
                         if (data.response == false){
-                            $("#msjeModal").empty().html("Ocurrió un error en el registro del servicio.");
-                            $("#modalServicio").modal();
+                            console.log ('No se puede registrar');
                         }else{
                             $("#msjeModal").empty().html(data.response);
                             $("#modalServicio").modal();
-                            $('#btnCancelar').click();
                         }
                     },'json');
                 }else{

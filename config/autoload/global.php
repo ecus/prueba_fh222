@@ -15,7 +15,7 @@ return array(
         'username'       =>	'root',
         'password'       =>	'',
         'driver'         =>	'Pdo',
-        'dsn'            =>	'mysql:dbname=bdpruebas;host:localhost',
+        'dsn'            =>	'mysql:dbname=bdfinal;host:localhost',
         'driver_options'=>array(
 				\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY =>	true,
 				\PDO::ATTR_EMULATE_PREPARES			=>	true,

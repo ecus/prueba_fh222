@@ -125,8 +125,8 @@ DELIMITER ;
 
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS `bdnuevo`.`pa_buscarsocio`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdnuevo`.`pa_buscarsocio`(in nro char(11))
+DROP PROCEDURE IF EXISTS `bdfinal`.`pa_buscarsocio`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdfinal`.`pa_buscarsocio`(in nro char(11))
 begin
 select id_Soc,nombres_Soc from socio where documento_soc=nro;
 end $$
@@ -135,8 +135,8 @@ DELIMITER ;
 
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS `bdnuevo`.`pa_ClienteInscripcion`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdnuevo`.`pa_ClienteInscripcion`(in dni varchar(11))
+DROP PROCEDURE IF EXISTS `bdfinal`.`pa_ClienteInscripcion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE  `bdfinal`.`pa_ClienteInscripcion`(in dni varchar(11))
 BEGIN
   SELECT soc.id_Soc,soc.documento_Soc,CONCAT(soc.apellidoPaterno_Soc,' ', soc.apellidoMaterno_Soc,', ',soc.nombres_Soc) as cliente,
   inc.id_Ins,inc.fechaInicio_Ins, serv.freezing_Serv

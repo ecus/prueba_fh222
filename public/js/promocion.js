@@ -1,16 +1,21 @@
 jQuery(function($){
-	$(".collapse").collapse();
-	$('#btnBuscaPlan').on('click',function(event){
+    $(".collapse").collapse();
+    $('#btnBuscaPlan').on('click',function(event){
             var boton = $(this).children('i');
-			$('#datosPlan').removeAttr('disabled');
+            $('#datosPlan').removeAttr('disabled');
             limpiaControles();
             boton.removeClass('fa-search');
             boton.addClass('fa-spinner fa-spin');
             if ($(cmbPlanBase).val()) {
                 $.post("resumenplan",{
                     cmbPlanBase :   $(cmbPlanBase).val(),
-                }, function(data) {
-                    if (data.response == false){
+                }, function(data, event, xhr , settings, exception) {
+                            console.debug(data);
+                            console.debug(event);
+                            console.debug(xhr);
+                            console.debug(settings);
+                            console.debug(exception);
+                    if (data.response == false) {
                         console.log ('No se puede registrar');
                     }else{
                         info    =   data.info;
@@ -25,7 +30,7 @@ jQuery(function($){
                         $(txtCuotaMax).val(info.cuotasMaximo_serv);
                         $(chkLimite).val(info.pagoMaximo_serv);
                         $(chkLimite).prop('checked', true);
-                        $("#btnVigencia"+info.tipoduracion_serv).val(1);
+                        $("#btnVigencia"+inf|o.tipoduracion_serv).val(1);
                         $("#btnVigencia"+info.tipoduracion_serv).parent("label").addClass('active');
                         $.each(suc, function() {
                             var nombre = $(this)[0].nombre_suc;
@@ -104,7 +109,14 @@ jQuery(function($){
         $.post(accion,
             datos
         ,function(data){
-            console.debug(data.response);
+            if (data.response == false){
+                $("#msjeModal").empty().html("Ocurrió un error en el registro del servicio.");
+                $("#modalServicio").modal();
+            }else{
+                $("#msjeModal").empty().html(data.response);
+                $("#modalServicio").modal();
+                $('#btnCancelar').click();
+            }
         },'json');
     });
 	$('#dtpFechaFin').on('focus', function(event) {

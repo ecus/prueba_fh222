@@ -262,6 +262,27 @@ class FrmPlan extends Form
     //$select->setEmptyOption('Seleccione...');
         $this->add($select);
 
+
+        $select = new Element\Select('cmbTipoPlan');
+        $select->setLabel('Tipo Plan: ');
+        $select->setLabelAttributes(
+                    array(
+                        'class'     =>  'control-label',
+                        'for'       =>  'cmbTipoPlan'
+                        ) );
+        $select->setAttributes(
+                array(
+                    'class'          => 'form-control',
+                    'id'        => 'cmbTipoPlan'
+                    ));
+        $select->setEmptyOption('Seleccione...');
+        $select->setValueOptions(array(
+            1=>'Regular',
+            2=>'Nutricional',
+            3=>'Musculacion'));
+        $this->add($select);
+
+
         $this->add(array(
                 'name'      =>  'txtPromocion',
                 'attributes'=>  array(

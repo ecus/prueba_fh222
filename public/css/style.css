@@ -24,6 +24,8 @@ table tr:hover{text-decoration:underline}
 .btn-gym:hover,.btn-gym:focus,.btn-gym:active,.btn-gym.active{color:#fff;background-color:#007171;border-color:#004f4f}
 .btn-gym.disabled,.btn-gym[disabled],fieldset[disabled] .btn-gym,.btn-gym.disabled:hover,.btn-gym[disabled]hover,fieldset[disabled] .btn-gymhover,.btn-gym.disabledfocus,.btn-gym[disabled]focus,fieldset[disabled] .btn-gymfocus,.btn-gym.disabledactive,.btn-gym[disabled]active,fieldset[disabled] .btn-gym:active,.btn-gym.disabled.active,.btn-gym[disabled].active,fieldset[disabled] .btn-gym.active{background-color:#00a4a4;border-color:#009d9d}
 .breadcrumb li a{color:#008080}
+.breadcrumb li.active{background:#00b3b3;padding:.25em;border-radius:.35em;border-bottom:2px solid #008080}
+.breadcrumb li.active a{color:#fff}
 .filtro{-webkit-filter:drop-shadow(2px 2px 0 #ccc);filter:url("shadow.svg#drop-shadow")}
 .fondo{background-color:#fff}
 .icono{color:#000;text-shadow1px:1px 1px rgba(0,0,0,0.5)}

@@ -63,16 +63,16 @@ jQuery(function($) {
             $(txtTipoDuracion).val(x.charAt(x.length-1));
         });
 
-        $('#btnRegPlan').on('click',function(event){
-            if ($(frmPlan).valid()){
-                if (horarios.length==0)
-                {
-                    $('#modalAccion').modal('show');
-                }else{
-                    $('#btnRegistrar').click();
-                }
-            }
-        });
+        // $('#btnRegPlan').on('click',function(event){
+        //     if ($(frmPlan).valid()){
+        //         if (horarios.length==0)
+        //         {
+        //             $('#modalAccion').modal('show');
+        //         }else{
+        //             $('#btnRegistrar').click();
+        //         }
+        //     }
+        // });
 
         $('#cmbSucursal').on('change',function(event){
             if ($(lstSucursal).val()==null) {
@@ -89,10 +89,11 @@ jQuery(function($) {
         });
 
         $('#btnCancelar').on('click',function(event){
-            console.log($(lstSucursal).val());
+            // console.log($(lstSucursal).val());
+            limpiaControlesBasico();
         });
 
-        $('#btnRegistrar').on('click',function(event){
+        $('#btnRegPlan').on('click',function(event){
             var accion = $('#btnRegPlan').attr('value');
             $('#modalAccion').modal('hide');
             if (accion=='Registrar'){
@@ -100,7 +101,7 @@ jQuery(function($) {
                     $.post("regplan",{
                     // $.post("pruebas",{
                         txtMonto        :$(txtMonto).val(),
-                        txtTipo         :$(txtTipo).val(),
+                        txtTipo         :$(cmbTipoPlan).val(),
                         txtNombre       :$(txtNombre).val(),
                         txtdiasCupon    :$(txtdiasCupon).val(),
                         txtfreezing     :$(txtfreezing).val(),
@@ -113,8 +114,8 @@ jQuery(function($) {
                         lstServicios    :$(lstServicios).val(),
                         txtPersonal     :$(txtPersonal).val(),
                         chkLimite       :($(chkLimite).attr('checked'))?1:0,
-                        cmbPlanBase     :($(cmbPlanBase).val()>0)?$(cmbPlanBase).val():null,
-                        horario         :horarios
+                        cmbPlanBase     :($(cmbPlanBase).val()>0)?$(cmbPlanBase).val():0,
+                        // horario         :horarios
                         // cmbEmpresa      :$(cmbEmpresa).val(),
                     }, function(data) {
                         if (data.response == false){

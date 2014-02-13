@@ -61,9 +61,14 @@ class RegistrosController extends AbstractActionController
 					"frmSucursal" 	=>	$frmSuc,
 					"listaSuc" 		=>	$listaSuc,
 					"url"			=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/menu');
@@ -93,9 +98,14 @@ class RegistrosController extends AbstractActionController
 					"listaSuc"		=>	$listaSuc,
 					"verSucursal"	=>	$verSucursal,
 					"url"			=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -268,15 +278,20 @@ class RegistrosController extends AbstractActionController
 			$listaSuc	=	$tablaSuc->listaSucursal();
 			$pag		=	$this->getRequest()->getBaseUrl();
 			$frmPer		=	new FrmPersonal('frmPersonal');
-			// $frmPer->get("cmbSucursal");->setValueOptions($listaSuc)
+			$frmPer->get("cmbSucursal")->setValueOptions($listaSuc);
 			$var		=	array(
 					"titulo"		=>	"Registro de Sucursal",
 					"frmPersonal" 	=>	$frmPer,
 					"listaSuc"		=>	$listaSuc,
 					"url"			=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -310,6 +325,9 @@ class RegistrosController extends AbstractActionController
 				$per->setTelfCasa_per($frm['txtTelCasa']);
 				$per->setTelfMovil_per($frm['txtTelMovil']);
 				$per->setEmail_per($frm['txtEmail']);
+				$per->setSucursal($frm['cmbSucursal']);
+				$per->setCargo($frm['cmbCargo']);
+	            // var_dump($per);
 	            $msje		=	$perTabla->insertarPersonal($per);
 	            if (!$msje)
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
@@ -343,8 +361,12 @@ class RegistrosController extends AbstractActionController
 				$per->setTelfCasa_per($frm['txtTelCasa']);
 				$per->setTelfMovil_per($frm['txtTelMovil']);
 				$per->setEmail_per($frm['txtEmail']);
-				$alias 		=	$frm['txtUsuario'];
-	            $msje		=	$perTabla->insertarPersonalUsuario($per,$alias);
+				$per->setSucursal($frm['cmbSucursal']);
+				$per->setCargo($frm['cmbCargo']);
+				$per->setUser($frm['txtUsuario']);
+				// $alias 		=	$frm['txtUsuario'];
+	            // var_dump($per);
+	            $msje		=	$perTabla->insertarPersonalUsuario($per);
 	            if (!$msje)
 	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 	            else {
@@ -425,6 +447,8 @@ class RegistrosController extends AbstractActionController
 				$per->setTelfMovil_per($frm['txtTelMovil']);
 				$per->setEmail_per($frm['txtEmail']);
 				$per->setEstado($frm['txtEstado']);
+				$per->setSucursal($frm['cmbSucursal']);
+				$per->setCargo($frm['cmbCargo']);
 	            $msje		=	$perTabla->actualizarPersonal($per);
 				if (!$msje)
 					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
@@ -461,6 +485,8 @@ class RegistrosController extends AbstractActionController
 				$per->setTelfMovil_per($frm['txtTelMovil']);
 				$per->setEmail_per($frm['txtEmail']);
 				$per->setEstado($frm['txtEstado']);
+				$per->setSucursal($frm['cmbSucursal']);
+				$per->setCargo($frm['cmbCargo']);
 				$estado 		=	$frm['txtEstadoUPer'];
 	            $msje		=	$perTabla->actualizarPersonalUsuario($per,$estado);
 	            if (!$msje)
@@ -515,9 +541,14 @@ class RegistrosController extends AbstractActionController
     			"frmSocio"	=>	$frmsoc,
     			"listaSuc"		=>	$listaSuc,
 				"url"			=>	$pag,
-				'id'			=>	$container->iduser,
-					'per'		=>	$container->idper,
-				'nombre'		=>	$container->nombre
+				'id'		=>	$container->idper,
+				'per'		=>	$container->idper,
+				'nombre'	=>	$container->nombre,
+				'sucursal'	=>	$container->sucursal,
+				'cargo'		=>	$container->cargo,
+				'pass'		=>	$container->pass,
+				'sucursalNombre'	=>	$container->sucursalNombre,
+				'cargoNombre'		=>	$container->cargoNombre
 			);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -670,9 +701,14 @@ class RegistrosController extends AbstractActionController
 			$var		=	array(
 				"titulo"		=>	"Registro de Servicio",
 				"frmServicio"	=>	$frmSer,
-				'id'			=>	$container->iduser,
-				'per'			=>	$container->idper,
-				'nombre'		=>	$container->nombre,
+				'id'		=>	$container->idper,
+				'per'		=>	$container->idper,
+				'nombre'	=>	$container->nombre,
+				'sucursal'	=>	$container->sucursal,
+				'cargo'		=>	$container->cargo,
+				'pass'		=>	$container->pass,
+				'sucursalNombre'	=>	$container->sucursalNombre,
+				'cargoNombre'		=>	$container->cargoNombre
 			);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -697,27 +733,28 @@ class RegistrosController extends AbstractActionController
 				$ser		=	new Servicio();
 				$serTabla	=	new ServicioTabla($this->dbAdapter);
 				$frm 		= 	$request->getPost();
-				// $ser->setNombre_ser('nuedo');
 				$ser->setNombre_ser($frm['txtNombre']);
-				$ser->setMontoBase_ser($frm['txtMonto']);
 				$ser->setTipo_ser($frm['txtTipo']);
-				$ser->setDiasCupon_ser(($frm['txtdiasCupon']=='')?null:$frm['txtdiasCupon']);
-				$ser->setFreezing_ser(($frm['txtfreezing']=='')?null:$frm['txtfreezing']);
-				$ser->setMontoInicial_ser(($frm['txtMontoIni']=='')?null:$frm['txtMontoIni']);
 				$ser->setfechaReg_ser($frm['dtpFecha']);
-				$ser->setPromocion_ser(0);
-				// $ser->setEmpresa_id_emp(($frm['cmbEmpresa']=='')?null:$frm['cmbEmpresa']);
 				$ser->setPersonal_id_per($frm['txtPersonal']);
 				$sucursales	=	$frm['lstSucursal'];
+/*				$ser->setMontoBase_ser($frm['txtMonto']);
+				$ser->setPromocion_ser(0);
+				$ser->setDiasCupon_ser((isset($frm['txtdiasCupon']))?$frm['txtdiasCupon']:null);
+				$ser->setFreezing_ser((isset($frm['txtfreezing']))?$frm['txtfreezing']:null);
+				$ser->setMontoInicial_ser((isset($frm['txtMontoIni']))?$frm['txtMontoIni']:null);
+				$ser->setEmpresa_id_emp((isset($frm['cmbEmpresa']))?$frm['cmbEmpresa']:null;
+				var_dump($ser);
+				var_dump($sucursales);
+*/
 				$horario	=	$frm['horario'];
-				$msje		=	$serTabla->insertarServicio($ser,$horario,$sucursales);
-	            if (!$msje)
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => false)));
-	            else {
-	                $response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
-
-	            }
-	        }
+				$msje		=	$serTabla->insertarServicio($ser,$sucursales);
+				if (!$msje)
+					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+				else {
+					$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+				}
+			}
 			return $response;
 		}else{
 			return 0;
@@ -749,9 +786,14 @@ class RegistrosController extends AbstractActionController
 			$var		=	array(
 					"titulo"		=>	"Registrar Plan",
 					"frmPlan"		=>	$frmPlan,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -775,22 +817,22 @@ class RegistrosController extends AbstractActionController
 				$ser->setNombre_ser($frm['txtNombre']);
 				$ser->setMontoBase_ser($frm['txtMonto']);
 				$ser->setTipo_ser($frm['txtTipo']);
-				$ser->setDiasCupon_ser(($frm['txtdiasCupon']=='')?null:$frm['txtdiasCupon']);
-				$ser->setFreezing_ser(($frm['txtfreezing']=='')?null:$frm['txtfreezing']);
-				$ser->setMontoInicial_ser(($frm['txtMontoIni']=='')?null:$frm['txtMontoIni']);
+				$ser->setDiasCupon_ser((isset($frm['txtdiasCupon']))?$frm['txtdiasCupon']:null);
+				$ser->setFreezing_ser((isset($frm['txtfreezing']))?$frm['txtfreezing']:null);
+				$ser->setMontoInicial_ser((isset($frm['txtMontoIni']))?$frm['txtMontoIni']:null);
 				$ser->setCuota_ser($frm['txtCuotaMax']);
 				$ser->setTipoDuracion_ser($frm['txtTipoDuracion']);
 				$ser->setPagoMaximo_ser($frm['chkLimite']);
 				$ser->setDuracion_ser($frm['txtDuracion']);
 				$ser->setfechaReg_ser($frm['dtpFecha']);
 				$ser->setPromocion_ser(0);
-				$ser->setservicioBase(($frm['cmbPlanBase']=='')?null:$frm['cmbPlanBase']);
+				$ser->setservicioBase((isset($frm['cmbPlanBase']))?$frm['cmbPlanBase']:0);
 				// $ser->setEmpresa_id_emp(($frm['cmbEmpresa']=='')?null:$frm['cmbEmpresa']);
 				$ser->setPersonal_id_per($frm['txtPersonal']);
 				$sucursales	=	$frm['lstSucursal'];
 				$servicios	=	$frm['lstServicios'];
-				$horario	=	$frm['horario'];
-				$msje		=	$serTabla->insertarPlan($ser,$horario,$sucursales,$servicios);
+				// $horario	=	$frm['horario'];
+				$msje		=	$serTabla->insertarPlan($ser,$sucursales,$servicios);
 				if (!$msje)
 					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
 				else {
@@ -842,9 +884,14 @@ class RegistrosController extends AbstractActionController
 			$var		=	array(
 					"titulo"		=>	"Registrar Plan",
 					"frmPlan"		=>	$frmPlan,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/registro');
@@ -884,7 +931,8 @@ class RegistrosController extends AbstractActionController
 
 				$sucursales    =	$frm['lstSucursal'];
 				$servicios	=	$frm['lstServicios'];
-				$horario	=	$frm['horario'];
+				// $horario	=	$frm['horario'];
+				// var_dump($ser);
 				$msje		=	$serTabla->insertarPromoBase($ser);
 				if (!$msje)
 					$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
@@ -949,6 +997,7 @@ class RegistrosController extends AbstractActionController
 		// 	return 0;
 		// }
 	}
+
 //------------------------------------- EMPRESA --------------------------------------
 	public function empresaAction()
 	{
@@ -958,9 +1007,14 @@ class RegistrosController extends AbstractActionController
 			$var	=	array(
 					"titulo"		=>	"Registro de Empresa",
 					"frmEmpresa"	=>	$frmEmp,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/registro');
@@ -997,4 +1051,74 @@ class RegistrosController extends AbstractActionController
 			return 0;
 		}
 	}
+
+//------------------------------------- HORARIO ---------------------------------------
+	public function horarioAction()
+	{
+		$container    =	new Container('personal');
+		if (isset($container->iduser)) {
+			$frmPlan		=	new FrmPlan('frmPlan');
+			$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+			$tablaSuc	=	new SucursalTabla($this->dbAdapter);
+			$tablaEmp	=	new EmpresaTabla($this->dbAdapter);
+			$tablaPer	=	new PersonalTabla($this->dbAdapter);
+			$tablaServ	=	new ServicioTabla($this->dbAdapter);
+			$listaSuc	=	$tablaSuc->listaSucursal();
+			$listaPlan	=	$tablaServ->listaPlan();
+			// $listaEmp	=	$tablaEmp->listaEmpresa();
+			$listaPer	=	$tablaPer->listaPersonal();
+			$listaServ	=	$tablaServ->listaServicioBase();
+			$frmPlan->get("cmbEncargado")->setValueOptions($listaPer);
+			$frmPlan->get("cmbSucursal")->setValueOptions($listaSuc);
+			// $frmPlan->get("cmbEmpresa")->setValueOptions($listaEmp);
+			$frmPlan->get("cmbPlanBase")->setValueOptions($listaPlan);
+			$frmPlan->get("lstSucursal")->setValueOptions($listaSuc);
+			$frmPlan->get("lstServicios")->setValueOptions($listaServ);
+			$var	=	array(
+					"titulo"		=>	"Registrar Plan",
+					"frmPlan"		=>	$frmPlan,
+					'id'		=>	$container->idper,
+					'per'		=>	$container->idper,
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
+				);
+			$view	=	new ViewModel($var);
+			$this->layout('layout/registro');
+			return $view;
+		} else {
+			return $this->forward()->dispatch("Fitness\Controller\Index",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	"Debe identificarse, para tener acceso a la aplicación."
+										));
+		}
+	}
+	// public function regempresaAction()
+	// {
+	// 	$container	=	new Container('personal');
+	// 	if (isset($container->iduser)) {
+	// 		$request	=	$this->getRequest();
+	// 		$response	=	$this->getResponse();
+	// 		if ($request->isPost()) {
+	// 			$this->dbAdapter	=	$this->getServiceLocator()->get('Zend\Db\Adapter');
+	// 			$emp				=	new Empresa();
+	// 			$empTabla			=	new EmpresaTabla($this->dbAdapter);
+	// 			$frm				=	$request->getPost();
+	// 			$emp->setNombre_Em($frm['txtNombre']);
+	// 			$msje				=	$empTabla->insertarEmpresa($emp);
+	// 			if (!$msje)
+	// 				$response->setContent(\Zend\Json\Json::encode(array('response' => false)));
+	// 			else {
+	// 				$response->setContent(\Zend\Json\Json::encode(array('response' => $msje)));
+	// 			}
+	// 		}
+	// 		return $response;
+	// 	} else {
+	// 		return 0;
+	// 	}
+	// }
 }

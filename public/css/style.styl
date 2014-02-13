@@ -136,7 +136,7 @@ table tr:hover
 	&:focus
 	&:active
 	&.active
-		color#fff
+		color #fff
 		background-color #007171
 		border-color #004F4F
 
@@ -147,6 +147,15 @@ table tr:hover
 
 .breadcrumb li a
 	color #008080
+
+.breadcrumb li.active
+	background lighten( verde_gym,10)
+	padding .25em
+	border-radius .35em
+	border-bottom 2px solid verde_gym
+
+.breadcrumb li.active a
+	color white
 
 .filtro
 	-webkit-filter drop-shadow(2px 2px 0 #ccc)

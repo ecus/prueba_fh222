@@ -46,9 +46,14 @@ class AtencionController extends AbstractActionController
 		$container	=	new Container('personal');
 		if (isset($container->iduser)) {
 			$var 	=	array(
-					'id'		=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'	=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/menu');
@@ -77,9 +82,14 @@ class AtencionController extends AbstractActionController
 					"frmFreezing"	=>	$frmfree,
 					"listaSuc"		=>	$listaSuc,
 					"url"			=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -158,9 +168,14 @@ class AtencionController extends AbstractActionController
 						"frmAsistencia" =>  $frmfree,
 						"listaSuc"      =>  $listaSuc,
 						"url"           =>  $pag,
-						'id'			=>	$container->iduser,
-						'per'			=>	$container->idper,
-						'nombre'		=>	$container->nombre
+						'id'		=>	$container->idper,
+						'per'		=>	$container->idper,
+						'nombre'	=>	$container->nombre,
+						'sucursal'	=>	$container->sucursal,
+						'cargo'		=>	$container->cargo,
+						'pass'		=>	$container->pass,
+						'sucursalNombre'	=>	$container->sucursalNombre,
+						'cargoNombre'		=>	$container->cargoNombre
 					);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -258,9 +273,14 @@ class AtencionController extends AbstractActionController
 					"frmPago"	=>	$frmpago,
 					"listaSuc"	=>	$listaSuc,
 					"url"		=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -347,9 +367,14 @@ class AtencionController extends AbstractActionController
 					"frmSocio"	=>	$frmsoc,
 					"listaSuc"	=>	$listaSuc,
 					"url"		=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -406,6 +431,7 @@ class AtencionController extends AbstractActionController
 				$soc->setecivil($frm['cmbecivil']);
 				$soc->setDistrito($frm['cmbDistrito']);
 				$soc->setDireccion($frm['txtDireccion']);
+				$soc->setSucursal($frm['txtSucursal']);
 
 				switch ($frm['cmbestado']) {
 					case 1:
@@ -489,6 +515,7 @@ class AtencionController extends AbstractActionController
 				$soc->setecivil($frm['cmbecivil']);
 				$soc->setDistrito($frm['cmbDistrito']);
 				$soc->setDireccion($frm['txtDireccion']);
+				$soc->setSucursal($frm['txtSucursal']);
 
 				switch ($frm['cmbestado']) {
 					case 1:
@@ -686,9 +713,14 @@ class AtencionController extends AbstractActionController
 					"frmSocio"	=>	$frmsoc,
 					"listaSuc"	=>	$listaSuc,
 					"url"		=>	$pag,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -711,9 +743,14 @@ class AtencionController extends AbstractActionController
 			$var	=	array(
 					"titulo"		=>	"Registro de Empresa",
 					"frmEmpresa"	=>	$frmEmp,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/atencion');
@@ -764,9 +801,14 @@ class AtencionController extends AbstractActionController
 			$var 	=	array(
 					"titulo"			=>	"Registro de Inscripcion",
 					"frmInscripcion"	=>	$frmins,
-					'id'			=>	$container->iduser,
+					'id'		=>	$container->idper,
 					'per'		=>	$container->idper,
-					'nombre'		=>	$container->nombre
+					'nombre'	=>	$container->nombre,
+					'sucursal'	=>	$container->sucursal,
+					'cargo'		=>	$container->cargo,
+					'pass'		=>	$container->pass,
+					'sucursalNombre'	=>	$container->sucursalNombre,
+					'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view	=	new ViewModel($var);
 			$this->layout('layout/atencion');

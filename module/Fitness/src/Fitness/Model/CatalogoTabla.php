@@ -1,16 +1,8 @@
 <?php
 namespace Fitness\Model;
 
-// use Zend\Db\ResultSet\ResultSet;
-// use Zend\Db\Adapter\Adapter;
-// use Zend\Db\Sql\Sql;
-// use Zend\Db;
-// use Zend\Db\Adapter\Driver\ConnectionInterface;
-// use Zend\Db\Adapter\Driver\StatementInterface;
-// use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
-// use Fitness\Model\Entity\Cuenta;
 
 class CatalogoTabla extends TableGateway
 {
@@ -21,16 +13,21 @@ class CatalogoTabla extends TableGateway
 	public function listaCiudad()
 	{
 		try{
+			$result = array('' => '' );
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_listaCiudad()'); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaCiudad()');
 			$sql=$stmt->execute();
 			while ($sql->next()) {
-				$result[$sql->current()['id_Ciu']]=$sql->current()['nombre_Ciu'];
+				if (isset($sql->current()['id_Ciu'])) {
+					$result[$sql->current()['id_Ciu']]=$sql->current()['nombre_Ciu'];
+				} else {
+					$result[null]='';
+				}
 			}
 			return $result;
 		}catch(Zend_Exception $e){
-			throw $e;	
+			throw $e;
 		}
 		// foreach ($sql->toArray() as $value) {
 		// 	$result[$value['id_Ciu']]=$value['nombre_Ciu'];
@@ -39,17 +36,21 @@ class CatalogoTabla extends TableGateway
 	{
 		try{
 			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement(); 
-			$stmt->prepare('CALL pa_listaDistrito(:id)'); 
-			$stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT); 
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_listaDistrito(:id)');
+			$stmt->getResource()->bindParam(':id', $id, \PDO::PARAM_INT);
 			$sql=$stmt->execute();
 			while ($sql->next()) {
-				$result[$sql->current()['id_Dis']]=$sql->current()['nombre_Dis'];
+				if (isset($sql->current()['id_Dis'])) {
+					$result[$sql->current()['id_Dis']]=$sql->current()['nombre_Dis'];
+				} else {
+					$result[null]='';
+				}
 			}
 			// var_dump(count($result));
 			return $result;
 		}catch(Zend_Exception $e){
-			throw $e;	
+			throw $e;
 		}
 		// $sql 		=	$this->adapter->query('CALL pa_listaSucursal',Adapter::QUERY_MODE_EXECUTE);
 		// $result		=	$sql->toArray();

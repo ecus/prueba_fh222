@@ -12,7 +12,7 @@ class ServicioTabla extends TableGateway
 		return parent::__construct('', $adapter, $databaseSchema,
 			$selectResultPrototype);
 	}
-	public function insertarServicio(servicio $ser=NULL,$datosXML,$sucXML)
+/*	public function insertarServicio(servicio $ser=NULL,$datosXML,$sucXML)
 	{
 		try
 		{
@@ -119,7 +119,53 @@ class ServicioTabla extends TableGateway
 			return $e->getMessage();
 		}
 	}
-///////
+*/
+	public function insertarServicio(servicio $ser=NULL,$sucXML)
+	{
+		try
+		{
+			$xmlSucursal = new \DomDocument('1.0', 'UTF-8');
+
+			$root = $xmlSucursal->createElement('lista');
+			$root = $xmlSucursal->appendChild($root);
+
+			foreach ($sucXML as $value)
+			{
+				$sucursal=$xmlSucursal->createElement('sucursal',$value);
+				$sucursal =$root->appendChild($sucursal);
+			}
+			$xmlSucursal->formatOutput = true;
+			$xmlSucursal->saveXML();
+
+			$var1=$ser->getNombre_ser();
+			$var2=$ser->getTipo_ser();
+			$var3=$ser->getfechaReg_ser();
+			$var4=$ser->getPersonal_id_per();
+			$var5=$xmlSucursal->saveXML();
+
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaServicio(?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(3, $var3);
+			$stmt->getResource()->bindParam(4, $var4);
+			$stmt->getResource()->bindParam(5, $var5);
+			$aux=$stmt->execute();
+			// $stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			$stmt->getResource()->closeCursor();
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
+			return $output['mensaje'];
+		}catch(Zend_Db_Adapter_Exception $e){
+			return $e->getMessage();
+		}catch (Zend_Exception $e) {
+			return $e->getMessage();
+		}
+	}
+/*///////
 	public function insertarPlan(servicio $ser=NULL,$datosXML,$sucXML,$planXML)
 	{
 		try
@@ -257,6 +303,106 @@ class ServicioTabla extends TableGateway
 		}catch(Zend_Db_Adapter_Exception $e){
 			throw $e;
 		}
+	}*/
+	public function insertarPlan(servicio $ser=NULL,$sucXML,$planXML)
+	{
+		try
+		{
+			$xmlSuc = new \DomDocument('1.0', 'UTF-8');
+
+			$root = $xmlSuc->createElement('lista');
+			$root = $xmlSuc->appendChild($root);
+
+			foreach ($sucXML as $value)
+			{
+				$sucursal=$xmlSuc->createElement('sucursal',$value);
+				$sucursal =$root->appendChild($sucursal);
+			}
+
+			$xmlSuc->formatOutput = true;
+			$xmlSuc->saveXML();
+
+			$xmlPlan = new \DomDocument('1.0', 'UTF-8');
+
+			$root = $xmlPlan->createElement('lista');
+			$root = $xmlPlan->appendChild($root);
+			foreach ($planXML as $value)
+			{
+				$sucursal=$xmlPlan->createElement('servicio',$value);
+				$sucursal =$root->appendChild($sucursal);
+			}
+			$xmlPlan->formatOutput = true;
+			$xmlPlan->saveXML();
+
+			$var=array(
+						$ser->getNombre_ser(),
+						$ser->getMontoBase_ser(),
+						$ser->getTipo_ser(),
+						$ser->getDiasCupon_ser(),
+						$ser->getFreezing_ser(),
+						$ser->getMontoInicial_ser(),
+						$ser->getfechaReg_ser(),
+						$ser->getPromocion_ser(),
+						$ser->getTipoDuracion_ser(),
+						$ser->getDuracion_ser(),
+						$ser->getCuota_ser(),
+						$ser->getPagoMaximo_ser(),
+						$ser->getPersonal_id_per(),
+						$xmlPlan->saveXML(),
+						$xmlSuc->saveXML(),
+						// $xml->saveXML()
+						);
+			// print_r($var);
+			// var_dump($ser);
+
+			// $var=array(
+			$var1=$ser->getNombre_ser();
+			$var2=$ser->getMontoBase_ser();
+			$var3=$ser->getTipo_ser();
+			$var4=$ser->getDiasCupon_ser();
+			$var5=$ser->getFreezing_ser();
+			$var6=$ser->getMontoInicial_ser();
+			$var7=$ser->getfechaReg_ser();
+			$var8=$ser->getPromocion_ser();
+			$var9=$ser->getTipoDuracion_ser();
+			$var10=$ser->getDuracion_ser();
+			$var11=$ser->getCuota_ser();
+			$var12=$ser->getPagoMaximo_ser();
+			$var13=$ser->getPersonal_id_per();
+			$var14=$ser->getServicioBase();
+			$var15=$xmlPlan->saveXML();
+			$var16=$xmlSuc->saveXML();
+			// $var17=$xml->saveXML();
+			// 			);
+			$dbAdapter=$this->getAdapter();
+			$stmt = $dbAdapter->createStatement();
+			$stmt->prepare('CALL pa_insertaPlan(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+			$stmt->getResource()->bindParam(1, $var1);
+			$stmt->getResource()->bindParam(2, $var2);
+			$stmt->getResource()->bindParam(3, $var3,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(4, $var4,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(5, $var5,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(6, $var6);
+			$stmt->getResource()->bindParam(7, $var7);
+			$stmt->getResource()->bindParam(8, $var8,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(14, $var14,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(15, $var15);
+			$stmt->getResource()->bindParam(16, $var16);
+			// $stmt->getResource()->bindParam(17, $var17);
+			$aux=$stmt->execute();
+			$stmt2  = $dbAdapter->createStatement();
+			$stmt2->prepare("SELECT @msje AS mensaje");
+			$result = $stmt2->execute();
+			$output = $result->current();
+			return $output['mensaje'];
+		}catch(Zend_Db_Adapter_Exception $e){
+			throw $e;
+		}
 	}
 ///////
 	public function insertarPromo(servicio $ser=NULL)
@@ -346,6 +492,7 @@ class ServicioTabla extends TableGateway
 			$stmt->getResource()->bindParam(9, $var9,\PDO::PARAM_INT);
 			$stmt->getResource()->bindParam(10, $var10,\PDO::PARAM_INT);
 			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+			$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
 			$aux=$stmt->execute();
 
 			$stmt2  = $dbAdapter->createStatement();
@@ -361,16 +508,18 @@ class ServicioTabla extends TableGateway
 	public function listaServicioBase()
 	{
 		try{
-
 			$dbAdapter=$this->getAdapter();
 			$stmt = $dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_listaServicioBase()');
 			$sql=$stmt->execute();
 			while ($sql->next()) {
-				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				if (isset($sql->current()['id_Serv'])) {
+					$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				} else {
+					$result[null]='';
+				}
 			}
 			return $result;
-			// var_dump($result);
 		}catch(Zend_Exception $e){
 			throw $e;
 		}
@@ -384,10 +533,13 @@ class ServicioTabla extends TableGateway
 			$stmt->prepare('CALL pa_listaServicio()');
 			$sql=$stmt->execute();
 			while ($sql->next()) {
-				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				if (isset($sql->current()['id_Serv'])) {
+					$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				} else {
+					$result[null]='';
+				}
 			}
 			return $result;
-			// var_dump($result);
 		} catch (Exception $e) {
 			throw $e;
 		}
@@ -396,12 +548,17 @@ class ServicioTabla extends TableGateway
 	public function listaPlan()
 	{
 		try {
-			$dbAdapter=$this->getAdapter();
-			$stmt = $dbAdapter->createStatement();
+			$result = array('' => '' );
+			$dbAdapter 	=	$this->getAdapter();
+			$stmt 		=	$dbAdapter->createStatement();
 			$stmt->prepare('CALL pa_listaPlan()');
-			$sql=$stmt->execute();
+			$sql 		=	$stmt->execute();
 			while ($sql->next()) {
-				$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				if (isset($sql->current()['id_Serv'])) {
+					$result[$sql->current()['id_Serv']]=$sql->current()['nombre_Serv'];
+				} else {
+					$result[null]='';
+				}
 			}
 			return $result;
 		} catch (Exception $e) {
@@ -443,7 +600,7 @@ class ServicioTabla extends TableGateway
 			}
 			$stmt->getResource()->nextRowset();
 			//// info de horario
-			$horario=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
+			/*$horario=$stmt->getResource()->fetchAll(\PDO::FETCH_OBJ);
 			if (count($horario)>0) {
 				$contenedor['horario']=$horario;
 			}
@@ -453,7 +610,7 @@ class ServicioTabla extends TableGateway
 			if (count($dHora)>0) {
 				// var_dump($dHora);
 				$contenedor['dHora']=$dHora;
-			}
+			}*/
 			// var_dump($contenedor);
 			$stmt->getResource()->closeCursor();
 			return $contenedor;

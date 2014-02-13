@@ -25,18 +25,31 @@ use Fitness\Model\PersonalTabla;
 use Fitness\Model\Entity\Personal;
 use Fitness\Model\Entity\Sucursal;
 
+
 class PersonalController extends AbstractActionController
 {
 	public function indexAction()
 	{
+		$cargos = array(
+			0 => "Director",
+			1 => "Gerente",
+			2 => "Coordinador",
+			3 => "Counter",
+			4 => "Evaluador",
+			5 => "Trainer");
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
 			return $this->forward()->dispatch("Fitness\Controller\Personal",
 									array(
 										"action"	=>	"menu",
-										'id'	=>	$container->idper,
+										'id'		=>	$container->idper,
 										'per'		=>	$container->idper,
-										'nombre'=>	$container->nombre
+										'nombre'	=>	$container->nombre,
+										'sucursal'	=>	$container->sucursal,
+										'cargo'		=>	$container->cargo,
+										'pass'		=>	$container->pass,
+										'sucursalNombre'	=>	$container->sucursalNombre,
+										'cargoNombre'		=>	$container->cargoNombre
 										));
 		} else {
 			$pag	=	$this->getRequest()->getBaseUrl();
@@ -55,7 +68,14 @@ class PersonalController extends AbstractActionController
 	}
 	public function recibeAction()
 	{
-		echo "<br><br><br><br>";
+		// echo "<br><br><br><br>";
+		$cargos = array(
+			0 => "Director",
+			1 => "Gerente",
+			2 => "Coordinador",
+			3 => "Counter",
+			4 => "Evaluador",
+			5 => "Trainer");
 		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
         $perTabla			=	new PersonalTabla($this->dbAdapter);
 		$request            =   $this->getRequest();
@@ -65,7 +85,13 @@ class PersonalController extends AbstractActionController
 		$recibe				=	$perTabla->loginPersonal($frm['txtUsuario'],$frm['txtClave']);
 
 		if (isset($recibe->msje)) {
-			var_dump($recibe);
+			// var_dump($recibe);
+			$mensaje	=	$recibe->msje;
+			return $this->forward()->dispatch("Fitness\Controller\Personal",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	$mensaje
+										));
 		} else {
 			$bcrypt 		= 	new Bcrypt();
 			$config 		=	new SessionConfig();
@@ -75,6 +101,7 @@ class PersonalController extends AbstractActionController
 			));
 
 			$manager = new SessionManager($config);
+			// var_dump($recibe);
 
 			$container = new Container('personal',$manager);
 			$container->iduser 	=	$recibe->id_UPer;
@@ -83,20 +110,35 @@ class PersonalController extends AbstractActionController
 			$container->pass 	=	$bcrypt->create($frm['txtClave']);
 			$container->nombre 	=	$recibe->apellidoPaterno_Per .' '. $recibe->apellidoMaterno_Per . ', '. $recibe->nombres_Per;
 			$container->sexo 	=	$recibe->sexo_Per;
-			// $container->cargo 	=	$recibe->sexo_Per;
-			Container::setDefaultManager($manager);
+			$container->sucursal=	$recibe->Sucursal_id_Suc;
+			$container->cargo 	=	$recibe->cargo_Per;
+			$container->sucursalNombre 	=	$recibe->sucursalNombre;
+			$container->cargoNombre 	=	$cargos[$recibe->cargo_Per];
+ 			Container::setDefaultManager($manager);
 			return $this->redirect()->toRoute('login-personal');
 		}
 	}
 	public function menuAction()
 	{
 		// echo "<br><br><br><br>";
+		$cargos = array(
+			0 => "Director",
+			1 => "Gerente",
+			2 => "Coordinador",
+			3 => "Counter",
+			4 => "Evaluador",
+			5 => "Trainer");
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
 			$var 	=	array(
-				'id'	=>	$container->idper,
+				'id'		=>	$container->idper,
 				'per'		=>	$container->idper,
-				'nombre'=>	$container->nombre
+				'nombre'	=>	$container->nombre,
+				'sucursal'	=>	$container->sucursal,
+				'cargo'		=>	$container->cargo,
+				'pass'		=>	$container->pass,
+				'sucursalNombre'	=>	$container->sucursalNombre,
+				'cargoNombre'		=>	$container->cargoNombre
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/menu');

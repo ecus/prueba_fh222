@@ -68,12 +68,13 @@ class SocioTabla extends TableGateway
 		$var17=$p->getempresa();
 
 		$var18=$p->getpersonal();
-		$var19=$xml->saveXML();
+		$var19=$p->getSucursal();
+		$var20=$xml->saveXML();
 
 		// var_dump($p);
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaSocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -92,7 +93,8 @@ class SocioTabla extends TableGateway
 		$stmt->getResource()->bindParam(16, $var16);
 		$stmt->getResource()->bindParam(17, $var17,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(19, $var19);
+		$stmt->getResource()->bindParam(19, $var19,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(20, $var20);
 		$resultado=$stmt->execute();
 
 		$stmt2  = $dbAdapter->createStatement();
@@ -151,12 +153,12 @@ class SocioTabla extends TableGateway
 		$var15	=	$p->getEmpresa();
 		$var16	=	$p->getPersonal();
 		$var17	=	$alias;
-		$var18	=	$xml->saveXML();
+		$var18 	=	$p->getSucursal();
+		$var19	=	$xml->saveXML();
 
-        // $result =	$this->adapter->query('call pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)',$datos);
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaSocioUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaSocioUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -174,7 +176,8 @@ class SocioTabla extends TableGateway
 		$stmt->getResource()->bindParam(15, $var15,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(16, $var16,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(17, $var17);
-		$stmt->getResource()->bindParam(18, $var18);
+		$stmt->getResource()->bindParam(18, $var18,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(19, $var19);
 		$resultado=$stmt->execute();
 
 		$stmt2 = $dbAdapter->createStatement();

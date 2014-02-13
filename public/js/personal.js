@@ -41,6 +41,12 @@ jQuery(function($) {
 							required: true,
 							date: true
 						},
+						cmbSucursal :{
+							required: true,
+						},
+						cmbCargo :{
+							required: true,
+						}
 					},
 			messages:{
 						txtDni:{
@@ -76,22 +82,26 @@ jQuery(function($) {
 						dtpFecha :{
 							required:'<span class ="label label-warning">Campo Obligatorio</span>',
 							date: '<span class    ="label label-warning">Error en formato de fecha</span>'
-						}
+						},
+						cmbSucursal:{
+							required: '<span class ="label label-warning">Seleccione una Opcion</span>'
+						},
+						cmbCargo :{
+							required: '<span class ="label label-warning">Seleccione una Opcion</span>'
+						},
 					}
 		});
 	$("#barra").slideUp();
 	$('#btnRegPersonal').on('click',function(event){
-		var accion    =	$(this).attr('value');
+		var textoBoton    =	$(this).attr('value');
 		if($(frmPersonal).valid()){
-			if (accion =='Registrar'){
 				$("#barra").slideDown();
-				if($(optUsuario).val() ==0){
-					var operacion =   "regpersonal";
-				}else{
-					var operacion =   "reguserpersonal";
-					var user      =  crearNombre();
-				}
+				var user      =  crearNombre();
+				var operacion = verifica($("#optUsuario").val(),textoBoton);
 				$.post(operacion, {
+						txtId		:($(txtId).val())?$(txtId).val():0,
+						txtEstado	:($(txtEstado).val())?$(txtEstado).val():0,
+
 						txtDni		:$(txtDni).val(),
 						txtNombre	:$(txtNombre).val(),
 						txtApPaterno:$(txtApPaterno).val(),
@@ -102,7 +112,11 @@ jQuery(function($) {
 						txtTelCasa	:$(txtTelCasa).val(),
 						txtTelMovil	:$(txtTelMovil).val(),
 						txtEmail	:$(txtEmail).val(),
-						txtUsuario	:$(txtUsuario).val()
+						cmbSucursal	:$(cmbSucursal).val(),
+						cmbCargo	:$(cmbCargo).val(),
+
+						txtUsuario	:($(txtUsuario).val())?$(txtUsuario).val():0,
+						txtEstadoUPer:($(txtEstadoUPer).val())?$(txtEstadoUPer).val():0
 				},function(data){
 						if(data.response == false){
 							console.log('no se puede registrar');
@@ -113,73 +127,49 @@ jQuery(function($) {
 						}
 						$("#barra").slideUp();
 				}, 'json');
-			}else{
-				$("#barra").slideDown();
-				if($(optUsuario).val() ==0){
-					var operacion	=	"actpersonal";
-				}else{
-					var operacion	=	"actuserpersonal";
-				}
-				$.post(operacion, {
-						txtId		:$(txtId).val(),
-						txtEstado	:$(txtEstado).val(),
-						txtDni		:$(txtDni).val(),
-						txtNombre	:$(txtNombre).val(),
-						txtApPaterno:$(txtApPaterno).val(),
-						txtApMaterno:$(txtApMaterno).val(),
-						dtpFecha	:$(dtpFecha).val(),
-						txtSexo		:$(txtSexo).val(),
-						txtDireccion:$(txtDireccion).val(),
-						txtTelCasa	:$(txtTelCasa).val(),
-						txtTelMovil	:$(txtTelMovil).val(),
-						txtEmail	:$(txtEmail).val(),
-						txtEstadoUPer:$(txtEstadoUPer).val()
-				},function(data){
-						if(data.response == false){
-							console.log('no se puede registrar');
-						}else{
-							limpiaControles();
-							$("#msjeModal").empty().html(data.response);
-							$("#modalPersonal").modal();
-						}
-						$("#barra").slideUp();
-				}, 'json');
-			}
 		}else{
 			console.log("mal");
 		};
 	});
+
+	function verifica (regUsuario,textoBoton) {
+		var tipoOperacion = textoBoton.substr(0,3).toLowerCase();
+		var accion = (regUsuario==0)?tipoOperacion+"personal":tipoOperacion+"userpersonal";
+		return accion;
+	};
 	$('#prueba').on('click',function(event) {
 		// console.debug($('input[name ="preferencias[]"]:checked').val());
 		console.debug($('#pre > label.active').find('input[name ="preferencias[]"]'));
 		console.log($('input[name ="preferencias[]"]').val());
 	});
-	// $('.btn-group .btn').click(function() {
-	// // var parent = $(this).find('input').attr('checked', 'true');;
-	// // console.debug(parent);
-	// // $(parent).find('input').val($(this).text());
-	// });
+	/*
+	$('.btn-group .btn').click(function() {
+	// var parent = $(this).find('input').attr('checked', 'true');;
+	// console.debug(parent);
+	// $(parent).find('input').val($(this).text());
+	});
+	*/
 
 	$('.btnSexo').on('click',function(event){
 		// $(txtSexo).val($(this).attr('id').charAt($(this).attr('id').length-1));
-		var x =$(this).find('input').attr('id');
-		$(txtSexo).val(x.charAt(x.length-1));
+		var id =$(this).find('input').attr('id');
+		$(txtSexo).val(id.charAt(id.length-1));
 	});
 	$('.btnUper').on('click',function(event){
 		// $(txtEstadoUPer).val($(this).attr('id').charAt($(this).attr('id').length-1));
-		var x =$(this).find('input').attr('id');
-		$(txtEstadoUPer).val(x.charAt(x.length-1));
+		var id =$(this).find('input').attr('id');
+		$(txtEstadoUPer).val(id.charAt(id.length-1));
 	});
 	$('.btnEstado').on('click',function(event){
-		var x =$(this).find('input').attr('id');
-		$(txtEstado).val(x.charAt(x.length-1));
+		var id =$(this).find('input').attr('id');
+		$(txtEstado).val(id.charAt(id.length-1));
 	});
 	$('.btnAccesos').on('click',function(event){
-		var rpta     =  $(this).html();
+		var respuesta=  $(this).html();
 		var nombre   =  $(txtNombre).val();
 		var apellido =  $(txtApPaterno).val().replace(" ","");
 		var user     =  crearNombre();
-		if(rpta      =='Si'){
+		if (respuesta == 'Si') {
 			if(nombre !='' && apellido!=''){
 				$("#boxAcceso").slideDown();
 				$(optUsuario).val('1');
@@ -225,6 +215,8 @@ jQuery(function($) {
 						$(txtTelMovil).val(arreglo.telefonoMovil_Per);
 						$(txtEmail).val(arreglo.email_Per);
 						$(txtEstadoUPer).val(arreglo.estado_UPer);
+						$("#cmbSucursal option[value='"+arreglo.sucursal_id_suc+"']").attr("selected","selected");
+						$("#cmbCargo option[value='"+arreglo.cargo_Per+"']").attr("selected","selected");
 						$("#btnEstado0").parent('label').removeClass('active');
 						$("#btnEstado1").parent('label').removeClass('active');
 						$("#btnUper0").parent('label').removeClass('active');
@@ -234,7 +226,7 @@ jQuery(function($) {
 						$("#btnSexo"+arreglo.sexo_Per).parent('label').addClass('active');
 						$("#btnEstado"+arreglo.estado_Per).parent('label').addClass('active');
 						$("#btnUper"+arreglo.estado_UPer).parent('label').addClass('active');
-						console.log(arreglo);
+						// console.log(arreglo);
 						if(arreglo.alias_UPer !=null){
 							$("#boxAcceso").slideDown();
 							$(txtUsuario).val(arreglo.alias_UPer);
@@ -261,31 +253,28 @@ jQuery(function($) {
 	$("#boxEstado").slideUp();
 	$("#boxFoto").slideUp();
 	$("#boxAcceso").slideUp();
+	/*function limpiaControles () {
+		$('input[type="text"]').val('');
+		$('input[type="date"]').val('');
+		$('select').find('option:nth(0)').attr("selected","selected");
+		$('select[multiple="multiple"]').find('option:nth(0)').attr("selected","selected");
+	}*/
 	function limpiaControles(){
-		$(txtDni).removeAttr('disabled');
-		$(txtId).val('');
-		$(txtEstado).val('');
-		$(txtDni).val('');
-		$(txtNombre).val('');
-		$(txtApPaterno).val('');
-		$(txtApMaterno).val('');
-		$(dtpFecha).val('');
+		limpiaControlesBasico();
 		$(txtSexo).val(0);
-		$(txtDireccion).val('');
-		$(txtTelCasa).val('');
-		$(txtTelMovil).val('');
-		$(txtEmail).val('');
-		$(txtUsuario).val('');
+		$(txtDni).removeAttr('disabled');
+		$('#btnRegPersonal').attr('title',"Registrar");
+		$('#btnRegPersonal').attr('value',"Registrar");
+		$("#btnSexo0").parent('label').addClass('active');
+		$("#boxEstado").slideUp();
+		$("#boxAcceso").slideUp();
+/*
 		$("#btnEstado0").parent('label').removeClass('active');
 		$("#btnEstado1").parent('label').removeClass('active');
 		$("#btnUper0").parent('label').removeClass('active');
 		$("#btnUper1").parent('label').removeClass('active');
-		$("#btnSexo0").parent('label').addClass('active');
 		$("#btnSexo1").parent('label').removeClass('active');
-		$("#boxEstado").slideUp();
-		$("#boxAcceso").slideUp();
-		$('#btnRegPersonal').attr('title',"Registrar");
-		$('#btnRegPersonal').attr('value',"Registrar");
+*/
 	};
 	function crearNombre(){
 		var nombre	=	$(txtNombre).val();

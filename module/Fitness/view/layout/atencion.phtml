@@ -90,8 +90,13 @@
 						<div class ="col-8 col-sm-8 col-lg-9" id="avatarPerInfo">
 							<div class ="row">
 								<h4>Bienvenido: <b><?php echo $variables->nombre ; ?></b><h4>
-								<!-- <sup><small>Coordinador</small></sup> -->
-								<br />
+								<sup class="pull-left">
+                                    <small data-cargo="<?php echo $variables->cargo ; ?>" ><?php echo $variables->cargoNombre ; ?></small>
+                                </sup>
+                                <sup class="pull-right">
+                                    <small data-sucursal="<?php echo $variables->sucursal ; ?>" ><?php echo $variables->sucursalNombre ; ?> &nbsp; </small>
+                                </sup>
+                                <br />
 								<sup>
 									<a href ="<?php echo $this->basePath() . '/fitness/personal/settingsper'; ?>">Configuracion</a>
 									<a href ="<?php echo $this->basePath() . '/fitness/personal/logoutper'; ?>">Salir</a>

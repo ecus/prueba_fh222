@@ -40,6 +40,10 @@ class SucursalTabla extends TableGateway
 			return $e->getMessage();
 		}
 	}
+	public function nuevo()
+	{
+		# code...
+	}
 	public function actualizarSucursal(Sucursal $suc=NULL)
 	{
 		try

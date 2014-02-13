@@ -54,7 +54,12 @@ class IndexController extends AbstractActionController
 		$recibe				=	$perTabla->loginPersonal($frm['txtUsuario'],$frm['txtClave']);
 
 		if (isset($recibe->msje)) {
-			var_dump($recibe);
+			$mensaje	=	$recibe->msje;
+			return $this->forward()->dispatch("Fitness\Controller\Personal",
+									array(
+										"action"	=>	"index",
+										"msje"		=>	$mensaje
+										));
 		} else {
 			$bcrypt 		= 	new Bcrypt();
 			$config 		=	new SessionConfig();
@@ -72,7 +77,8 @@ class IndexController extends AbstractActionController
 			$container->pass 	=	$bcrypt->create($frm['txtClave']);
 			$container->nombre 	=	$recibe->apellidoPaterno_Per .' '. $recibe->apellidoMaterno_Per . ', '. $recibe->nombres_Per;
 			$container->sexo 	=	$recibe->sexo_Per;
-			// $container->cargo 	=	$recibe->sexo_Per;
+			$container->sucursal=	$recibe->Sucursal_id_Suc;
+			$container->cargo 	=	$recibe->cargo_Per;
 			Container::setDefaultManager($manager);
 			return $this->redirect()->toRoute('login-personal');
 		}
@@ -83,9 +89,12 @@ class IndexController extends AbstractActionController
 		$container = new Container('personal');
 		if (isset($container->iduser)) {
 			$var 	=	array(
-				'id'	=>	$container->idper,
+				'id'		=>	$container->idper,
 				'per'		=>	$container->idper,
-				'nombre'=>	$container->nombre
+				'nombre'	=>	$container->nombre,
+				'sucursal'	=>	$container->sucursal,
+				'cargo'		=>	$container->cargo,
+				'pass'		=>	$container->pass
 				);
 			$view = new ViewModel($var);
 			$this->layout('layout/menu');

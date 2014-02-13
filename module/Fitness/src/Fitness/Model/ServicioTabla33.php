@@ -209,7 +209,7 @@ class ServicioTabla33 extends AbstractTableGateway
 	// 		}
 	// 		return $result;
 	// 	}catch(Zend_Exception $e){
-	// 		throw $e;	
+	// 		throw $e;
 	// 	}
 	// }
 	public function listaServicio()
@@ -225,8 +225,7 @@ class ServicioTabla33 extends AbstractTableGateway
 			// 	$result[$value['id_Serv']]=$value['nombre_Serv'];
 			// }
 			// return $result;
-			// 
-			
+			//
 			$driver = $this->dbAdapter->getDriver();
 			$connection = $driver->getConnection();
 

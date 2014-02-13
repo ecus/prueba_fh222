@@ -26,6 +26,7 @@ class Socio
 	private $documento;
 	private $numerodoc;
 	private $personal;
+	private $sucursal;
 
 
 	public function __construct($datos=array())
@@ -88,6 +89,15 @@ class Socio
 	public function getId()
 	{
 		return $this->Idsocio;
+	}
+	public function setSucursal($suc)
+	{
+		$this->sucursal=$suc;
+		return $this;
+	}
+	public function getSucursal()
+	{
+		return $this->sucursal;
 	}
 	public function setPaterno($paterno)
 	{

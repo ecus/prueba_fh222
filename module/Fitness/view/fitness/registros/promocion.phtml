@@ -329,6 +329,20 @@
 								<?php echo $this->formInput($name); ?>
 							</div>
 						</div>
+						<div class="form-group col-6">
+							<?php
+								$linea = $form->get('cmbTipoPlan');
+								echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+								echo $formLabel->closeTag();
+							?>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-bookmark-o icono"></i></span>
+								<?php
+									echo $this->formSelect($linea);
+									echo $this->formElementErrors($linea);
+								?>
+							</div>
+						</div>
 						<?php
 							$name = $form->get('txtPersonal');
 							$name->setAttribute('value', $this->per);

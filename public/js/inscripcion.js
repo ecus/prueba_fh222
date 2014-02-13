@@ -6,39 +6,39 @@ jQuery(function($) {
         $("#frmInscripcion").validate({
             debug: true,
             rules: {
-                        dtpFechaIni: {
-                            required: true
-                        },
-                        dtpFechaFin: {
-                            required: true
-                        },
-                        cmbEstado: {
-                            required: true
-                        },
-                        cmbTipo: {
-                            required:true
-                        },
-                        cmbServicio: {
-                            required:true
-                        }
+                    dtpFechaIni: {
+                        required: true
                     },
+                    dtpFechaFin: {
+                        required: true
+                    },
+                    cmbEstado: {
+                        required: true
+                    },
+                    cmbTipo: {
+                        required:true
+                    },
+                    cmbServicio: {
+                        required:true
+                    }
+                },
             messages:{
-                        dtpFechaIni:{
-                            required: '<span class="label label-warning">Campo Obligatorio</span>'
-                        },
-                        dtpFechaFin:{
-                            required: '<span class="label label-warning">Campo Obligatorio</span>'
-                        },
-                        cmbEstado: {
-                            required:'<span class="label label-warning">Debe Elegir un Estado</span>'
-                        },
-                         cmbTipo: {
-                            required:'<span class="label label-warning">Debe Elegir un Tipo</span>'
-                        },
-                         cmbServicio: {
-                            required:'<span class="label label-warning">Debe Elegir un Servicio</span>'
-                        }
+                    dtpFechaIni:{
+                        required: '<span class="label label-warning">Campo Obligatorio</span>'
                     },
+                    dtpFechaFin:{
+                        required: '<span class="label label-warning">Campo Obligatorio</span>'
+                    },
+                    cmbEstado: {
+                        required:'<span class="label label-warning">Debe Elegir un Estado</span>'
+                    },
+                     cmbTipo: {
+                        required:'<span class="label label-warning">Debe Elegir un Tipo</span>'
+                    },
+                     cmbServicio: {
+                        required:'<span class="label label-warning">Debe Elegir un Servicio</span>'
+                    }
+                },
         });
 
 
@@ -46,133 +46,24 @@ jQuery(function($) {
         var boton = $(this).children('i');
         boton.removeClass('fa-search');
         boton.addClass('fa-spinner fa-spin');
-        $.post("buscacliente", {
-            txtDni:$(txtDni).val()
+        $.post("buscasocio", {
+            cmbsocio:$(txtDni).val()
         },function(data){
             if(data.response == false){
                 console.log('no se puede registrar');
             }else{
-                var suc     =    data[0];
-                console.debug(suc);
-                // $(txtIdCli).val(suc.id_Soc);
-                // $(txtDni).val(suc.documento_Soc);
-                // $(txtCliente).val(suc.cliente);
-                // $(txtIdSer).val(suc.id_Serv );
-                // $(txtServicio).val(suc.nombre_Serv);
-                // $(txtPago).val(suc.montoBase_Serv);
-                // boton.removeClass('fa-spinner fa-spin');
-                // boton.addClass('fa-search');
-
-            }
-            $("#barra").slideUp();
+                var socio     =    data[0];
+                if (socio) {
+                    $(txtCliente).val(socio.nombres_Soc);
+                }else{
+                    muestraMensaje('modalIns', 'msjeModal', 'No se encontró resultados.');
+                };
+                boton.removeClass('fa-spinner fa-spin');
+                boton.addClass('fa-search');
+            };
         }, 'json');
     });
-    function listacliente(){
-        var control     =   "listasocios";
-                    $('#tablaTitulo').empty().html("Listado de Clientes");
-                    $("#barra").slideDown();
-          $.post(control, {
-                },function(data){
-                     // console.debug(data);
-                        oTable =$('#example').dataTable({
-                            "bDestroy": true,
-                            "aaData":data,
-                            // "bScrollCollapse": true,
-                            "bAutoWidth": false,
-                            "oLanguage": {
-                                "sLengthMenu": "Mostrar _MENU_ elementos",
-                                "sZeroRecords": "No se encontro el valor ingresado",
-                                "sInfo": "_START_ a _END_ de _TOTAL_ elementos",
-                                "sInfoEmpty": "0 a 0 de 0 elementos",
-                                "sInfoFiltered": "(_MAX_ filtrados del total de elementos)",
-                                "sSearch":"Buscar: "
-                            },
-                              "aoColumns": [
-                                            { "mData": "id_Soc" },
-                                            { "mData": "cliente" }
-                                        ],
-                            "aoColumnDefs": [
-                                          { "sWidth": "1%", "aTargets": [ 0 ] }
-                                        ],
-                            "bPaginate": false,
-                            // "sPaginationType": "full_numbers",
-                            // "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-                            // "iDisplayLength": 5,
-                            });
-
-                            $('#example tbody tr').each( function() {
-                                var sTitle;
-                                var nTds = $('td', this);
-                                var id = $(nTds[0]).text();
-                                $(nTds[0]).text("");
-                                var botones='<div class="btn-group">';
-                                botones += '<input type="radio" name="optCliente" id="optCliente" value="'+id+'" />';
-                                $(nTds[0]).append(botones);
-                            });
-                        oTable =$('#example').dataTable({
-                            "bDestroy": true,
-                            "sPaginationType": "full_numbers",
-                            "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-                            "iDisplayLength": 5,
-                            });
-
-                        $('#btnRegInscripcion').on('click',function(event){
-                            var accion    =   $(this).attr('value');
-                            console.log($(':input:checked').val());
-                            if (accion=='Registrar'){
-                                if ($("#frmInscripcion").valid()) {
-                                    $("#barra").slideDown();
-                                    $.post("reginscripcion", {
-                                        dtpFechaIni : $(dtpFechaIni).val(),
-                                        dtpFechaFin : $(dtpFechaFin).val(),
-                                        cmbServicio : $(cmbServicio).val(),
-                                        cmbTipoInscripcion : $(cmbTipoInscripcion).val(),
-                                        txtPersonal : $(txtPersonal).val(),
-                                        optCliente  : $(':input:checked').val(),
-                                    },function(data){
-                                        if(data.response == false){
-                                            console.log('no se puede registrar');
-                                        }else{
-                                            limpiaControles();
-                                            $("#msjeModal").empty().html(data.response);
-                                            $("#modalIns").modal();
-                                            // listasucursal('A');
-                                        }
-                                        $("#barra").slideUp();
-                                    }, 'json');
-                                };
-                            }
-                        });
-
-                    },'json');
-
-                    $("#barra").slideUp();
-    };
-    listacliente();
     function limpiaControles () {
-        $(dtpFechaIni).val();
-        $(dtpFechaFin).val();
-        $.each($(optCliente), function(event) {
-            $(this).prop('checked', false);
-        });
-        $("#cmbServicio option:nth(0)").attr("selected","selected");
-        $(txtPersonal).val();
-        $("#cmbTipoInscripcion option:nth(0)").attr("selected","selected");
+        limpiaControlesBasico();
     }
 });
-
-function fnGetSelected( oTableLocal )
-    {
-        var aReturn = new Array();
-        var aTrs = oTableLocal.fnGetNodes();
-
-        for ( var i=0 ; i<aTrs.length ; i++ )
-        {
-            if ( $(aTrs[i]).hasClass('row_selected') )
-            {
-                aReturn.push( aTrs[i] );
-            }
-        }
-
-        return aReturn;
-    }

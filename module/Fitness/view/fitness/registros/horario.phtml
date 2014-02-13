@@ -1,0 +1,149 @@
+<div class="row">
+	<?php
+			$form 	=	$this->frmPlan;
+			$form->prepare();
+			$form->setAttributes(array(
+				// 'action'	=>	$this->url.'/fitness/registros/regsucursal',
+				'method'	=>	'post',
+				'id'		=>	'frmPlan'
+				));
+			$formLabel	=	$this->plugin('formLabel');
+			echo $this->form()->openTag($form);
+		?>
+	<div class='col-12 col-sm-6 col-lg-6 accordion-group'>
+		<br />
+		<fieldset class="Horario1">
+		 	<legend>Programacion</legend>
+				<div id='boxDia1'>
+					<div class="row col-12">
+						<div class="form-group col-5">
+							<?php
+								$linea = $form->get('cmbEncargado');
+							    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+							    echo $formLabel->closeTag();
+							?>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user icono"></i></span>
+								<?php
+									echo $this->formSelect($linea);
+									echo $this->formElementErrors($linea);
+								?>
+							</div>
+						</div>
+						<div class="col-1"></div>
+						<div class="form-group col-5">
+							<?php
+								$linea = $form->get('cmbSucursal');
+							    echo $formLabel->openTag($linea->getLabelAttributes() ) . $linea->getLabel();
+							    echo $formLabel->closeTag();
+							?>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-building icono"></i></span>
+								<?php
+									echo $this->formSelect($linea);
+									echo $this->formElementErrors($linea);
+								?>
+						    </div>
+						</div>
+					</div>
+				</div>
+				<table class='table table-condensed table-striped table-bordered table-hover'>
+					<thead>
+						<td></td>
+						<td>Dia</td>
+						<td>Incio</td>
+						<td>Fin</td>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Lunes' value="L" /></td>
+							<td>Lunes</td>
+							<td><input type="time" name="LunesIni" id="LunesIni" class='Lunes form-control input-sm' /></td>
+							<td><input type="time" name="LunesFin" id="LunesFin" class='Lunes form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Martes' value="M" /></td>
+							<td>Martes</td>
+							<td><input type="time" name="MartesIni" id="MartesIni" class='Martes form-control input-sm' /></td>
+							<td><input type="time" name="MartesFin" id="MartesFin" class='Martes form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Miercoles' value="W" /></td>
+							<td>Miercoles</td>
+							<td><input type="time" name="MiercolesIni" id="MiercolesIni" class='Miercoles form-control input-sm' /></td>
+							<td><input type="time" name="MiercolesFin" id="MiercolesFin" class='Miercoles form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Jueves' value="J" /></td>
+							<td>Jueves</td>
+							<td><input type="time" name="JuevesIni" id="JuevesIni" class='Jueves form-control input-sm' /></td>
+							<td><input type="time" name="JuevesFin" id="JuevesFin" class='Jueves form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Viernes' value="V" /></td>
+							<td>Viernes</td>
+							<td><input type="time" name="ViernesIni" id="ViernesIni" class='Viernes form-control input-sm' /></td>
+							<td><input type="time" name="ViernesFin" id="ViernesFin" class='Viernes form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Sabado' value="S" /></td>
+							<td>Sabado</td>
+							<td><input type="time" name="SabadoIni" id="SabadoIni" class='Sabado form-control input-sm' /></td>
+							<td><input type="time" name="SabadoFin" id="SabadoFin" class='Sabado form-control input-sm' /></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="dias[]" class='Domingo' value="D" /></td>
+							<td>Domingo</td>
+							<td><input type="time" name="DomingoIni" id="DomingoIni" class='Domingo form-control input-sm' /></td>
+							<td><input type="time" name="DomingoFin" id="DomingoFin" class='Domingo form-control input-sm' /></td>
+						</tr>
+					</tbody>
+				</table>
+    	</fieldset>
+		<a class="btn btn-block btn-gym btn-large" id="btnConfirmar">Confirmar</a>
+		<br />
+	</div>
+	<!-- <div class='col-12 col-sm-1 col-lg-1'></div> -->
+	<div class='col-12 col-sm-6 col-lg-6 accordion-group'>
+			<br />
+			<fieldset>
+			<legend>&nbsp;&nbsp;&nbsp;&nbsp;Horarios Agregados</legend>
+			<div id="boxContenido">
+			</div>
+			</fieldset>
+			<br />
+	</div>
+</div>
+<div id="modalServicio" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal"></p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="modalAccion" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p id="msjeModal">No se a especificado ningun horario! <br/> ¿Desea Continuar con el Resgistro del Servicio?</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-danger" id="btnRegistrar" aria-hidden="true">Si</a>
+		<a class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">No</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

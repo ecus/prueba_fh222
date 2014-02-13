@@ -123,41 +123,16 @@ jQuery(function($){
             }, 'json');
         });
 
-        $('#btnAgregaTel').on('click', function(event) {
-            event.preventDefault();
-            var cantidad    =   $('#boxNumeros span').length;
-            var numero      =   $('#txtNumero').val();
-            var tipo        =   $('#cmbTipoCel').val();
-            var infoTipo    =   $('#cmbTipoCel option[value="'+tipo+'"]').text();
-            var nombreTele  =   ($('#txtNombreTel').val())?$('#txtNombreTel').val():null;
-            var parentesco  =   ($('#txtParentesco').val())?$('#txtParentesco').val():null;
-            var emergencia  =   $('#txtEmergencia').val();
-            // var etiqueta    =   '';
-            if (agendaSinNumeros) {
-                contadorNumero  +=  1;
-                agregaNumero(listaNumeros,numero, tipo, null, null, null);
-            }else{
-                contadorNumero  +=  1;
-                var objetoNumero = {
-                    numeroTel  : numero, tipoTel : tipo,
-                    emergenciaTel : emergencia, nombreTel  :   nombreTele, parentescoTel : parentesco
-                    };
-                if (verificaNumeroEnAgenda(listaNumeros , objetoNumero)) {
-                    agregaNumero(listaNumeros,numero, tipo, null, null, null);
-                };
-            };
-            agregaEtiqueta( tipo, contadorNumero, infoTipo, numero, nombreTele, parentesco , emergencia , listaNumeros);
-            limpiaTelefono();
-        });
+
 
         $('#btnRegSocio').on('click',function(event){
             if($("#frmSocio").valid()){
                 if (usuario==0) {
-                    var accion  ="regsocio";
+                    var op  ="regsocio";
                 } else{
-                    var accion  ="regusuariosocio";
+                    var op  ="regusuariosocio";
                 };
-                $.post(accion, {
+                $.post(op, {
                         cmbestado   : $(cmbestado).val(),
                         cmbDocumento: $(cmbDocumento).val(),
                         txtDni      : $(txtDni).val(),
@@ -181,9 +156,9 @@ jQuery(function($){
                             console.log('no se puede registrar');
                         }else{
                             limpiaControles();
-                            muestraMensaje(modalSocio, msjeModal, data.response);
-                            // $("#msjeModal").empty().html(data.response);
-                            // $("#modalSocio").modal();
+                            
+                            $("#msjeModal").empty().html(data.response);
+                            $("#modalSocio").modal();
                         }
                         $("#barra").slideUp();
                     }, 'json');
@@ -208,7 +183,117 @@ jQuery(function($){
                     }, 'json');
                     console.log("no entro");
         });
-
+        $('#btnAgregaTel').on('click', function(event){
+            event.preventDefault();
+            if ($('#txtNumero').val().length<=10){
+                var cantidad    =   $('#boxNumeros span').length;
+                var numero      =   $('#txtNumero').val();
+                var tipo        =   $('#cmbTipoCel').val();
+                var infoTipo    =   $('#cmbTipoCel option[value="'+tipo+'"]').text();
+                var etiqueta    =   '';
+                if ($('#txtEmergencia').val()==0){
+                    if (listaNumeros.length==0){
+                        listaNumeros.push({
+                                numeroTel  : numero,
+                                tipoTel    : tipo,
+                                emergenciaTel:0,
+                                nombreTel  :   null,
+                                parentescoTel : null
+                                });
+                                contadorNumero  +=  1;
+                                if (tipo<=1){
+                                    // Fijo
+                                    etiqueta=   '<span class="label label-default lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                }else{
+                                    if (tipo<=6){
+                                        // Movil
+                                        etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    };
+                                };
+                                limpiaTelefono();
+                    }else{
+                        $.each(listaNumeros, function(index,val){
+                            if(JSON.stringify(val)==JSON.stringify({numeroTel : numero,tipoTel : tipo,emergenciaTel:0})) {
+                                $('#msjeModal').empty().html('Número ya esta en lista.');
+                                $('#modalSocio').modal('show');
+                            }else{
+                                contadorNumero  +=  1;
+                                listaNumeros.push({
+                                numeroTel  : numero,
+                                tipoTel    : tipo,
+                                emergenciaTel:0,
+                                nombreTel  :   null,
+                                parentescoTel : null
+                                });
+                                if (tipo<=1){
+                                    // Fijo
+                                    etiqueta=   '<span class="label label-default lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                }else{
+                                    if (tipo<=6){
+                                        // Movil
+                                        etiqueta=   '<span class="label label-info lblNumero ' + contadorNumero + ' col-12">'+ infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    };
+                                };
+                                limpiaTelefono();
+                                return false;
+                            };
+                        });
+                    };
+                }else{
+                    var nombreTele   =   $('#txtNombreTel').val();
+                    var parentesco   =   $('#txtParentesco').val();
+                    // emergencia
+                    emergencia=$('#txtEmergencia').val();
+                    if (listaNumeros.length==0){
+                        contadorNumero  +=  1;
+                        etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                        listaNumeros.push({
+                            numeroTel  : numero,
+                            tipoTel    : tipo,
+                            emergenciaTel : emergencia,
+                            nombreTel  :   nombreTele,
+                            parentescoTel : parentesco
+                        });
+                        limpiaTelefono();
+                    }else{
+                        contadorNumero  +=  1;
+                        if (nombreTele.length>0 && parentesco.length>0){
+                            $.each(listaNumeros, function(index,val){
+                                if(JSON.stringify(val)==JSON.stringify({numeroTel  : numero,tipoTel : tipo,emergenciaTel : emergencia, nombreTel  :   nombreTele,parentescoTel : parentesco })) {
+                                    $('#msjeModal').empty().html('Número ya esta en lista.');
+                                    $('#modalSocio').modal('show');
+                                }else{
+                                    etiqueta=   '<span class="label label-danger lblNumero ' + contadorNumero + ' col-12"><p>' + nombreTele + " => " + parentesco + " </p>" + infoTipo + ' - ' + numero +'<a id="'+contadorNumero+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
+                                    listaNumeros.push({
+                                        numeroTel  : numero,
+                                        tipoTel    : tipo,
+                                        emergenciaTel : emergencia,
+                                        nombreTel  :   nombreTele,
+                                        parentescoTel : parentesco
+                                    });
+                                    limpiaTelefono();
+                                };
+                                return false;
+                            });
+                        }else{
+                            $('#msjeModal').empty().html('Debe completar los campos de Nombre y parentesco');
+                            $('#modalSocio').modal();
+                        };
+                    };
+                };
+                $('#boxNumeros').append(etiqueta);
+                // console.debug(listaNumeros);
+                //////
+                $('.btnClose').on('click',function(event){
+                    event.preventDefault();
+                    var id  =   $(this).attr('id');
+                    // $(this).parent('span').attr('class', id).detach();
+                    $(this).parent('span').detach();
+                    listaNumeros[id-1]=null;
+                    console.debug(listaNumeros);
+                });
+            };
+        });
         $('#txtNumero').keypress(function(e) {
             if (e.which == 13 && $(this).val().length>=6 && $(this).val().length<=10 ) {
                 $("#btnAgregaTel").click();
@@ -373,66 +458,79 @@ jQuery(function($){
         return referido;
     }
 
-    function agregaNumero (agenda, numero, tipo, emergencia, nombre, parentesco) {
-        agenda.push({
-            numeroTel       : numero,
-            tipoTel         : tipo,
-            txtEmergencia   : emergencia,
-            nombreTel       : nombre,
-            parentescoTel   : parentesco
-        });
-    };
-
-    function verificaNumeroEnAgenda (agenda, numero) {
-        var encontrado;
-        $.each(agenda, function(index,val){
-            if(JSON.stringify(val)==JSON.stringify(numero)) {
-                encontrado = true;
-            }else{
-                encontrado = false;
-            };
-        });
-        return encontrado;
-    };
-
-    function agendaSinNumeros (agenda) {
-        if (agenda.length==0) {
-            return true;
-        }else{
-            return false;
-        }
-    };
-
-    function creaEventoEliminarNumero(agenda){
-        $('.btnClose').on('click',function(event){
-            event.preventDefault();
-            var id  =   $(this).attr('id');
-            // $(this).parent('span').attr('class', id).detach();
-            $(this).parent('span').detach();
-            agenda[id-1]=null;
-            console.debug(listaNumeros);
-        });
-    };
-
-    function agregaEtiqueta (tipo, contador, descripcion, numero, nombre, parentesco, emergencia, agenda) {
-        var maxFijo = 1;
-        var maxMovil = 6;
-        if (emergencia == 0) {
-            if (tipo<=maxFijo){
-                etiqueta=   '<span class="label label-default lblNumero ' + contador + ' col-12">'+ descripcion + ' - ' + numero +'<a id="'+contador+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
-            }else{
-                if (tipo<=maxMovil){
-                    etiqueta=   '<span class="label label-info lblNumero ' + contador + ' col-12">'+ descripcion + ' - ' + numero +'<a id="'+contador+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
-                };
-            };
-        }else{
-            etiqueta=   '<span class="label label-danger lblNumero ' + contador + ' col-12"><p>' + nombre + " => " + parentesco + " </p>" + descripcion + ' - ' + numero +'<a id="'+contador+'" class="btnClose close" data-dismiss="modal" aria-hidden="true">&times;</a></span>';
-        };
-        $('#boxNumeros').append(etiqueta);
-        creaEventoEliminarNumero( agenda );
-    };
 
 
     listacliente();
     ////////////////////////// fin formulario personal //////////////////////////////
 });
+
+/*
+    $('#btnRegUsSocio').on('click',function(event){
+            if($("#frmSocio").valid()){
+                var referido;
+                if ($('#optCliente').length>0) {
+                    referido=$("input[name='optCliente']:checked").val();
+                } else{
+                    referido= null;
+                };
+                if (usuario==0) {
+                    var op  ="regsocio";
+                } else{
+                    var op  ="regusuariosocio";
+                };
+                var aux ={
+                        cmbestado   : $(cmbestado).val(),
+                        cmbDocumento: $(cmbDocumento).val(),
+                        txtDni      : $(txtDni).val(),
+                        txtNombre   : $(txtNombre).val(),
+                        txtApPaterno: $(txtApPaterno).val(),
+                        txtApMaterno: $(txtApMaterno).val(),
+                        dtpFechanac : $(dtpFechanac).val(),
+                        cmbSexo     : $(cmbSexo).val(),
+                        cmbecivil   : $(cmbecivil).val(),
+                        txtEmail    : $(txtEmail).val(),
+                        txtDireccion: $(txtDireccion).val(),
+                        cmbsocio    : referido,
+                        cmbempresa  : $(cmbempresa).val(),
+                        txtPersonal : $(txtPersonal).val(),
+                        cmbDistrito : $(cmbDistrito).val(),
+                        txtUsuario  : $(txtUsuario).val(),
+                        txtSucursal : $(txtSucursal).val(),
+                        telefonos   : listaNumeros
+                    };
+                console.debug(aux);
+                $.post("regusuariosocio", {
+                        cmbestado   : $(cmbestado).val(),
+                        cmbDocumento: $(cmbDocumento).val(),
+                        txtDni      : $(txtDni).val(),
+                        txtNombre   : $(txtNombre).val(),
+                        txtApPaterno: $(txtApPaterno).val(),
+                        txtApMaterno: $(txtApMaterno).val(),
+                        dtpFechanac : $(dtpFechanac).val(),
+                        cmbSexo     : $(cmbSexo).val(),
+                        cmbecivil   : $(cmbecivil).val(),
+                        txtEmail    : $(txtEmail).val(),
+                        txtDireccion: $(txtDireccion).val(),
+                        cmbsocio    : referido,
+                        cmbempresa  : $(cmbempresa).val(),
+                        txtPersonal : $(txtPersonal).val(),
+                        cmbDistrito : $(cmbDistrito).val(),
+                        txtUsuario  : $(txtUsuario).val(),
+                        txtSucursal : $(txtSucursal).val(),
+                        telefonos   : listaNumeros
+                    },function(data){
+                        if(data.response == false){
+                            console.log('no se puede registrar');
+                        }else{
+                            limpiaControles();
+                            $("#msjeModal").empty().html(data.response);
+                            $("#modalSocio").modal();
+                           // listasucursal('A');
+                        }
+                        $("#barra").slideUp();
+                    }, 'json');
+            }else{
+                console.log("mal");
+            };
+        });
+*/

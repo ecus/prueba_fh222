@@ -427,6 +427,15 @@
 	<input type="hidden" name="txtEstado" id="txtEstado" value="" />
 	<input type="hidden" name="txtEstadoUPer" id="txtEstadoUPer" value="" />
 	<br />
+	<div class="form-group">
+		<?php
+			$name = $form->get('txtSucursal');
+			// echo $formLabel->openTag($name->getOption('label_attributes')).$name->getOption('label');
+			echo $this->formElementErrors($name);
+			// echo $formLabel->closeTag();
+		?>
+			<?php echo $this->formInput($name); ?>
+	</div>
 	<?php echo $this->formElement($form->get('send')) ?>
 	<?php echo $this->form()->closeTag() ?>
 </div>

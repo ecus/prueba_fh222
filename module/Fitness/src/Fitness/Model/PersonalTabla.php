@@ -26,10 +26,13 @@ class PersonalTabla extends TableGateway
 		$var8	=	$per->getTelfCasa_per();
 		$var9	=	$per->getTelfMovil_per();
 		$var10	=	$per->getEmail_per();
+		$var11	=	$per->getSucursal();
+		$var12	=	$per->getCargo();
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaPersonal(?,?,?,?,?,?,?,?,?,?,@msje)');
+		// $stmt->prepare('CALL pa_insertaPersonal(?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -40,6 +43,8 @@ class PersonalTabla extends TableGateway
 		$stmt->getResource()->bindParam(8, $var8);
 		$stmt->getResource()->bindParam(9, $var9);
 		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
 		$stmt->execute();
 		$stmt2  = $dbAdapter->createStatement();
 		$stmt2->prepare("SELECT @msje AS mensaje");
@@ -47,7 +52,7 @@ class PersonalTabla extends TableGateway
 		$output = $result->current();
 		return $output['mensaje'];
 	}
-	public function insertarPersonalUsuario(Personal $per,$alias)
+	public function insertarPersonalUsuario(Personal $per)
 	{
 		$bcrypt			= 	new Bcrypt();
 
@@ -61,12 +66,15 @@ class PersonalTabla extends TableGateway
 		$var8	=	$per->getTelfCasa_per();
 		$var9	=	$per->getTelfMovil_per();
 		$var10	=	$per->getEmail_per();
-		$var11	=	$alias;
-		$var12	=	$bcrypt->create($var3);
+		$var11	=	$per->getSucursal();
+		$var12	=	$per->getCargo();
+		$var13	=	$per->getUser();
+		$var14	=	$bcrypt->create($var3);
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_insertaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		// $stmt->prepare('CALL pa_insertaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_insertaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -77,48 +85,10 @@ class PersonalTabla extends TableGateway
 		$stmt->getResource()->bindParam(8, $var8);
 		$stmt->getResource()->bindParam(9, $var9);
 		$stmt->getResource()->bindParam(10, $var10);
-		$stmt->getResource()->bindParam(11, $var11);
-		$stmt->getResource()->bindParam(12, $var12);
-		$stmt->execute();
-
-		$stmt2	=	$dbAdapter->createStatement();
-		$stmt2->prepare("SELECT @msje AS mensaje");
-		$result =	$stmt2->execute();
-		$output =	$result->current();
-		return $output['mensaje'];
-	}
-	public function actualizarPersonalUsuario(Personal $per,$estado)
-	{
-		$var1	=	$per->getId();
-		$var2	=	$per->getDni();
-		$var3	=	$per->getNombre();
-		$var4	=	$per->getApPaterno();
-		$var5	=	$per->getApMaterno();
-		$var6	=	$per->getFechaNac();
-		$var7	=	$per->getSexo();
-		$var8	=	$per->getDireccion_per();
-		$var9	=	$per->getTelfCasa_per();
-		$var10	=	$per->getTelfMovil_per();
-		$var11	=	$per->getEmail_per();
-		$var12	=	$per->getEstado();
-		$var13	=	$estado;
-
-		$dbAdapter=$this->getAdapter();
-		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_actualizaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
-		$stmt->getResource()->bindParam(1, $var1);
-		$stmt->getResource()->bindParam(2, $var2);
-		$stmt->getResource()->bindParam(3, $var3);
-		$stmt->getResource()->bindParam(4, $var4);
-		$stmt->getResource()->bindParam(5, $var5);
-		$stmt->getResource()->bindParam(6, $var6);
-		$stmt->getResource()->bindParam(7, $var7,\PDO::PARAM_INT);
-		$stmt->getResource()->bindParam(8, $var8);
-		$stmt->getResource()->bindParam(9, $var9);
-		$stmt->getResource()->bindParam(10, $var10);
-		$stmt->getResource()->bindParam(11, $var11);
-		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->getResource()->bindParam(11, $var11,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
 		$stmt->getResource()->bindParam(13, $var13);
+		$stmt->getResource()->bindParam(14, $var14);
 		$stmt->execute();
 
 		$stmt2	=	$dbAdapter->createStatement();
@@ -140,11 +110,14 @@ class PersonalTabla extends TableGateway
 		$var9	=	$per->getTelfCasa_per();
 		$var10	=	$per->getTelfMovil_per();
 		$var11	=	$per->getEmail_per();
-		$var12	=	$per->getEstado();
+		$var12	=	$per->getSucursal();
+		$var13	=	$per->getCargo();
+		$var14	=	$per->getEstado();
 
 		$dbAdapter=$this->getAdapter();
 		$stmt = $dbAdapter->createStatement();
-		$stmt->prepare('CALL pa_actualizaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		// $stmt->prepare('CALL pa_actualizaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_actualizaPersonal(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
 		$stmt->getResource()->bindParam(1, $var1);
 		$stmt->getResource()->bindParam(2, $var2);
 		$stmt->getResource()->bindParam(3, $var3);
@@ -156,7 +129,56 @@ class PersonalTabla extends TableGateway
 		$stmt->getResource()->bindParam(9, $var9);
 		$stmt->getResource()->bindParam(10, $var10);
 		$stmt->getResource()->bindParam(11, $var11);
-		$stmt->getResource()->bindParam(12, $var12);
+		$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(14, $var14,\PDO::PARAM_INT);
+		$stmt->execute();
+
+		$stmt2	=	$dbAdapter->createStatement();
+		$stmt2->prepare("SELECT @msje AS mensaje");
+		$result =	$stmt2->execute();
+		$output =	$result->current();
+		return $output['mensaje'];
+	}
+	public function actualizarPersonalUsuario(Personal $per,$estado)
+	{
+		$var1	=	$per->getId();
+		$var2	=	$per->getDni();
+		$var3	=	$per->getNombre();
+		$var4	=	$per->getApPaterno();
+		$var5	=	$per->getApMaterno();
+		$var6	=	$per->getFechaNac();
+		$var7	=	$per->getSexo();
+		$var8	=	$per->getDireccion_per();
+		$var9	=	$per->getTelfCasa_per();
+		$var10	=	$per->getTelfMovil_per();
+		$var11	=	$per->getEmail_per();
+		$var12	=	$per->getSucursal();
+		$var13	=	$per->getCargo();
+		$var14	=	$per->getEstado();
+		$var15	=	$estado;
+
+
+
+		$dbAdapter=$this->getAdapter();
+		$stmt = $dbAdapter->createStatement();
+		// $stmt->prepare('CALL pa_actualizaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->prepare('CALL pa_actualizaPersonalUsuario(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@msje)');
+		$stmt->getResource()->bindParam(1, $var1);
+		$stmt->getResource()->bindParam(2, $var2);
+		$stmt->getResource()->bindParam(3, $var3);
+		$stmt->getResource()->bindParam(4, $var4);
+		$stmt->getResource()->bindParam(5, $var5);
+		$stmt->getResource()->bindParam(6, $var6);
+		$stmt->getResource()->bindParam(7, $var7,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(8, $var8);
+		$stmt->getResource()->bindParam(9, $var9);
+		$stmt->getResource()->bindParam(10, $var10);
+		$stmt->getResource()->bindParam(11, $var11);
+		$stmt->getResource()->bindParam(12, $var12,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(13, $var13,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(14, $var14,\PDO::PARAM_INT);
+		$stmt->getResource()->bindParam(15, $var15,\PDO::PARAM_INT);
 		$stmt->execute();
 
 		$stmt2	=	$dbAdapter->createStatement();

@@ -1,6 +1,6 @@
 jQuery(function($) {
-    var oTable;
-    var giRedraw = false;
+    var tabla;
+    // var giRedraw = false;
     var auxId;
 
         $('.nav-tabs').button();
@@ -61,58 +61,47 @@ jQuery(function($) {
         });
 
         $('#btnRegSucursal').on('click',function(event){
-            var accion    =   $(this).attr('value');
-            if (accion=='Registrar'){
-                /////para registrar
-                if ($("#frmSucursal").valid()) {
-                    $("#barra").slideDown();
-                    $.post("regsucursal", {
-                        txtDisplay: $(txtDisplay).val(),
-                        txtUbicacion: $(txtUbicacion).val(),
-                        txtTelefono:$(txtTelefono).val(),
-                        cmbLinea:$(cmbLinea).val()
-                    },function(data){
-                        respuestaRegistro(data);
-                    }, 'json');
-                };
-            }else{
-                /////para actualizar
-                if ($("#frmSucursal").valid()) {
-                    $("#barra").slideDown();
-                    $.post("actsucursal", {
-                        txtDisplay  : $(txtDisplay).val(),
-                        txtUbicacion: $(txtUbicacion).val(),
-                        txtTelefono : $(txtTelefono).val(),
-                        txtEstado   : $(txtEstado).val(),
-                        txtId       : $(txtId).val(),
-                        cmbLinea    : $(cmbLinea).val()
-                    },function(data){
-                        respuestaRegistro(data);
-                    }, 'json');
-                };
-                $('#btnRegSucursal').attr('title',"Actualizar Sucursal");
-                $('#btnRegSucursal').attr('value',"Registrar");
+            var operacion    =  $(this).attr('value');
+            var accion       =  (operacion=='Registrar')?'regsucursal':'actsucursal';
+            if ($("#frmSucursal").valid()) {
+                $("#barra").slideDown();
+                $.post(accion, {
+                    txtDisplay  : $(txtDisplay).val(),
+                    txtUbicacion: $(txtUbicacion).val(),
+                    txtTelefono : $(txtTelefono).val(),
+                    cmbLinea    : $(cmbLinea).val(),
+                    txtId       : ($(txtId).val())?$(txtId).val():null,
+                    txtEstado   : ($(txtEstado).val())?$(txtEstado).val():null,
+                    cmbLinea    : ($(cmbLinea).val())?$(cmbLinea).val():null
+                },function(data){
+                    respuestaRegistro(data);
+                    if (operacion.search('Actualizar')>=0) {
+                        $('#btnRegSucursal').attr('value',"Registrar");
+                        $('#btnRegSucursal').attr('title',"Registrar Sucursal");
+                    };
+                }, 'json');
             };
         });
+
 
         function listasucursal ( modo ) {
             $("#barra").slideDown();
 
             if (modo=="T"){
-                var control     =   "listasucursal";
+                var accion     =   "listasucursal";
                 $('#tablaTitulo').empty().html("Listado Total");
             }else{
                 if(modo=="A"){
-                    var control     =   "activolistasucursal";
+                    var accion     =   "activolistasucursal";
                     $('#tablaTitulo').empty().html("Listado de Sucursales Activas");
                 }
                 else{
-                    var control     =   "inactivolistasucursal";
+                    var accion     =   "inactivolistasucursal";
                     $('#tablaTitulo').empty().html("Listado de Sucursales Inactivas");
                 };
             };
 
-            $.post(control,{
+            $.post(accion,{
                 },function(data){
 
                     creaTabla(data);
@@ -125,15 +114,15 @@ jQuery(function($) {
 
         function creaBotones (){
             $('#example tbody tr').each( function() {
-                // var sTitle;
                 var celdas = $('td', this);
-                var id = $(celdas[3]).text();
-                $(celdas[3]).text("");
+                var celda = celdas[3];
+                var id = $(celda).text();
+                $(celda).text("");
                 var botones='<div class="btn-group">';
                 botones += '<a class="btn btn-gym btnAccion" id="'+id+'" title="Editar"><i class="fa fa-edit"></i></a>';
                 botones +='<a class="btn btn-gym btnAccion" id="'+id+'" title="Inactiva"><i class="fa fa-eraser"></i></a>';
                 botones +='</div>';
-                $(celdas[3]).append(botones);
+                $(celda).append(botones);
             } );
         };
 
@@ -175,7 +164,7 @@ jQuery(function($) {
         };
 
         function creaTabla ( data ){
-            oTable =$('#example').dataTable({
+            tabla =$('#example').dataTable({
                 "bDestroy": true,
                 "aaData":data,
                 "bPaginate": false,
@@ -250,19 +239,3 @@ jQuery(function($) {
 
         listasucursal('A');
 });
-
-// function fnGetSelected( oTableLocal )
-//     {
-//         var aReturn = new Array();
-//         var aTrs = oTableLocal.fnGetNodes();
-
-//         for ( var i=0 ; i<aTrs.length ; i++ )
-//         {
-//             if ( $(aTrs[i]).hasClass('row_selected') )
-//             {
-//                 aReturn.push( aTrs[i] );
-//             }
-//         }
-
-//         return aReturn;
-//     }

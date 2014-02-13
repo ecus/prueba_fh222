@@ -215,6 +215,46 @@ class FrmPersonal extends Form
             ));
         $this->add($select);
 
+// ComboBox
+        $select = new Element\Select('cmbSucursal');
+        $select->setLabel('Sucursal donde se desempeñara: ');
+        $select->setLabelAttributes(
+                    array(
+                        'class'     =>  'control-label',
+                        'for'       =>  'cmbSucursal'
+                        ) );
+        $select->setAttributes(
+                array(
+                    'id' =>  'cmbSucursal',
+                    'class'          => 'form-control'
+                    ));
+        $select->setEmptyOption('Seleccione...');
+        $this->add($select);
+
+
+        $select = new Element\Select('cmbCargo');
+        $select->setLabel('Cargo: ');
+        $select->setLabelAttributes(
+                    array(
+                        'class'     =>  'control-label',
+                        'for'       =>  'cmbCargo'
+                        ) );
+        $select->setAttributes(
+                array(
+                    'id' =>  'cmbCargo',
+                    'class'          => 'form-control'
+                    ));
+        $select->setEmptyOption('Seleccione...');
+         $select->setValueOptions(array(
+                6 => "Auxiliar",
+                3 => "Counter",
+                4 => "Evaluador",
+                5 => "Trainer",
+                2 => "Coordinador",
+                1 => "Gerente",
+                0 => "Director"
+            ));
+        $this->add($select);
 
 
 
@@ -247,20 +287,7 @@ class FrmPersonal extends Form
         $this->add($creaUser);
 
 
-        /*//////////////*/
-        // checkbox
-        $condiciones = new Element\Checkbox('condiciones');
-        $condiciones->setLabel('Acepto Las Condiciones');
-        $this->add($condiciones);
-        //multicheckbox
-        $preferencias = new Element\MultiCheckbox('preferencias');
-        $preferencias->setLabel('Indique sus preferencias: ');
-        $preferencias->setLabelAttributes(array(
-            'class'=>'btn btn-gym'
-            ));
-        $preferencias->setValueOptions(array('m'=>'Música','d'=>'Deporte','o'=>'Ocio'));
-        $this->add($preferencias);
-        /*//////////////*/
+
 
         //Botones Enviar - Cancelar
 		$this->add(array(

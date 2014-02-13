@@ -15,7 +15,17 @@ class FrmSocio extends Form
 	public function __construct($name = null)
 	{
 		parent::__construct($name);
-
+//-----------------------txtSucursal-----------------------
+        $this->add(array(
+                'name'      =>  'txtSucursal',
+                'attributes'=>  array(
+                            'id'             => 'txtSucursal',
+                            'type'           => 'hidden',
+                            'class'          => 'form-control numerico',
+                            'value'          => 2
+                            // 'required'       => 'true'
+                        ),
+            ));
 //-----------------------txtDni----2-----------------------
         $this->add(array(
                 'name'      =>  'txtDni',

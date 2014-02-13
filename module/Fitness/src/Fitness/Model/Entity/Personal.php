@@ -6,36 +6,40 @@ namespace Fitness\Model\Entity;
 
 class Personal
 {
-	private $id;
-	private $dni;
-	private $nombre;
-	private $apPaterno;
 	private $apMaterno;
-	private $fechaNac;
+	private $apPaterno;
+	private $cargo;
+	private $clave;
 	private $direccion;
-	private $sexo;
-	private $tCasa;
-	private $tMovil;
+	private $dni;
 	private $email;
 	private $estado;
+	private $fechaNac;
+	private $id;
+	private $nombre;
+	private $sexo;
 	private $suc;
-	private $clave;
+	private $tCasa;
+	private $tMovil;
+	private $user;
 
 	public function __construct()
 	{
-		$this->id		=	NULL;
-		$this->dni		=	NULL;
-		$this->nombre	=	NULL;
-		$this->apPaterno=	NULL;
 		$this->apMaterno=	NULL;
+		$this->apPaterno=	NULL;
+		$this->cargo	=	NULL;
+		$this->clave	=	NULL;
 		$this->direccion=	NULL;
-		$this->sexo		=	NULL;
-		$this->tCasa	=	NULL;
-		$this->tMovil	=	NULL;
+		$this->dni		=	NULL;
 		$this->email	=	NULL;
 		$this->estado	=	NULL;
+		$this->id		=	NULL;
+		$this->nombre	=	NULL;
+		$this->sexo		=	NULL;
 		$this->suc		=	NULL;
-		$this->clave	=	NULL;
+		$this->tCasa	=	NULL;
+		$this->tMovil	=	NULL;
+		$this->user		=	NULL;
 	}
 	public function getData()
 	{
@@ -56,6 +60,15 @@ class Personal
 	public function getId()
 	{
 		return $this->id;
+	}
+	public function setUser($user)
+	{
+		$this->user=$user;
+		return $this;
+	}
+	public function getUser()
+	{
+		return $this->user;
 	}
 	public function setClave($clave)
 	{
@@ -166,14 +179,23 @@ class Personal
 	{
 		return $this->estado;
 	}
-	public function setSucursal($Sucusal)
+	public function setSucursal($Sucursal)
 	{
-		$this->suc=$Sucusal;
+		$this->suc=$Sucursal;
 		return $this;
 	}
 	public function getSucursal()
 	{
 		return $this->suc;
+	}
+	public function setCargo($cargo)
+	{
+		$this->cargo=$cargo;
+		return $this;
+	}
+	public function getCargo()
+	{
+		return $this->cargo;
 	}
 }
 ?>
